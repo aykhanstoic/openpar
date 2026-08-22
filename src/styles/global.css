@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Placeholder palette: single accent token, swap this later for the real
+   brand color. Everything else uses default Tailwind grays. */
+@theme {
+  --color-accent: #3b6ea5;
+}
