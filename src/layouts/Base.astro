@@ -1,18 +1,26 @@
 ---
-import '../styles/global.css';
-import { navItems, useTranslations, type Locale, type UIKey } from '../i18n/ui';
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { useTranslations, locales, type Locale } from "../i18n/ui";
 
 interface Props {
+  locale: Locale;
   title: string;
+  description?: string;
+  /** Set on the home page so the <title> is not "Home | EYP Azerbaijan". */
+  bareTitle?: boolean;
 }
 
-const { title } = Astro.props;
-const locale = (Astro.currentLocale ?? 'en') as Locale;
+const { locale, title, description, bareTitle = false } = Astro.props;
 const t = useTranslations(locale);
 
-const otherLocale: Locale = locale === 'az' ? 'en' : 'az';
-const restOfPath = Astro.url.pathname.replace(/^\/(en|az)/, '');
-const switcherHref = `/${otherLocale}${restOfPath}`;
+const pageTitle = bareTitle ? `${t.site.name} — ${t.site.tagline}` : `${title} | ${t.site.name}`;
+const pageDescription = description ?? t.site.description;
+
+/* Path without the locale prefix, used for hreflang and the switcher. */
+const restOfPath = Astro.url.pathname.replace(/^\/(en|az)/, "") || "/";
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://eyp.az");
 ---
 
 <!doctype html>
@@ -21,39 +29,55 @@ const switcherHref = `/${otherLocale}${restOfPath}`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>{title} | {t('site.name')}</title>
-  </head>
-  <body class="min-h-screen bg-white text-gray-900">
-    <header class="border-b border-gray-200">
-      <div class="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-4 px-4 py-4">
-        <a href={`/${locale}/`} class="text-lg font-semibold text-accent">
-          {t('site.name')}
-        </a>
-        <nav class="flex flex-wrap items-center gap-4 text-sm">
-          {navItems.map((item) => (
-            <a
-              href={`/${locale}/${item.path}`}
-              class="hover:text-accent"
-            >
-              {t(item.key as UIKey)}
-            </a>
-          ))}
-          <a href={switcherHref} class="border border-gray-300 px-2 py-1 hover:border-accent hover:text-accent">
-            {otherLocale.toUpperCase()}
-          </a>
-        </nav>
-      </div>
-    </header>
 
-    <main class="mx-auto max-w-4xl px-4 py-8">
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical.href} />
+
+    {/* Tell search engines the two locales are the same page, not duplicates. */}
+    {locales.map((l) => (
+      <link
+        rel="alternate"
+        hreflang={l}
+        href={new URL(`/${l}${restOfPath}`, Astro.site ?? "https://eyp.az").href}
+      />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(`/en${restOfPath}`, Astro.site ?? "https://eyp.az").href}
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:locale" content={locale === "az" ? "az_AZ" : "en_GB"} />
+    <meta property="og:url" content={canonical.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:bg-deep focus:px-5 focus:py-3 focus:text-white"
+    >
+      {t.nav.skipToContent}
+    </a>
+
+    <Header locale={locale} />
+
+    <main id="main" class="flex-1">
       <slot />
     </main>
 
-    <footer class="border-t border-gray-200">
-      <div class="mx-auto max-w-4xl px-4 py-6 text-sm text-gray-500">
-        <p>{t('footer.copyright')}</p>
-        <p>{t('footer.partners')}</p>
-      </div>
-    </footer>
+    <Footer locale={locale} />
   </body>
 </html>

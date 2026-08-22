@@ -1,0 +1,105 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { useTranslations, formatDateRange, formatDayMonth, formatDate, type Locale } from "../i18n/ui";
+
+interface Props {
+  session: CollectionEntry<"sessions">;
+  locale: Locale;
+  /** Compact variant for the home page's next-session slot. */
+  featured?: boolean;
+}
+
+const { session, locale, featured = false } = Astro.props;
+const t = useTranslations(locale);
+const d = session.data;
+
+const chip = formatDayMonth(d.startDate, locale);
+
+const badgeClass = {
+  announced: "badge-announced",
+  "call-open": "badge-open",
+  "call-closed": "badge-closed",
+  completed: "badge-done",
+}[d.status];
+
+/* Outreach sessions can't route through the Members Platform, so the label
+   has to say which system the applicant is about to land in. */
+const applyLabel = d.outreach ? t.common.applyGoogleForm : t.common.applyMembersPlatform;
+const canApply = d.status === "call-open" && Boolean(d.applyUrl);
+---
+
+<article class:list={["card card-hover overflow-hidden", featured && "lg:flex-row"]}>
+  <div class:list={["flex flex-1 flex-col p-6", featured && "lg:p-8"]}>
+    <!-- Badges -->
+    <div class="mb-4 flex flex-wrap items-center gap-2">
+      <span class:list={["badge", badgeClass]}>{t.status[d.status]}</span>
+      {d.outreach && <span class="badge badge-outreach">{t.sessions.outreachLabel}</span>}
+    </div>
+
+    <div class="flex items-start gap-4">
+      <!-- Date chip -->
+      <div
+        class="grid shrink-0 place-items-center rounded-xl bg-deep-050 px-3 py-2 text-center leading-none text-deep"
+        aria-hidden="true"
+      >
+        <span class="font-display text-[1.35rem] font-bold">{chip.day}</span>
+        <span class="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.1em]">{chip.month}</span>
+      </div>
+
+      <div class="min-w-0">
+        <h3 class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.15rem]"]}>
+          {d.title}
+        </h3>
+        <p class="mt-1.5 text-[0.9rem] text-ink-muted">{d.theme}</p>
+      </div>
+    </div>
+
+    {d.summary && <p class="mt-4 text-[0.92rem] leading-relaxed text-ink-muted">{d.summary}</p>}
+
+    <!-- Facts -->
+    <dl class="mt-5 grid gap-2 border-t border-line-soft pt-4 text-[0.85rem]">
+      <div class="flex gap-2">
+        <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.dates}</dt>
+        <dd>{formatDateRange(d.startDate, d.endDate, locale)}</dd>
+      </div>
+      <div class="flex gap-2">
+        <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.venue}</dt>
+        <dd>{d.city ? `${d.venue}, ${d.city}` : d.venue}</dd>
+      </div>
+      {
+        d.applyDeadline && d.status === "call-open" && (
+          <div class="flex gap-2">
+            <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.deadline}</dt>
+            <dd class="font-semibold text-amber-700">{formatDate(d.applyDeadline, locale)}</dd>
+          </div>
+        )
+      }
+    </dl>
+
+    <!-- Actions -->
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      {
+        canApply ? (
+          <a
+            href={d.applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-amber btn-sm"
+          >
+            {applyLabel}
+          </a>
+        ) : d.status === "call-closed" ? (
+          <span class="text-[0.85rem] text-ink-muted">{t.common.applicationsClosed}</span>
+        ) : null
+      }
+
+      {
+        d.resolutionsUrl && (
+          <a href={d.resolutionsUrl} target="_blank" rel="noopener noreferrer" class="link-arrow">
+            {t.common.readMore}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>

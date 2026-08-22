@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+
+export { getStaticPaths } from "../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const pt = t.partners;
+
+const partners = (await getCollection("partners")).sort((a, b) => a.data.order - b.data.order);
+
+const ways = [
+  { title: pt.support1Title, body: pt.support1Body },
+  { title: pt.support2Title, body: pt.support2Body },
+  { title: pt.support3Title, body: pt.support3Body },
+  { title: pt.support4Title, body: pt.support4Body },
+];
+---
+
+<Base locale={locale} title={pt.title} description={pt.lead}>
+  <PageHero locale={locale} title={pt.title} lead={pt.lead} />
+
+  <!-- ========================================================== current -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="text-h2">{pt.currentTitle}</h2>
+
+      {
+        partners.length > 0 ? (
+          <ul class="mt-9 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+            {partners.map((p) => (
+              <li class="card grid min-h-[120px] place-items-center p-6">
+                {p.data.logo ? (
+                  <Image
+                    src={p.data.logo}
+                    alt={p.data.name}
+                    widths={[200, 400]}
+                    sizes="200px"
+                    class="max-h-14 w-auto object-contain"
+                  />
+                ) : (
+                  <span class="text-center font-display text-[0.95rem] font-bold text-ink-muted">
+                    {p.data.name}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="mt-6 max-w-[52ch] text-[1rem] text-ink-muted">{pt.currentEmpty}</p>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ========================================================== support -->
+  <section class="section bg-cream">
+    <div class="wrap">
+      <div class="max-w-[52ch]">
+        <p class="eyebrow">{pt.supportEyebrow}</p>
+        <h2 class="mt-4 text-h2">{pt.supportTitle}</h2>
+      </div>
+
+      <div class="mt-11 grid gap-6 md:grid-cols-2">
+        {
+          ways.map((w) => (
+            <article class="card p-7">
+              <h3 class="font-display text-[1.15rem] font-bold">{w.title}</h3>
+              <p class="mt-2.5 text-[0.94rem] leading-relaxed text-ink-muted">{w.body}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+        <div class="card p-7">
+          <h3 class="font-display text-[1.1rem] font-bold">{pt.brochureTitle}</h3>
+          <p class="mt-2.5 text-[0.94rem] leading-relaxed text-ink-muted">{pt.brochureBody}</p>
+          <p class="todo mt-5">
+            <strong>{t.common.placeholderNotice}.</strong> Needs real reach figures before it goes
+            to a sponsor.
+          </p>
+        </div>
+
+        <a href={localePath(locale, "contact")} class="btn btn-primary justify-self-start">
+          {pt.contactCta}
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

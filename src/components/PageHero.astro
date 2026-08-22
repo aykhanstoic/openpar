@@ -1,0 +1,41 @@
+---
+import { localePath, useTranslations, type Locale } from "../i18n/ui";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  lead?: string;
+  /** Optional breadcrumb parent, e.g. { label: "About Us", path: "about" }. */
+  parent?: { label: string; path: string };
+}
+
+const { locale, title, lead, parent } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="relative overflow-hidden border-b border-line bg-cream">
+  <div class="bg-grid absolute inset-0 opacity-60" aria-hidden="true"></div>
+
+  <div class="wrap relative py-14 lg:py-20">
+    <nav class="text-[0.8rem] text-ink-muted" aria-label="Breadcrumb">
+      <a href={localePath(locale)} class="hover:text-deep">{t.nav.home}</a>
+      {
+        parent && (
+          <>
+            <span class="mx-2 opacity-50">/</span>
+            <a href={localePath(locale, parent.path)} class="hover:text-deep">
+              {parent.label}
+            </a>
+          </>
+        )
+      }
+      <span class="mx-2 opacity-50">/</span>
+      <span class="text-ink">{title}</span>
+    </nav>
+
+    <h1 class="mt-5 max-w-[20ch] text-h1">{title}</h1>
+    {lead && <p class="mt-5 max-w-[62ch] text-[1.08rem] leading-relaxed text-ink-muted">{lead}</p>}
+
+    <div class="rule-amber mt-8"></div>
+  </div>
+</section>
