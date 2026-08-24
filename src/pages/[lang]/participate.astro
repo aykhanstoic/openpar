@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
+import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 
 export { getStaticPaths } from "../../i18n/paths";
@@ -71,6 +72,13 @@ const faqs = [
           ))
         }
       </ol>
+
+      <!-- The plan asks for photos + short paragraphs on this page. -->
+      <div class="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6">
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3] max-lg:hidden" />
+      </div>
     </div>
   </section>
 

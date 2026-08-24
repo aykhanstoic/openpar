@@ -3,6 +3,7 @@ import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import SessionCard from "../../components/SessionCard.astro";
 import NewsCard from "../../components/NewsCard.astro";
+import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 
 export { getStaticPaths } from "../../i18n/paths";
@@ -172,6 +173,30 @@ const stats = [
           </a>
         </article>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ gallery -->
+  <!-- Marked slots for the launch photo set (plan: photo-rich design). -->
+  <section class="section">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">{t.home.galleryEyebrow}</p>
+          <h2 class="mt-4 text-h2">{t.home.galleryTitle}</h2>
+        </div>
+      </div>
+
+      <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+        <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+      </div>
+
+      <p class="todo mt-8 max-w-[80ch]">
+        <strong>{t.common.placeholderNotice}.</strong> {t.home.galleryNote}
+      </p>
     </div>
   </section>
 

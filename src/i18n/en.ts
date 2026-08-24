@@ -46,6 +46,7 @@ export const en = {
     dates: "Dates",
     email: "Email",
     placeholderNotice: "Placeholder",
+    photoPlaceholder: "Photo — session photography goes here",
   },
 
   status: {
@@ -91,6 +92,11 @@ export const en = {
 
     newsEyebrow: "Latest",
     newsTitle: "News and session recaps",
+
+    galleryEyebrow: "In pictures",
+    galleryTitle: "What a session looks like",
+    galleryNote:
+      "Placeholders for now. The launch checklist calls for 50–80 curated photos from real sessions, with consent wherever minors are identifiable.",
 
     routesEyebrow: "Two ways in",
     routesTitle: "Start where you actually are",

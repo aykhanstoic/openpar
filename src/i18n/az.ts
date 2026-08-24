@@ -52,6 +52,7 @@ export const az: Dict = {
     dates: "Tarixlər",
     email: "E-poçt",
     placeholderNotice: "Nümunə mətn",
+    photoPlaceholder: "Foto — bura sessiya fotoları qoyulacaq",
   },
 
   status: {
@@ -98,6 +99,11 @@ export const az: Dict = {
 
     newsEyebrow: "Ən son",
     newsTitle: "Xəbərlər və sessiya hesabatları",
+
+    galleryEyebrow: "Şəkillərdə",
+    galleryTitle: "Sessiya necə görünür",
+    galleryNote:
+      "Hələlik yer tutucular. Buraxılış siyahısına əsasən real sessiyalardan 50–80 seçilmiş foto lazımdır — yetkinlik yaşına çatmayanların tanına bildiyi hər yerdə razılıqla.",
 
     routesEyebrow: "İki yol",
     routesTitle: "Hazırda harada olduğunuzdan başlayın",
