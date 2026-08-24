@@ -14,8 +14,7 @@ Then open http://localhost:4321. `npm run build` outputs a static site to `dist/
 
 > **Windows note.** If `npm install` fails on esbuild's postinstall with
 > `'node' is not recognized`, npm is handing `cmd.exe` a PATH without
-> `C:\Program Files
-odejs`. Running the same command from PowerShell works.
+> `C:\Program Files\nodejs`. Running the same command from PowerShell works.
 > Keeping the repo out of a OneDrive-synced folder also avoids `EPERM` errors
 > when npm rewrites `node_modules`.
 
