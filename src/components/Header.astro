@@ -26,13 +26,13 @@ const headerNav: { label: string; path: string }[] = [
 ---
 
 <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md">
-  <div class="wrap flex min-h-[84px] items-center gap-4">
+  <div class="wrap flex min-h-[96px] items-center gap-4">
     <!-- Two-line typographic wordmark -->
     <a href={localePath(locale)} class="shrink-0 leading-tight" aria-label={t.site.name}>
-      <span class="block font-display text-[0.82rem] tracking-[0.02em] text-ink">
+      <span class="block font-display text-[0.95rem] tracking-[0.02em] text-ink">
         EUROPEAN <b class="font-extrabold">YOUTH</b> PARLIAMENT
       </span>
-      <span class="block text-right font-display text-[0.82rem] tracking-[0.02em] text-ink">
+      <span class="block text-right font-display text-[0.95rem] tracking-[0.02em] text-ink">
         <b class="font-extrabold">AZ&#399;RBAYCAN</b> AZERBAIJAN
       </span>
     </a>
@@ -48,7 +48,7 @@ const headerNav: { label: string; path: string }[] = [
             href={localePath(locale, item.path)}
             aria-current={isActive(item.path) ? "page" : undefined}
             class:list={[
-              "rounded-full px-4 py-2.5 font-display text-[0.92rem] font-semibold transition-colors",
+              "whitespace-nowrap rounded-full px-4 py-2.5 font-display text-[0.95rem] font-semibold transition-colors xl:px-5 xl:py-3 xl:text-[1.05rem]",
               isActive(item.path)
                 ? "bg-deep text-white"
                 : "text-ink hover:bg-white hover:text-deep",
@@ -62,7 +62,7 @@ const headerNav: { label: string; path: string }[] = [
         href={switcherHref}
         hreflang={other}
         lang={other}
-        class="ms-1 rounded-full bg-deep px-4 py-2.5 font-display text-[0.92rem] font-semibold text-white transition-colors hover:bg-deep-700"
+        class="ms-1 whitespace-nowrap rounded-full bg-deep px-4 py-2.5 font-display text-[0.95rem] font-semibold text-white transition-colors hover:bg-deep-700 xl:px-5 xl:py-3 xl:text-[1.05rem]"
       >
         {t.nav.switchLang}
       </a>

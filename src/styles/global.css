@@ -41,7 +41,7 @@
 
   /* Compact scale below the fold; the hero headline alone is large,
      matching the reference homepage. */
-  --text-hero: clamp(2.4rem, 4.8vw, 3.8rem);
+  --text-hero: clamp(2.5rem, 4.1vw, 4.6rem);
   --text-h1:   clamp(1.6rem, 2.4vw, 2rem);
   --text-h2:   clamp(1.3rem, 1.9vw, 1.5rem);
   --text-h3:   1.08rem;
@@ -53,7 +53,7 @@
   --shadow-card:  0 1px 2px rgb(41 69 150 / 0.05), 0 2px 8px rgb(41 69 150 / 0.04);
   --shadow-lift:  0 4px 12px rgb(41 69 150 / 0.08), 0 12px 28px rgb(41 69 150 / 0.07);
 
-  --container-page: 1100px;
+  --container-page: 1800px;
 }
 
 /* ==========================================================================
@@ -119,7 +119,7 @@
     width: 100%;
     max-width: var(--container-page);
     margin-inline: auto;
-    padding-inline: clamp(1.1rem, 3.5vw, 2rem);
+    padding-inline: clamp(1.1rem, 2.5vw, 2.9rem);
   }
 
   .wrap-narrow {
@@ -201,6 +201,7 @@
   .btn-ghost-on-dark:hover { background: #fff; color: var(--color-deep); }
 
   .btn-sm { padding: 0.55rem 1.05rem; font-size: 0.7rem; }
+  .btn-lg { padding: 1.1rem 2rem; font-size: 0.92rem; letter-spacing: 0.04em; }
 
   /* Secondary CTA in the reference: underlined uppercase text. */
   .link-underline {

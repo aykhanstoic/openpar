@@ -46,28 +46,28 @@ const stats = [
   <!-- Reference layout: white ground, large all-black headline on the left,
        soft-pill CTA + underlined text link, rounded media block right. -->
   <section class="bg-white">
-    <div class="wrap grid gap-12 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-20">
+    <div class="wrap grid gap-12 py-14 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
       <div>
-        <h1 class="text-hero leading-[1.06]">
+        <h1 class="text-hero leading-[1.05]">
           {t.home.title}<br />{t.home.titleAccent}
         </h1>
 
-        <p class="mt-7 max-w-[52ch] text-[1.02rem] leading-relaxed text-ink">
+        <p class="mt-8 max-w-[46ch] text-[1.05rem] leading-relaxed text-ink lg:text-[1.2rem]">
           {t.home.lead}
         </p>
 
-        <div class="mt-9 flex flex-wrap items-center gap-7">
-          <a href={localePath(locale, "participate")} class="btn btn-amber">
+        <div class="mt-10 flex flex-wrap items-center gap-8">
+          <a href={localePath(locale, "participate")} class="btn btn-amber btn-lg">
             {t.home.ctaPrimary}
           </a>
-          <a href={localePath(locale, "what-is-eyp")} class="link-underline">
+          <a href={localePath(locale, "what-is-eyp")} class="link-underline text-[0.92rem]">
             {t.home.ctaSecondary}
           </a>
         </div>
       </div>
 
       <!-- Next session, in the reference's rounded media frame -->
-      <div class="overflow-hidden rounded-3xl bg-deep-050 p-2">
+      <div class="overflow-hidden rounded-[28px] bg-deep-050 p-2.5 lg:self-stretch lg:p-3">
         <p class="eyebrow px-5 pb-2 pt-4">{t.home.nextSessionLabel}</p>
         {
           nextSession ? (
