@@ -6,7 +6,9 @@ venue: "Placeholder venue"
 city: "Ganja"
 startDate: 2026-11-05
 endDate: 2026-11-08
-status: "announced"
+status: "call-open"
+applyDeadline: 2026-10-15
+applyUrl: "https://docs.google.com/forms/"
 outreach: true
 ---
 

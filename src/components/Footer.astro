@@ -42,7 +42,7 @@ const year = new Date().getFullYear();
             type="email"
             required
             placeholder={t.footer.newsletterPlaceholder}
-            class="w-full rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[0.95rem] text-white placeholder:text-white/45 focus:border-white focus:outline-none focus:ring-2 focus:ring-amber"
+            class="w-full rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[0.95rem] text-white placeholder:text-white/45 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/60"
           />
           <button type="submit" class="btn btn-amber shrink-0">
             {t.footer.newsletterButton}
@@ -50,13 +50,13 @@ const year = new Date().getFullYear();
         </div>
 
         <label class="flex items-start gap-2.5 text-[0.8rem] text-white/65">
-          <input type="checkbox" required class="mt-1 accent-amber" />
+          <input type="checkbox" required class="mt-1 accent-white" />
           <span>{t.footer.newsletterConsent}</span>
         </label>
 
         <!-- Double opt-in is a requirement from the plan, not a nicety. -->
         <p class="text-[0.78rem] text-white/55">{t.footer.newsletterDoubleOptIn}</p>
-        <p data-form-status class="text-[0.82rem] font-semibold text-amber" aria-live="polite"></p>
+        <p data-form-status class="text-[0.82rem] font-semibold text-white" aria-live="polite"></p>
       </form>
     </div>
   </section>
