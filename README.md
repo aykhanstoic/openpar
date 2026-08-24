@@ -56,20 +56,22 @@ at these folders without schema changes.
 
 ### Design
 
-Light mode only, per PLAN.md. The palette is deliberately **not** the royal blue that eyp.org,
-eyp.de and most other NCs use:
+Light mode only, per PLAN.md. The visual system follows eyp.de as measured in-browser
+(computed styles, Aug 2026) — a decision made at the committee's request:
 
 | Token | Value | Role |
 | --- | --- | --- |
-| `--color-deep` | `#0B4F5C` | Primary — buttons, footer, headings |
-| `--color-teal` | `#12A0AF` | Decorative only; too light for text |
-| `--color-amber` | `#E8A33D` | Deadlines and open calls |
-| `--color-cream` | `#FBF7F0` | Alternating sections |
-| `--color-ink` | `#12242A` | Body text |
+| `--color-deep` | `#294596` | The one blue — buttons, links, footer, accents |
+| `--color-deep-050` | `#EBEFFA` | Pale tint — alternating sections, soft buttons |
+| `--color-ink` | `#0B0C10` | Body text |
 
-Type is Space Grotesk (display) + Inter (body). Both ship the `latin-ext` subset covering
-`U+0100–02BA`, which includes the Azerbaijani schwa `ə` — verified against the Google Fonts
-`unicode-range`, not assumed.
+Compact type scale (h1 ≈ 2rem, matching eyp.de's 32px), uppercase pill buttons in
+pale-blue-on-blue. Legacy token names (`amber`, `teal`, `cream`) still exist as aliases into the
+blue family so old class names keep working.
+
+Type is Plus Jakarta Sans throughout. It ships the `latin-ext` subset covering `U+0100–02BA`,
+which includes the Azerbaijani schwa `ə` — verified against the Google Fonts `unicode-range`,
+not assumed.
 
 ## Before launch
 
