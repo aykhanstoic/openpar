@@ -39,8 +39,9 @@
   --font-display: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  /* Compact scale — eyp.de's h1 is 32px, h2 24px. */
-  --text-hero: clamp(1.9rem, 3.2vw, 2.5rem);
+  /* Compact scale below the fold; the hero headline alone is large,
+     matching the reference homepage. */
+  --text-hero: clamp(2.4rem, 4.8vw, 3.8rem);
   --text-h1:   clamp(1.6rem, 2.4vw, 2rem);
   --text-h2:   clamp(1.3rem, 1.9vw, 1.5rem);
   --text-h3:   1.08rem;
@@ -200,6 +201,22 @@
   .btn-ghost-on-dark:hover { background: #fff; color: var(--color-deep); }
 
   .btn-sm { padding: 0.55rem 1.05rem; font-size: 0.7rem; }
+
+  /* Secondary CTA in the reference: underlined uppercase text. */
+  .link-underline {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+  }
+  .link-underline:hover { color: var(--color-deep); }
 
   /* --- Cards ----------------------------------------------------------- */
   .card {

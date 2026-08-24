@@ -43,44 +43,32 @@ const stats = [
 
 <Base locale={locale} title={t.nav.home} bareTitle>
   <!-- ================================================================ hero -->
-  <section class="relative overflow-hidden bg-cream">
-    <div class="bg-grid absolute inset-0 opacity-70" aria-hidden="true"></div>
-    <div
-      class="absolute -right-32 -top-40 h-[30rem] w-[30rem] rounded-full bg-teal/10 blur-3xl"
-      aria-hidden="true"
-    >
-    </div>
-
-    <div class="wrap relative grid gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-24">
+  <!-- Reference layout: white ground, large all-black headline on the left,
+       soft-pill CTA + underlined text link, rounded media block right. -->
+  <section class="bg-white">
+    <div class="wrap grid gap-12 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-20">
       <div>
-        <p
-          class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-1.5 text-[0.76rem] font-semibold text-deep"
-        >
-          <span class="h-2 w-2 rounded-full bg-amber" aria-hidden="true"></span>
-          {t.home.badge}
-        </p>
-
-        <h1 class="mt-6 text-hero">
-          {t.home.title}<br /><span class="text-deep">{t.home.titleAccent}</span>
+        <h1 class="text-hero leading-[1.06]">
+          {t.home.title}<br />{t.home.titleAccent}
         </h1>
 
-        <p class="mt-6 max-w-[54ch] text-[1.05rem] leading-relaxed text-ink-muted">
+        <p class="mt-7 max-w-[52ch] text-[1.02rem] leading-relaxed text-ink">
           {t.home.lead}
         </p>
 
-        <div class="mt-9 flex flex-wrap gap-3">
-          <a href={localePath(locale, "participate")} class="btn btn-primary">
+        <div class="mt-9 flex flex-wrap items-center gap-7">
+          <a href={localePath(locale, "participate")} class="btn btn-amber">
             {t.home.ctaPrimary}
           </a>
-          <a href={localePath(locale, "what-is-eyp")} class="btn btn-outline">
+          <a href={localePath(locale, "what-is-eyp")} class="link-underline">
             {t.home.ctaSecondary}
           </a>
         </div>
       </div>
 
-      <!-- Next session -->
-      <div>
-        <p class="eyebrow mb-4">{t.home.nextSessionLabel}</p>
+      <!-- Next session, in the reference's rounded media frame -->
+      <div class="overflow-hidden rounded-3xl bg-deep-050 p-2">
+        <p class="eyebrow px-5 pb-2 pt-4">{t.home.nextSessionLabel}</p>
         {
           nextSession ? (
             <SessionCard session={nextSession} locale={locale} />

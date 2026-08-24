@@ -16,72 +16,76 @@ const switcherHref = `/${other}${restOfPath}`;
 const current = restOfPath.replace(/^\/|\/$/g, "");
 const isActive = (path: string) =>
   path === "" ? current === "" : current === path || current.startsWith(`${path}/`);
+
+/* Header nav: Home plus the primary items. The reference nav renders as a
+   pale-blue pill group with the active page as a solid blue pill. */
+const headerNav: { label: string; path: string }[] = [
+  { label: t.nav.home, path: "" },
+  ...primaryNav.map((item) => ({ label: t.nav[item.key], path: item.path })),
+];
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-md">
-  <div class="wrap flex min-h-[74px] items-center gap-4">
-    <!-- Wordmark -->
-    <a href={localePath(locale)} class="group flex shrink-0 items-center gap-2.5">
-      <span
-        class="grid h-9 w-9 place-items-center rounded-[10px] bg-deep font-display text-[13px] font-bold tracking-tight text-white"
-        aria-hidden="true">AZ</span
-      >
-      <span class="flex flex-col leading-none">
-        <span class="font-display text-[1.02rem] font-bold tracking-tight text-ink">
-          {t.site.name}
-        </span>
-        <span class="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.13em] text-ink-muted">
-          {t.site.tagline}
-        </span>
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md">
+  <div class="wrap flex min-h-[84px] items-center gap-4">
+    <!-- Two-line typographic wordmark -->
+    <a href={localePath(locale)} class="shrink-0 leading-tight" aria-label={t.site.name}>
+      <span class="block font-display text-[0.82rem] tracking-[0.02em] text-ink">
+        EUROPEAN <b class="font-extrabold">YOUTH</b> PARLIAMENT
+      </span>
+      <span class="block text-right font-display text-[0.82rem] tracking-[0.02em] text-ink">
+        <b class="font-extrabold">AZ&#399;RBAYCAN</b> AZERBAIJAN
       </span>
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="ms-auto hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+    <!-- Desktop nav: pill group -->
+    <nav
+      class="ms-auto hidden items-center gap-1 rounded-full bg-deep-050 p-1.5 lg:flex"
+      aria-label="Primary"
+    >
       {
-        primaryNav.map((item) => (
+        headerNav.map((item) => (
           <a
             href={localePath(locale, item.path)}
             aria-current={isActive(item.path) ? "page" : undefined}
             class:list={[
-              "relative rounded-full px-3 py-2 text-[0.9rem] font-medium transition-colors hover:bg-deep-050 hover:text-deep",
-              isActive(item.path) ? "text-deep" : "text-ink",
+              "rounded-full px-4 py-2.5 font-display text-[0.92rem] font-semibold transition-colors",
+              isActive(item.path)
+                ? "bg-deep text-white"
+                : "text-ink hover:bg-white hover:text-deep",
             ]}
           >
-            {t.nav[item.key]}
-            {isActive(item.path) && (
-              <span
-                class="absolute inset-x-3 -bottom-px h-[3px] rounded-full bg-amber"
-                aria-hidden="true"
-              />
-            )}
+            {item.label}
           </a>
         ))
       }
-    </nav>
-
-    <div class="ms-auto flex items-center gap-2 lg:ms-0">
       <a
         href={switcherHref}
         hreflang={other}
         lang={other}
-        class="rounded-full border border-line px-3 py-1.5 font-display text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted transition-colors hover:border-deep hover:text-deep"
+        class="ms-1 rounded-full bg-deep px-4 py-2.5 font-display text-[0.92rem] font-semibold text-white transition-colors hover:bg-deep-700"
+      >
+        {t.nav.switchLang}
+      </a>
+    </nav>
+
+    <!-- Mobile: language pill + burger -->
+    <div class="ms-auto flex items-center gap-2 lg:hidden">
+      <a
+        href={switcherHref}
+        hreflang={other}
+        lang={other}
+        class="rounded-full bg-deep px-3.5 py-2 font-display text-[0.74rem] font-bold uppercase text-white"
       >
         {other}
       </a>
 
-      <a href={localePath(locale, "participate")} class="btn btn-primary btn-sm hidden sm:inline-flex">
-        {t.nav.participate}
-      </a>
-
-      <!-- Mobile toggle -->
       <button
         id="nav-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="mobile-nav"
         aria-label={t.nav.menu}
-        class="grid h-10 w-10 place-items-center rounded-full border border-line text-deep transition-colors hover:border-deep lg:hidden"
+        class="grid h-10 w-10 place-items-center rounded-full bg-deep-050 text-deep transition-colors hover:bg-deep hover:text-white"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <path class="nav-icon-open" d="M3 6h18M3 12h18M3 18h18" />
@@ -100,20 +104,20 @@ const isActive = (path: string) =>
   >
     <div class="wrap flex flex-col py-2">
       {
-        primaryNav.map((item) => (
+        headerNav.map((item) => (
           <a
             href={localePath(locale, item.path)}
             aria-current={isActive(item.path) ? "page" : undefined}
             class:list={[
-              "border-b border-line-soft py-3.5 text-[1.02rem] font-medium",
+              "border-b border-line-soft py-3.5 font-display text-[1rem] font-semibold",
               isActive(item.path) ? "text-deep" : "text-ink",
             ]}
           >
-            {t.nav[item.key]}
+            {item.label}
           </a>
         ))
       }
-      <a href={localePath(locale, "partners")} class="border-b border-line-soft py-3.5 text-[1.02rem] font-medium text-ink">
+      <a href={localePath(locale, "partners")} class="border-b border-line-soft py-3.5 font-display text-[1rem] font-semibold text-ink">
         {t.nav.partners}
       </a>
       <a href={localePath(locale, "participate")} class="btn btn-primary my-4">
