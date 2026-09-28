@@ -39,25 +39,25 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
     <div class="flex items-start gap-4">
       <!-- Date chip -->
       <div
-        class="grid shrink-0 place-items-center rounded-xl bg-deep-050 px-3 py-2 text-center leading-none text-deep"
+        class="grid min-w-[3.6rem] shrink-0 place-items-center bg-deep px-3 py-2.5 text-center leading-none text-white"
         aria-hidden="true"
       >
-        <span class="font-display text-[1.35rem] font-bold">{chip.day}</span>
-        <span class="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.1em]">{chip.month}</span>
+        <span class="font-display text-[1.6rem] font-bold">{chip.day}</span>
+        <span class="mt-1 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-sun">{chip.month}</span>
       </div>
 
       <div class="min-w-0">
-        <h3 class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.15rem]"]}>
+        <h3 class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.35rem]"]}>
           {d.title}
         </h3>
-        <p class="mt-1.5 text-[0.9rem] text-ink-muted">{d.theme}</p>
+        <p class="mt-1.5 text-ink-muted">{d.theme}</p>
       </div>
     </div>
 
-    {d.summary && <p class="mt-4 text-[0.92rem] leading-relaxed text-ink-muted">{d.summary}</p>}
+    {d.summary && <p class="mt-4 leading-relaxed text-ink-muted">{d.summary}</p>}
 
     <!-- Facts -->
-    <dl class="mt-5 grid gap-2 border-t border-line-soft pt-4 text-[0.85rem]">
+    <dl class="mt-5 grid gap-2 border-t border-line-soft pt-4 text-[0.95rem]">
       <div class="flex gap-2">
         <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.dates}</dt>
         <dd>{formatDateRange(d.startDate, d.endDate, locale)}</dd>
@@ -70,7 +70,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
         d.applyDeadline && d.status === "call-open" && (
           <div class="flex gap-2">
             <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.deadline}</dt>
-            <dd class="font-semibold text-amber-700">{formatDate(d.applyDeadline, locale)}</dd>
+            <dd class="font-semibold text-deep">{formatDate(d.applyDeadline, locale)}</dd>
           </div>
         )
       }
@@ -84,7 +84,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
             href={d.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-amber btn-sm"
+            class="btn btn-primary btn-sm"
           >
             {applyLabel}
           </a>

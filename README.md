@@ -56,22 +56,27 @@ at these folders without schema changes.
 
 ### Design
 
-Light mode only, per PLAN.md. The visual system follows eyp.de as measured in-browser
-(computed styles, Aug 2026) — a decision made at the committee's request:
+Light mode only, per PLAN.md. The visual system follows the EYP network template shared by
+eype.es (Spain) and eyp.pt (Portugal), as measured in-browser (computed styles, Sep 2026):
 
 | Token | Value | Role |
 | --- | --- | --- |
-| `--color-deep` | `#294596` | The one blue — buttons, links, footer, accents |
-| `--color-deep-050` | `#EBEFFA` | Pale tint — alternating sections, soft buttons |
-| `--color-ink` | `#0B0C10` | Body text |
+| `--color-deep` | `#3A4390` | EYP indigo — headlines, buttons, links, footer |
+| `--color-sky` | `#D5E5F6` | The slanted band behind every page hero (`.slant`) |
+| `--color-sun` | `#FFD92F` | Stacked-button offset, active-nav stroke, `.rule-amber` |
+| `--color-cream` | `#F3F7FC` | Alternating section tint |
+| `--color-ink` | `#1E1F1C` | Body text |
 
-Compact type scale (h1 ≈ 2rem, matching eyp.de's 32px), uppercase pill buttons in
-pale-blue-on-blue. Legacy token names (`amber`, `teal`, `cream`) still exist as aliases into the
-blue family so old class names keep working.
+Signature pieces: the "stacked" button (`.btn-primary`, `.btn-amber`, `.btn-on-dark`) — a
+faintly skewed face over a yellow offset, both drawn as pseudo-elements; square corners
+throughout; kickers (`.eyebrow`) followed by a small yellow "bling" mark. The reference
+footer is cyan `#009DD8`, but white text on it is ~3:1 and fails WCAG AA, so ours stays
+indigo. Legacy token names (`amber`, `teal`, `cream`) still exist as aliases so old class
+names keep working.
 
-Type is Plus Jakarta Sans throughout. It ships the `latin-ext` subset covering `U+0100–02BA`,
-which includes the Azerbaijani schwa `ə` — verified against the Google Fonts `unicode-range`,
-not assumed.
+Type is Source Sans 3 (the open successor of the Source Sans Pro the reference uses). Its
+`latin-ext` subset covers `U+0100–02BA`, which includes the Azerbaijani schwa `ə` — verified
+against the Google Fonts `unicode-range`, not assumed.
 
 ## Before launch
 

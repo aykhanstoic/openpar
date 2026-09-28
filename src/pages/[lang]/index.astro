@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import SessionCard from "../../components/SessionCard.astro";
 import NewsCard from "../../components/NewsCard.astro";
 import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
+import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 
 export { getStaticPaths } from "../../i18n/paths";
@@ -44,40 +45,42 @@ const stats = [
 
 <Base locale={locale} title={t.nav.home} bareTitle>
   <!-- ================================================================ hero -->
-  <!-- Reference layout: white ground, large all-black headline on the left,
-       soft-pill CTA + underlined text link, rounded media block right. -->
-  <section class="bg-white">
-    <div class="wrap grid gap-12 py-14 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
+  <!-- EYP template hero (eype.es / eyp.pt): indigo headline on a slanted
+       pale-blue band, stacked-button CTA, next session as a white card. -->
+  <section class="slant overflow-hidden">
+    <!-- Buta watermark, white on the pale band, behind the session card -->
+    <Buta
+      class="pointer-events-none absolute left-[31%] top-[2%] -z-[1] hidden h-[90%] w-auto -scale-x-100 -rotate-[12deg] text-white md:block"
+      stroke={1.6}
+    />
+    <div class="wrap grid gap-12 pb-24 pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:pb-40 lg:pt-20">
       <div>
-        <h1 class="text-hero leading-[1.05]">
+        <h1 class="text-hero leading-[1.02] text-deep">
           {t.home.title}<br />{t.home.titleAccent}
         </h1>
 
-        <p class="mt-8 max-w-[46ch] text-[1.05rem] leading-relaxed text-ink lg:text-[1.2rem]">
+        <p class="mt-7 max-w-[44ch] text-[1.15rem] leading-relaxed text-ink lg:text-[1.3rem]">
           {t.home.lead}
         </p>
 
-        <div class="mt-10 flex flex-wrap items-center gap-8">
-          <a href={localePath(locale, "participate")} class="btn btn-amber btn-lg">
+        <div class="mt-10 flex flex-wrap items-center gap-x-9 gap-y-5">
+          <a href={localePath(locale, "participate")} class="btn btn-primary btn-lg">
             {t.home.ctaPrimary}
           </a>
-          <a href={localePath(locale, "what-is-eyp")} class="link-underline text-[0.92rem]">
+          <a href={localePath(locale, "what-is-eyp")} class="link-underline">
             {t.home.ctaSecondary}
           </a>
         </div>
       </div>
 
-      <!-- Next session, in the reference's rounded media frame -->
-      <div class="overflow-hidden rounded-[28px] bg-deep-050 p-2.5 lg:self-stretch lg:p-3">
-        <p class="eyebrow px-5 pb-2 pt-4">{t.home.nextSessionLabel}</p>
+      <div>
+        <p class="eyebrow mb-4">{t.home.nextSessionLabel}</p>
         {
           nextSession ? (
             <SessionCard session={nextSession} locale={locale} />
           ) : (
             <div class="card p-7">
-              <p class="text-[0.95rem] leading-relaxed text-ink-muted">
-                {t.home.nextSessionNone}
-              </p>
+              <p class="leading-relaxed text-ink-muted">{t.home.nextSessionNone}</p>
               <a href={localePath(locale, "sessions")} class="link-arrow mt-5">
                 {t.nav.sessions}
               </a>
@@ -89,15 +92,17 @@ const stats = [
   </section>
 
   <!-- ============================================================== stats -->
-  <section class="border-y border-line bg-white">
-    <div class="wrap grid grid-cols-2 divide-line lg:grid-cols-4 lg:divide-x">
+  <!-- "Facts and figures" as in the reference: open columns, no boxes. -->
+  <section class="section-sm">
+    <div class="wrap grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
       {
         stats.map((s) => (
-          <div class="border-b border-line px-2 py-8 lg:border-b-0 lg:px-7">
-            <p class="font-display text-[2.1rem] font-bold leading-none tracking-tight text-deep">
+          <div>
+            <p class="font-display text-[2.6rem] font-extrabold leading-none tracking-tight text-deep lg:text-[3.2rem]">
               {s.value}
             </p>
-            <p class="mt-2.5 text-[0.83rem] leading-snug text-ink-muted">{s.label}</p>
+            <div class="rule-amber mt-4"></div>
+            <p class="mt-3 max-w-[24ch] leading-snug text-ink">{s.label}</p>
           </div>
         ))
       }
@@ -136,7 +141,7 @@ const stats = [
         <article class="card card-hover justify-between p-8">
           <div>
             <span
-              class="grid h-11 w-11 place-items-center rounded-xl bg-deep-050 text-deep"
+              class="grid h-11 w-11 place-items-center bg-deep-050 text-deep"
               aria-hidden="true"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -156,7 +161,7 @@ const stats = [
         <article class="card card-hover justify-between p-8">
           <div>
             <span
-              class="grid h-11 w-11 place-items-center rounded-xl bg-amber-050 text-amber-700"
+              class="grid h-11 w-11 place-items-center bg-sun text-ink"
               aria-hidden="true"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

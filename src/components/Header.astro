@@ -1,5 +1,6 @@
 ---
 import { useTranslations, primaryNav, localePath, type Locale } from "../i18n/ui";
+import Buta from "./Buta.astro";
 
 interface Props {
   locale: Locale;
@@ -17,64 +18,68 @@ const current = restOfPath.replace(/^\/|\/$/g, "");
 const isActive = (path: string) =>
   path === "" ? current === "" : current === path || current.startsWith(`${path}/`);
 
-/* Header nav: Home plus the primary items. The reference nav renders as a
-   pale-blue pill group with the active page as a solid blue pill. */
-const headerNav: { label: string; path: string }[] = [
+/* One row: wordmark left; nav links, a divider and the language switch
+   right, all centred on the same line. The logo is the Home link on
+   desktop; Partners lives in the footer and the mobile panel. */
+const mainNav = primaryNav.map((item) => ({ label: t.nav[item.key], path: item.path }));
+const mobileNav = [
   { label: t.nav.home, path: "" },
   ...primaryNav.map((item) => ({ label: t.nav[item.key], path: item.path })),
+  { label: t.nav.partners, path: "partners" },
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md">
-  <div class="wrap flex min-h-[96px] items-center gap-4">
-    <!-- Two-line typographic wordmark -->
-    <a href={localePath(locale)} class="shrink-0 leading-tight" aria-label={t.site.name}>
-      <span class="block font-display text-[0.95rem] tracking-[0.02em] text-ink">
-        EUROPEAN <b class="font-extrabold">YOUTH</b> PARLIAMENT
+<header class="sticky top-0 z-50 border-b border-line-soft bg-white/95 backdrop-blur-md">
+  <div class="wrap flex min-h-[76px] items-center gap-6 xl:min-h-[88px]">
+    <!-- Typographic wordmark -->
+    <a href={localePath(locale)} class="group shrink-0 leading-none" aria-label={t.site.name}>
+      <span class="block font-display text-[1.02rem] font-bold tracking-[0.01em] text-deep lg:text-[1.15rem]">
+        European Youth Parliament
       </span>
-      <span class="block text-right font-display text-[0.95rem] tracking-[0.02em] text-ink">
-        <b class="font-extrabold">AZ&#399;RBAYCAN</b> AZERBAIJAN
+      <span class="mt-1.5 flex items-center gap-2 font-display text-[0.9rem] font-semibold text-ink lg:text-[0.98rem]">
+        <Buta class="h-[18px] w-auto fill-sun text-deep" stroke={9} simple />
+        Azerbaijan <span class="text-ink-muted">&middot;</span> <span lang="az">Az&#601;rbaycan</span>
       </span>
     </a>
 
-    <!-- Desktop nav: pill group -->
-    <nav
-      class="ms-auto hidden items-center gap-1 rounded-full bg-deep-050 p-1.5 lg:flex"
-      aria-label="Primary"
-    >
-      {
-        headerNav.map((item) => (
-          <a
-            href={localePath(locale, item.path)}
-            aria-current={isActive(item.path) ? "page" : undefined}
-            class:list={[
-              "whitespace-nowrap rounded-full px-4 py-2.5 font-display text-[0.95rem] font-semibold transition-colors xl:px-5 xl:py-3 xl:text-[1.05rem]",
-              isActive(item.path)
-                ? "bg-deep text-white"
-                : "text-ink hover:bg-white hover:text-deep",
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
-      }
+    <!-- Desktop: single row -->
+    <div class="ms-auto hidden items-center gap-8 xl:flex">
+      <nav class="flex items-center gap-8" aria-label="Primary">
+        {
+          mainNav.map((item) => (
+            <a
+              href={localePath(locale, item.path)}
+              aria-current={isActive(item.path) ? "page" : undefined}
+              class="nav-link whitespace-nowrap font-display text-[1.05rem] font-semibold text-ink transition-colors hover:text-deep"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <span class="h-6 w-px bg-line" aria-hidden="true"></span>
+
       <a
         href={switcherHref}
         hreflang={other}
         lang={other}
-        class="ms-1 whitespace-nowrap rounded-full bg-deep px-4 py-2.5 font-display text-[0.95rem] font-semibold text-white transition-colors hover:bg-deep-700 xl:px-5 xl:py-3 xl:text-[1.05rem]"
+        class="inline-flex items-center gap-1.5 whitespace-nowrap font-display text-[0.98rem] font-semibold text-deep transition-colors hover:text-deep-700"
       >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
+        </svg>
         {t.nav.switchLang}
       </a>
-    </nav>
+    </div>
 
-    <!-- Mobile: language pill + burger -->
-    <div class="ms-auto flex items-center gap-2 lg:hidden">
+    <!-- Mobile: language + burger -->
+    <div class="ms-auto flex items-center gap-3 xl:hidden">
       <a
         href={switcherHref}
         hreflang={other}
         lang={other}
-        class="rounded-full bg-deep px-3.5 py-2 font-display text-[0.74rem] font-bold uppercase text-white"
+        class="font-display text-[0.95rem] font-bold uppercase text-deep"
       >
         {other}
       </a>
@@ -85,9 +90,9 @@ const headerNav: { label: string; path: string }[] = [
         aria-expanded="false"
         aria-controls="mobile-nav"
         aria-label={t.nav.menu}
-        class="grid h-10 w-10 place-items-center rounded-full bg-deep-050 text-deep transition-colors hover:bg-deep hover:text-white"
+        class="grid h-11 w-11 place-items-center text-deep transition-colors hover:bg-deep-050"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <path class="nav-icon-open" d="M3 6h18M3 12h18M3 18h18" />
           <path class="nav-icon-close hidden" d="M5 5l14 14M19 5L5 19" />
         </svg>
@@ -99,17 +104,17 @@ const headerNav: { label: string; path: string }[] = [
   <nav
     id="mobile-nav"
     hidden
-    class="border-t border-line bg-white lg:hidden"
+    class="border-t border-line bg-white xl:hidden"
     aria-label="Primary"
   >
     <div class="wrap flex flex-col py-2">
       {
-        headerNav.map((item) => (
+        mobileNav.map((item) => (
           <a
             href={localePath(locale, item.path)}
             aria-current={isActive(item.path) ? "page" : undefined}
             class:list={[
-              "border-b border-line-soft py-3.5 font-display text-[1rem] font-semibold",
+              "border-b border-line-soft py-3.5 font-display text-[1.15rem] font-semibold",
               isActive(item.path) ? "text-deep" : "text-ink",
             ]}
           >
@@ -117,15 +122,31 @@ const headerNav: { label: string; path: string }[] = [
           </a>
         ))
       }
-      <a href={localePath(locale, "partners")} class="border-b border-line-soft py-3.5 font-display text-[1rem] font-semibold text-ink">
-        {t.nav.partners}
-      </a>
-      <a href={localePath(locale, "participate")} class="btn btn-primary my-4">
+      <a href={localePath(locale, "participate")} class="btn btn-primary my-5 self-start">
         {t.nav.participate}
       </a>
     </div>
   </nav>
 </header>
+
+<style>
+  /* Active page: the yellow skewed stroke from the rest of the system. */
+  .nav-link {
+    position: relative;
+    padding-block: 0.2rem;
+  }
+  .nav-link[aria-current="page"] { color: var(--color-deep); }
+  .nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.35rem;
+    height: 5px;
+    background: var(--color-sun);
+    clip-path: polygon(0 20%, 100% 0, 98% 100%, 1% 85%);
+  }
+</style>
 
 <script>
   const toggle = document.getElementById("nav-toggle");
@@ -149,9 +170,9 @@ const headerNav: { label: string; path: string }[] = [
     if (e.key === "Escape") setOpen(false);
   });
 
-  /* A resize past the lg breakpoint must clear `hidden`, or the desktop nav
+  /* A resize past the xl breakpoint must clear `hidden`, or the desktop nav
      stays invisible after the mobile panel was closed. */
   window.addEventListener("resize", () => {
-    if (window.innerWidth >= 1024) setOpen(false);
+    if (window.innerWidth >= 1280) setOpen(false);
   });
 </script>
