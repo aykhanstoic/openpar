@@ -1,7 +1,106 @@
 @import "tailwindcss";
 
-/* Placeholder palette: single accent token, swap this later for the real
-   brand color. Everything else uses default Tailwind grays. */
+/* ==========================================================================
+   eyp.az design tokens — "soft & friendly" direction (PLAN.md, 2026-08-23)
+   Warm ground + aurora wash + grain + hand-drawn strokes. Softened flag hues
+   (azure / coral / sage) with one hot coral accent. Light mode only.
+
+   Contrast is measured, not guessed (WCAG 2.1 AA, ratios vs --color-ground):
+     ink          13.27  body text
+     ink-muted     6.00  secondary text
+     accent-strong 4.99 on ground / 5.08 under white  -> CTA fills, small text
+     accent        3.39  -> LARGE text (24px+) and decoration ONLY, never body
+     azure/coral/sage are decorative only (1.6-1.9) - never text, never the
+     sole carrier of meaning.
+   ========================================================================== */
+
 @theme {
-  --color-accent: #3b6ea5;
+  /* surfaces */
+  --color-ground: #fdfdfb;
+  --color-surface: #ffffff;
+  --color-line: #e8e4dc;
+
+  /* text */
+  --color-ink: #22303b;
+  --color-ink-muted: #546471;
+
+  /* the one hot accent, in two AA-correct roles */
+  --color-accent: #e4604c;
+  --color-accent-strong: #c93b23;
+
+  /* softened flag hues — decoration only */
+  --color-azure: #79c2ec;
+  --color-coral: #ffafa0;
+  --color-sage: #a5d8b2;
+
+  /* tints — all ~12:1 with ink, safe to put text on */
+  --color-azure-tint: #e6f3fb;
+  --color-coral-tint: #fdebe7;
+  --color-sage-tint: #e7f4eb;
+  --color-warm-tint: #f5f1ea;
+
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.125rem; /* 18px — brief: 14–18px for cards */
+
+  /* diffused, never harsh */
+  --shadow-soft: 0 1px 2px rgb(34 48 59 / 0.04), 0 8px 24px -12px rgb(34 48 59 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(34 48 59 / 0.05), 0 18px 40px -18px rgb(34 48 59 / 0.22);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Fraunces carries the direction: high SOFT rounds the terminals, WONK is
+     absent from the soft.css subset so headlines stay readable at 40px+. */
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 100;
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-accent-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-coral-tint);
+    color: var(--color-ink);
+  }
+}
+
+@utility grain {
+  /* Fixed, non-interactive film grain. feTurbulence keeps it a ~1KB data URI
+     instead of a texture request. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* Hand-drawn marker stroke sitting behind a word. Sized to the text box so it
+   tracks translations (AZ words are longer than EN). */
+@utility stroke-under {
+  position: relative;
+  display: inline-block;
 }

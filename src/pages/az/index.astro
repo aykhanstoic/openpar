@@ -1,11 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Home from '../../components/Home.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('az');
 ---
 
-<Base title="Ana səhifə">
-  <h1 class="text-3xl font-semibold">EYP Azerbaijan</h1>
-  <p class="mt-4 text-gray-600">
-    Placeholder başlıq cümləsi. Növbəti tədbir bannerı, əsas rəqəmlər və
-    son xəbərlər burada olacaq.
-  </p>
+<Base title={t('site.tagline')} bare>
+  <Home locale="az" />
 </Base>

@@ -1,11 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Home from '../../components/Home.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('en');
 ---
 
-<Base title="Home">
-  <h1 class="text-3xl font-semibold">EYP Azerbaijan</h1>
-  <p class="mt-4 text-gray-600">
-    Placeholder hero line. The next-event banner, key numbers, and latest
-    news will go here.
-  </p>
+<Base title={t('site.tagline')} bare>
+  <Home locale="en" />
 </Base>

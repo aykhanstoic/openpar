@@ -1,0 +1,129 @@
+---
+import Button from './Button.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
+import { NEWSLETTER_ACTION_URL, INSTAGRAM_URL, CONTACT_EMAIL } from '../config';
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = useTranslations(locale);
+
+// No provider is wired yet. Rather than fake a working signup, render the real
+// field and disable it — the layout is final, wiring it later is one constant.
+const newsletterEnabled = NEWSLETTER_ACTION_URL.length > 0;
+
+const explore = [
+  { label: t('nav.sessions'), href: `/${locale}/sessions` },
+  { label: t('nav.participate'), href: `/${locale}/participate` },
+  { label: t('nav.news'), href: `/${locale}/news` },
+];
+const organisation = [
+  { label: t('nav.about'), href: `/${locale}/about` },
+  { label: t('nav.partners'), href: `/${locale}/partners` },
+  { label: t('nav.contact'), href: `/${locale}/contact` },
+  { label: t('footer.privacy'), href: `/${locale}/privacy` },
+];
+---
+
+<footer class="mt-8 border-t border-line bg-surface/70 backdrop-blur-sm">
+  <div class="mx-auto max-w-6xl px-6 py-16 sm:px-8 sm:py-20">
+    <p
+      class="font-display max-w-2xl text-[2rem] leading-[1.08] font-semibold tracking-[-0.025em] text-balance text-ink sm:text-[2.75rem]"
+    >
+      {t('footer.line')}
+    </p>
+
+    <div class="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-20">
+      <div id="newsletter" class="max-w-md scroll-mt-28">
+        <h2 class="font-display text-xl font-semibold text-ink">
+          {t('footer.newsletter.title')}
+        </h2>
+
+        <form
+          class="mt-4 flex flex-col gap-3 sm:flex-row"
+          method="post"
+          action={newsletterEnabled ? NEWSLETTER_ACTION_URL : undefined}
+        >
+          <label class="sr-only" for="newsletter-email">{t('footer.newsletter.label')}</label>
+          <input
+            id="newsletter-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            disabled={!newsletterEnabled}
+            placeholder={t('footer.newsletter.placeholder')}
+            class="min-w-0 flex-1 rounded-full border border-line bg-surface px-5 py-3 text-[0.9375rem] text-ink placeholder:text-ink-muted/80 focus:border-accent-strong focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <Button type="submit" size="md" disabled={!newsletterEnabled}>
+            {t('footer.newsletter.button')}
+          </Button>
+        </form>
+
+        {
+          !newsletterEnabled && (
+            <p class="mt-3 text-sm text-ink-muted">{t('footer.newsletter.soon')}</p>
+          )
+        }
+      </div>
+
+      <nav aria-label={t('footer.col.explore')} class="grid grid-cols-2 gap-10 sm:gap-16">
+        <div>
+          <h2 class="text-[0.8125rem] font-bold tracking-[0.13em] text-ink uppercase">
+            {t('footer.col.explore')}
+          </h2>
+          <ul class="mt-4 space-y-2.5">
+            {
+              explore.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-[0.9375rem] text-ink-muted transition-colors hover:text-accent-strong"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-[0.8125rem] font-bold tracking-[0.13em] text-ink uppercase">
+            {t('footer.col.organisation')}
+          </h2>
+          <ul class="mt-4 space-y-2.5">
+            {
+              organisation.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-[0.9375rem] text-ink-muted transition-colors hover:text-accent-strong"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-4 border-t border-line pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {new Date().getFullYear()} {t('footer.copyright')}</p>
+      <div class="flex flex-wrap items-center gap-5">
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-accent-strong"
+        >
+          Instagram
+        </a>
+        <a href={`mailto:${CONTACT_EMAIL}`} class="transition-colors hover:text-accent-strong">
+          {CONTACT_EMAIL}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

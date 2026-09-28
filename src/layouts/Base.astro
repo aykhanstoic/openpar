@@ -1,18 +1,49 @@
 ---
+// Self-hosted, bundled by Vite — no Google Fonts CDN request, so no third-party
+// call from a youth-org site. Fraunces `soft.css` carries the wght + SOFT axes;
+// both families are loaded with their latin AND latin-ext subsets, because the
+// Azerbaijani ə (U+0259) lives in latin-ext and silently falls back without it.
+import '@fontsource-variable/fraunces/soft.css';
+import '@fontsource-variable/plus-jakarta-sans/index.css';
 import '../styles/global.css';
-import { navItems, useTranslations, type Locale, type UIKey } from '../i18n/ui';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SiteBackground from '../components/SiteBackground.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
 
 interface Props {
   title: string;
+  description?: string;
+  /** Home manages its own full-bleed layout; inner pages get the container. */
+  bare?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, description, bare = false } = Astro.props;
 const locale = (Astro.currentLocale ?? 'en') as Locale;
 const t = useTranslations(locale);
 
-const otherLocale: Locale = locale === 'az' ? 'en' : 'az';
+const pageDescription = description ?? t('site.description');
 const restOfPath = Astro.url.pathname.replace(/^\/(en|az)/, '');
-const switcherHref = `/${otherLocale}${restOfPath}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+/* Static host, so this is a meta CSP. `frame-ancestors` is deliberately absent:
+   meta CSP ignores it — it has to be a real response header, which belongs in
+   the host config at deploy time along with HSTS.
+   `form-action 'self'` must gain the newsletter provider's origin when
+   NEWSLETTER_ACTION_URL in src/config.ts is filled in.
+   Dev is excluded because Vite's HMR client needs inline script and a websocket. */
+const csp = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "form-action 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+].join('; ');
 ---
 
 <!doctype html>
@@ -20,40 +51,37 @@ const switcherHref = `/${otherLocale}${restOfPath}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={csp} />}
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="alternate" hreflang="en" href={new URL(`/en${restOfPath}`, Astro.site).href} />
+    <link rel="alternate" hreflang="az" href={new URL(`/az${restOfPath}`, Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(`/en${restOfPath}`, Astro.site).href} />
     <title>{title} | {t('site.name')}</title>
+    <meta name="description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t('site.name')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:locale" content={locale === 'az' ? 'az_AZ' : 'en_GB'} />
+    <meta name="theme-color" content="#fdfdfb" />
   </head>
-  <body class="min-h-screen bg-white text-gray-900">
-    <header class="border-b border-gray-200">
-      <div class="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-4 px-4 py-4">
-        <a href={`/${locale}/`} class="text-lg font-semibold text-accent">
-          {t('site.name')}
-        </a>
-        <nav class="flex flex-wrap items-center gap-4 text-sm">
-          {navItems.map((item) => (
-            <a
-              href={`/${locale}/${item.path}`}
-              class="hover:text-accent"
-            >
-              {t(item.key as UIKey)}
-            </a>
-          ))}
-          <a href={switcherHref} class="border border-gray-300 px-2 py-1 hover:border-accent hover:text-accent">
-            {otherLocale.toUpperCase()}
-          </a>
-        </nav>
-      </div>
-    </header>
+  <body class="min-h-dvh">
+    <a
+      href="#main"
+      class="sr-only rounded-full bg-accent-strong px-5 py-3 font-semibold text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60]"
+    >
+      {t('a11y.skip')}
+    </a>
 
-    <main class="mx-auto max-w-4xl px-4 py-8">
+    <SiteBackground />
+    <Header />
+
+    <main id="main" class={bare ? '' : 'mx-auto max-w-4xl px-6 py-12 sm:px-8'}>
       <slot />
     </main>
 
-    <footer class="border-t border-gray-200">
-      <div class="mx-auto max-w-4xl px-4 py-6 text-sm text-gray-500">
-        <p>{t('footer.copyright')}</p>
-        <p>{t('footer.partners')}</p>
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>

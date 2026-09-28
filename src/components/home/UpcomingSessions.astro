@@ -1,0 +1,65 @@
+---
+import SessionCard from './SessionCard.astro';
+import Button from '../Button.astro';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { INSTAGRAM_URL } from '../../config';
+import type { Session } from '../../lib/sessions';
+
+interface Props {
+  locale: Locale;
+  sessions: Session[];
+}
+
+const { locale, sessions } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="sessions" class="mx-auto max-w-6xl px-6 py-16 sm:px-8 sm:py-24">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <div>
+      <p class="text-[0.8125rem] font-bold tracking-[0.13em] text-accent-strong uppercase">
+        {t('sessions.eyebrow')}
+      </p>
+      <h2
+        class="font-display mt-4 text-[2.25rem] leading-[1.05] font-semibold tracking-[-0.025em] text-ink sm:text-5xl"
+      >
+        {t('sessions.title')}
+      </h2>
+    </div>
+    <a
+      href={`/${locale}/sessions`}
+      class="text-[0.9375rem] font-semibold text-accent-strong underline decoration-2 underline-offset-4 transition-colors hover:text-ink"
+    >
+      {t('sessions.cta.all')} <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  {
+    sessions.length > 0 ? (
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2">
+        {sessions.map((session) => (
+          <SessionCard locale={locale} session={session} />
+        ))}
+      </ul>
+    ) : (
+      /* Required empty state: no open calls is the normal state for most of
+         the year, so it gets a real card, not a blank grid. */
+      <div class="mt-10 rounded-card border-2 border-dashed border-line bg-surface/60 p-8 text-center backdrop-blur-sm sm:p-14">
+        <h3 class="font-display text-[1.625rem] leading-snug font-semibold text-ink sm:text-3xl">
+          {t('sessions.empty.title')}
+        </h3>
+        <p class="mx-auto mt-3 max-w-md leading-relaxed text-ink-muted text-pretty">
+          {t('sessions.empty.body')}
+        </p>
+        <div class="mt-7 flex flex-wrap justify-center gap-3">
+          <Button href="#newsletter" size="md">
+            {t('footer.newsletter.button')}
+          </Button>
+          <Button href={INSTAGRAM_URL} variant="secondary" size="md">
+            {t('sessions.empty.cta')}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+</section>

@@ -1,0 +1,37 @@
+---
+/*
+  PLACEHOLDER GROUND — swap point for the designers' artwork.
+
+  Riad's external designers are producing the real background. This component
+  is the only place the page ground is defined, so replacing it is a one-file
+  change: drop the exported PNG in `public/`, set it here as a pinned
+  background-image, and keep the grain layer on top.
+
+  Until then: a pinned aurora wash in the softened flag hues. Pinned (fixed,
+  not scrolling) so the ground stays calm behind a long page. Opacities are
+  deliberately low — body text sits on this, and the AA contrast headroom of
+  --color-ink-muted (6.00 on bare ground) is what pays for the wash.
+*/
+---
+
+<div aria-hidden="true" class="site-bg pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+  <div class="aurora absolute inset-0"></div>
+  <div class="grain absolute inset-0 opacity-[0.14] mix-blend-multiply"></div>
+</div>
+
+<style>
+  .site-bg {
+    background-color: var(--color-ground);
+  }
+
+  /* Radial gradients rather than blurred divs: no filter means no GPU blur
+     cost on the phones this site is mostly read on. */
+  .aurora {
+    background:
+      radial-gradient(58rem 40rem at 10% -8%, rgb(121 194 236 / 0.40), transparent 62%),
+      radial-gradient(50rem 36rem at 98% 4%, rgb(255 175 160 / 0.42), transparent 60%),
+      radial-gradient(44rem 34rem at 80% 46%, rgb(165 216 178 / 0.30), transparent 64%),
+      radial-gradient(42rem 32rem at 0% 86%, rgb(255 175 160 / 0.24), transparent 62%),
+      radial-gradient(38rem 30rem at 62% 98%, rgb(121 194 236 / 0.22), transparent 62%);
+  }
+</style>

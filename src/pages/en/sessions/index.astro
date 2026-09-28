@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import { useTranslations } from '../../../i18n/ui';
+import { localizeSession } from '../../../lib/sessions';
 
 const t = useTranslations('en');
 const sessions = await getCollection('sessions');
@@ -15,12 +16,14 @@ const dateFormat = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long'
   <p class="mt-4 text-gray-600">Upcoming and past EYP Azerbaijan sessions.</p>
 
   <ul class="mt-8 space-y-6">
-    {sessions.map((session) => (
+    {sessions.map((session) => {
+      const { title, theme, venue } = localizeSession(session, 'en');
+      return (
       <li class="border border-gray-200 p-4">
-        <h2 class="text-xl font-medium">{session.data.title}</h2>
-        <p class="text-gray-600">{session.data.theme}</p>
+        <h2 class="text-xl font-medium">{title}</h2>
+        <p class="text-gray-600">{theme}</p>
         <p class="mt-1 text-sm text-gray-500">
-          {session.data.venue} — {dateFormat.format(session.data.startDate)} to {dateFormat.format(session.data.endDate)}
+          {venue} — {dateFormat.format(session.data.startDate)} to {dateFormat.format(session.data.endDate)}
         </p>
         <p class="mt-1 text-sm text-gray-500">Status: {session.data.status}</p>
         {session.data.applyUrl && (
@@ -32,6 +35,7 @@ const dateFormat = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long'
           </a>
         )}
       </li>
-    ))}
+      );
+    })}
   </ul>
 </Base>

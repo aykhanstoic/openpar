@@ -1,0 +1,65 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  class?: string;
+  'aria-label'?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  disabled = false,
+  class: extraClass = '',
+  ...rest
+} = Astro.props;
+
+// Anything not pointing at our own pages leaves the site: open it in a new tab
+// and strip the opener reference.
+const isExternal = !!href && /^https?:\/\//.test(href);
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full font-semibold ' +
+  'transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out ' +
+  'active:translate-y-px disabled:cursor-not-allowed disabled:opacity-55 disabled:active:translate-y-0';
+
+const sizes = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-5 py-2.5 text-[0.9375rem]',
+  lg: 'px-7 py-3.5 text-base',
+};
+
+const variants = {
+  // white on --color-accent-strong = 5.08:1
+  primary:
+    'bg-accent-strong text-white shadow-soft hover:bg-[#b3341e] hover:shadow-lift not-disabled:hover:-translate-y-0.5',
+  // ink on ground = 13.27:1
+  secondary:
+    'border border-line bg-surface/70 text-ink backdrop-blur-sm hover:border-ink/25 hover:bg-surface',
+};
+
+const cls = [base, sizes[size], variants[variant], extraClass].join(' ');
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class={cls}
+      {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...rest}
+    >
+      <slot />
+      {isExternal && <span class="sr-only"> (opens in a new tab)</span>}
+    </a>
+  ) : (
+    <button type={type} class={cls} disabled={disabled} {...rest}>
+      <slot />
+    </button>
+  )
+}
