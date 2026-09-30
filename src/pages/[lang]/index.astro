@@ -32,7 +32,7 @@ const sessionTitles = new Map<string, string>();
 for (const post of posts) {
   if (!post.data.session) continue;
   const entry = await getEntry(post.data.session);
-  if (entry) sessionTitles.set(post.id, entry.data.title);
+  if (entry && !entry.data.draft) sessionTitles.set(post.id, entry.data.title);
 }
 
 const stats = [

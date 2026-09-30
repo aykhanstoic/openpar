@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
         </p>
       </div>
 
-      <form data-inert-form data-message={t.footer.newsletterDisabled} class="grid gap-3">
+      <form method="dialog" data-inert-form data-message={t.footer.newsletterDisabled} class="grid gap-3">
         <div class="flex flex-col gap-2 sm:flex-row">
           <label class="sr-only" for="nl-email">{t.footer.newsletterPlaceholder}</label>
           <input

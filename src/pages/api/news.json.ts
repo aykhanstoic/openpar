@@ -6,6 +6,9 @@ import { jsonResponse } from "../../i18n/pages";
 export const GET: APIRoute = async ({ site }) => {
   const origin = site?.origin ?? "https://eyp.az";
 
+  const draftSessions = new Set(
+    (await getCollection("sessions", ({ data }) => data.draft)).map((s) => s.id),
+  );
   const posts = (await getCollection("news", ({ data }) => !data.draft))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .map(({ id, data }) => ({
@@ -15,7 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
       lang: data.lang,
       excerpt: data.excerpt ?? null,
       tags: data.tags,
-      session: data.session?.id ?? null,
+      session: data.session && !draftSessions.has(data.session.id) ? data.session.id : null,
     }));
 
   return jsonResponse({ site: origin, count: posts.length, posts });

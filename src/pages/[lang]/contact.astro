@@ -43,7 +43,7 @@ const inputClass =
       <div>
         <h2 class="text-h2">{c.formTitle}</h2>
 
-        <form data-inert-form data-message={c.formDisabledNote} class="mt-8 grid gap-5">
+        <form method="dialog" data-inert-form data-message={c.formDisabledNote} class="mt-8 grid gap-5">
           <div class="grid gap-5 sm:grid-cols-2">
             <div class="grid gap-1.5">
               <label for="c-name" class="text-[0.87rem] font-semibold">{c.formName}</label>

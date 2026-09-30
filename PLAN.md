@@ -199,7 +199,17 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
 - Security that did not survive the merge: CSP (meta now, real headers at deploy
   for `frame-ancestors` + HSTS), referrer policy, `applyUrl` restricted to http(s).
 - Fonts load from Google Fonts (a third-party request); self-host instead.
-- Daily scheduled rebuild so finished sessions stop showing as upcoming.
+- Daily scheduled rebuild so finished sessions stop showing as upcoming, **plus**
+  a deadline/end-date check in `SessionCard.astro` (`canApply` ignores
+  `applyDeadline` today, so "Apply" stays live after the deadline). A build-time
+  check only works together with the daily rebuild. Dates are UTC midnight, so a
+  session moves to "past" at 04:00 Baku time on its last day.
+- From the 2026-09-30 code review, not fixed yet: `sessions.lang` is never read
+  (an `az`-only session still shows on `/en/`); the date formatters in
+  `src/i18n/ui.ts` lack `timeZone: 'UTC'` (harmless on Vercel, wrong on a
+  west-of-Greenwich build); the locale regex is hardcoded in `Base.astro` and
+  `Header.astro`; mobile menu Escape doesn't return focus to the button and there
+  are two `Primary` nav landmarks.
 - Analytics, Open Graph image, native Azerbaijani review of EYP terms,
   confirm `site` URL.
 
