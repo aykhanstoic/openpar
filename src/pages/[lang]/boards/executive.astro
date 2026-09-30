@@ -1,0 +1,33 @@
+---
+import Base from "../../../layouts/Base.astro";
+import PageHero from "../../../components/PageHero.astro";
+import BoardGrid from "../../../components/BoardGrid.astro";
+import { useTranslations, type Locale } from "../../../i18n/ui";
+
+export { getStaticPaths } from "../../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+---
+
+<Base locale={locale} title={t.boards.executiveTitle} description={t.boards.executiveLead}>
+  <PageHero
+    locale={locale}
+    title={t.boards.executiveTitle}
+    lead={t.boards.executiveLead}
+    parent={{ label: t.nav.about, path: "about" }}
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <BoardGrid locale={locale} body="executive" emptyMessage={t.boards.emptyExecutive} />
+
+      <p class="todo mt-10 max-w-[70ch]">
+        <strong>{t.common.placeholderNotice}.</strong>
+        Board entries live in <code>src/content/board/</code> as one markdown file each.
+        Publish role-based addresses only &mdash; never a volunteer&rsquo;s personal email &mdash;
+        and get each person&rsquo;s consent before putting their photo on a public page.
+      </p>
+    </div>
+  </section>
+</Base>

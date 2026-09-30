@@ -1,0 +1,138 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
+import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+
+export { getStaticPaths } from "../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const a = t.about;
+
+const values = [
+  { title: a.value1Title, body: a.value1Body },
+  { title: a.value2Title, body: a.value2Body },
+  { title: a.value3Title, body: a.value3Body },
+  { title: a.value4Title, body: a.value4Body },
+];
+---
+
+<Base locale={locale} title={a.title} description={a.lead}>
+  <PageHero locale={locale} title={a.title} lead={a.lead} />
+
+  <!-- =========================================================== mission -->
+  <section class="section">
+    <div class="wrap grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <p class="eyebrow">{a.missionEyebrow}</p>
+        <h2 class="mt-4 text-h2">{a.missionTitle}</h2>
+        <div class="rule-amber mt-6"></div>
+      </div>
+      <div class="grid gap-5">
+        <p class="text-[1.05rem] leading-relaxed">{a.missionBody1}</p>
+        <p class="text-[1.05rem] leading-relaxed">{a.missionBody2}</p>
+        <p class="text-[1.05rem] leading-relaxed">{a.missionBody3}</p>
+      </div>
+    </div>
+
+    <div class="wrap mt-12">
+      <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[21/8]" />
+    </div>
+  </section>
+
+  <!-- ============================================================ values -->
+  <section class="section bg-deep text-white">
+    <div class="wrap">
+      <div class="max-w-[52ch]">
+        <p class="eyebrow eyebrow-invert">{a.valuesEyebrow}</p>
+        <h2 class="mt-4 text-h2 text-white">{a.valuesTitle}</h2>
+      </div>
+
+      <div class="mt-11 grid gap-x-10 gap-y-9 md:grid-cols-2">
+        {
+          values.map((v, i) => (
+            <div class="flex gap-4">
+              <span class="font-display text-[0.8rem] font-bold text-white/60">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 class="font-display text-[1.12rem] font-bold text-white">{v.title}</h3>
+                <p class="mt-2 max-w-[46ch] text-[0.94rem] leading-relaxed text-white/75">
+                  {v.body}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================== history -->
+  <section class="section">
+    <div class="wrap grid gap-12 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">{a.historyEyebrow}</p>
+        <h2 class="mt-4 text-h2">{a.historyTitle}</h2>
+        <p class="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">{a.historyBody}</p>
+        <p class="todo mt-6 max-w-[60ch]">
+          <strong>{t.common.placeholderNotice}.</strong>
+          {" "}
+          Founding year, recognition by the international network, and milestone
+          sessions are not published anywhere we could verify them.
+        </p>
+      </div>
+
+      <div>
+        <p class="eyebrow">{a.networkEyebrow}</p>
+        <h2 class="mt-4 text-h2">{a.networkTitle}</h2>
+        <p class="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">
+          {a.networkBody1}
+        </p>
+        <p class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">
+          {a.networkBody2}
+        </p>
+        <a
+          href="https://eyp.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-arrow mt-6"
+        >
+          {a.networkCta}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== governance -->
+  <section class="section bg-cream">
+    <div class="wrap grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+      <div>
+        <p class="eyebrow">{a.governanceEyebrow}</p>
+        <h2 class="mt-4 text-h2">{a.governanceTitle}</h2>
+        <p class="mt-5 max-w-[54ch] text-[1.02rem] leading-relaxed text-ink-muted">
+          {a.governanceBody}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={localePath(locale, "boards/executive")} class="btn btn-primary">
+            {a.governanceExecCta}
+          </a>
+          <a href={localePath(locale, "boards/supervisory")} class="btn btn-outline">
+            {a.governanceSupCta}
+          </a>
+        </div>
+      </div>
+
+      <div class="card p-7">
+        <h3 class="font-display text-[1.1rem] font-bold">{a.documentsTitle}</h3>
+        <p class="mt-2.5 text-[0.94rem] leading-relaxed text-ink-muted">{a.documentsBody}</p>
+        <p class="todo mt-5">
+          <strong>{t.common.placeholderNotice}.</strong> No statutes or annual reports have been
+          supplied yet. Grant applications routinely ask for both.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

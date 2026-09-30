@@ -1,0 +1,154 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+
+export { getStaticPaths } from "../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+
+const phases = [
+  { name: t.whatIsEyp.phase1Name, when: t.whatIsEyp.phase1Duration, body: t.whatIsEyp.phase1Body },
+  { name: t.whatIsEyp.phase2Name, when: t.whatIsEyp.phase2Duration, body: t.whatIsEyp.phase2Body },
+  { name: t.whatIsEyp.phase3Name, when: t.whatIsEyp.phase3Duration, body: t.whatIsEyp.phase3Body },
+];
+
+const roles = [
+  { name: t.whatIsEyp.roleDelegateName, body: t.whatIsEyp.roleDelegateBody, primary: true },
+  { name: t.whatIsEyp.roleChairName, body: t.whatIsEyp.roleChairBody },
+  { name: t.whatIsEyp.roleOrganiserName, body: t.whatIsEyp.roleOrganiserBody },
+  { name: t.whatIsEyp.roleMediaName, body: t.whatIsEyp.roleMediaBody },
+  { name: t.whatIsEyp.roleJuryName, body: t.whatIsEyp.roleJuryBody },
+];
+
+const nots = [
+  { title: t.whatIsEyp.not1Title, body: t.whatIsEyp.not1Body },
+  { title: t.whatIsEyp.not2Title, body: t.whatIsEyp.not2Body },
+  { title: t.whatIsEyp.not3Title, body: t.whatIsEyp.not3Body },
+];
+---
+
+<Base locale={locale} title={t.whatIsEyp.title} description={t.whatIsEyp.lead}>
+  <PageHero locale={locale} title={t.whatIsEyp.title} lead={t.whatIsEyp.lead} />
+
+  <!-- ============================================================ format -->
+  <section class="section">
+    <div class="wrap">
+      <div class="max-w-[56ch]">
+        <p class="eyebrow">{t.whatIsEyp.formatEyebrow}</p>
+        <h2 class="mt-4 text-h2">{t.whatIsEyp.formatTitle}</h2>
+        <p class="mt-4 text-[1rem] text-ink-muted">{t.whatIsEyp.formatNote}</p>
+      </div>
+
+      <!-- Three phases as a connected sequence, not three loose cards. -->
+      <ol class="relative mt-12 grid gap-6 lg:grid-cols-3">
+        <!-- Connector, desktop only -->
+        <div
+          class="absolute left-0 right-0 top-[34px] hidden h-px bg-line lg:block"
+          aria-hidden="true"
+        >
+        </div>
+
+        {
+          phases.map((phase, i) => (
+            <li class="relative">
+              <div class="flex items-center gap-3">
+                <span class="grid h-[68px] w-[68px] shrink-0 place-items-center rounded-full border-2 border-deep bg-white font-display text-[1.5rem] font-bold text-deep">
+                  {i + 1}
+                </span>
+                <span class="rounded-full bg-amber-050 px-3 py-1 font-display text-[0.68rem] font-bold uppercase tracking-[0.1em] text-amber-700">
+                  {phase.when}
+                </span>
+              </div>
+
+              <h3 class="mt-5 font-display text-[1.3rem] font-bold">{phase.name}</h3>
+              <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-muted">{phase.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================= roles -->
+  <section class="section bg-cream">
+    <div class="wrap">
+      <div class="max-w-[56ch]">
+        <p class="eyebrow">{t.whatIsEyp.rolesEyebrow}</p>
+        <h2 class="mt-4 text-h2">{t.whatIsEyp.rolesTitle}</h2>
+        <p class="mt-4 text-[1rem] leading-relaxed text-ink-muted">{t.whatIsEyp.rolesLead}</p>
+      </div>
+
+      <div class="mt-11 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {
+          roles.map((role) => (
+            <article
+              class:list={[
+                "card p-6",
+                role.primary && "border-deep/25 bg-deep text-white md:col-span-2 lg:col-span-1",
+              ]}
+            >
+              <h3
+                class:list={[
+                  "font-display text-[1.15rem] font-bold",
+                  role.primary && "text-white",
+                ]}
+              >
+                {role.name}
+              </h3>
+              <p
+                class:list={[
+                  "mt-2.5 text-[0.92rem] leading-relaxed",
+                  role.primary ? "text-white/80" : "text-ink-muted",
+                ]}
+              >
+                {role.body}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================== who/not -->
+  <section class="section">
+    <div class="wrap grid gap-14 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">{t.whatIsEyp.whoEyebrow}</p>
+        <h2 class="mt-4 text-h2">{t.whatIsEyp.whoTitle}</h2>
+        <p class="mt-5 max-w-[52ch] text-[1.02rem] leading-relaxed text-ink-muted">
+          {t.whatIsEyp.whoBody}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={localePath(locale, "participate")} class="btn btn-primary">
+            {t.nav.participate}
+          </a>
+          <a href={localePath(locale, "sessions")} class="btn btn-outline">
+            {t.nav.sessions}
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">{t.whatIsEyp.notEyebrow}</p>
+        <h2 class="mt-4 text-h2">{t.whatIsEyp.notTitle}</h2>
+
+        <ul class="mt-7 grid gap-5">
+          {
+            nots.map((item) => (
+              <li class="flex gap-4 border-l-[3px] border-amber pl-5">
+                <div>
+                  <h3 class="font-display text-[1.05rem] font-bold">{item.title}</h3>
+                  <p class="mt-1.5 text-[0.93rem] leading-relaxed text-ink-muted">{item.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

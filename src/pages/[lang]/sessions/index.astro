@@ -1,0 +1,93 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import PageHero from "../../../components/PageHero.astro";
+import SessionCard from "../../../components/SessionCard.astro";
+import { useTranslations, type Locale } from "../../../i18n/ui";
+
+export { getStaticPaths } from "../../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+
+const all = await getCollection("sessions", ({ data }) => !data.draft);
+
+/* Split on whether the session has finished, not on `status`: a session can
+   still be marked "call-closed" while it is being run. */
+const now = new Date();
+
+const upcoming = all
+  .filter((s) => s.data.endDate >= now)
+  .sort((a, b) => {
+    const openA = a.data.status === "call-open" ? 0 : 1;
+    const openB = b.data.status === "call-open" ? 0 : 1;
+    return openA - openB || a.data.startDate.valueOf() - b.data.startDate.valueOf();
+  });
+
+const past = all
+  .filter((s) => s.data.endDate < now)
+  .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
+
+const hasOutreach = all.some((s) => s.data.outreach);
+---
+
+<Base locale={locale} title={t.sessions.title} description={t.sessions.lead}>
+  <PageHero locale={locale} title={t.sessions.title} lead={t.sessions.lead} />
+
+  <!-- ========================================================== upcoming -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="text-h2">{t.sessions.upcomingTitle}</h2>
+
+      {
+        upcoming.length > 0 ? (
+          <div class="mt-9 grid gap-6 lg:grid-cols-2">
+            {upcoming.map((session) => (
+              <SessionCard session={session} locale={locale} />
+            ))}
+          </div>
+        ) : (
+          <p class="mt-6 max-w-[52ch] text-[1rem] text-ink-muted">{t.sessions.emptyUpcoming}</p>
+        )
+      }
+
+      {
+        hasOutreach && (
+          <aside class="mt-10 flex gap-4 rounded-card border border-line bg-teal-050 p-6">
+            <span class="mt-0.5 shrink-0 text-deep" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 11v5M12 8h.01" />
+              </svg>
+            </span>
+            <div>
+              <p class="font-display text-[0.95rem] font-bold">{t.sessions.outreachLabel}</p>
+              <p class="mt-1.5 max-w-[68ch] text-[0.9rem] leading-relaxed text-ink-muted">
+                {t.sessions.outreachExplainer}
+              </p>
+            </div>
+          </aside>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ============================================================== past -->
+  <section class="section bg-cream">
+    <div class="wrap">
+      <h2 class="text-h2">{t.sessions.pastTitle}</h2>
+
+      {
+        past.length > 0 ? (
+          <div class="mt-9 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {past.map((session) => (
+              <SessionCard session={session} locale={locale} />
+            ))}
+          </div>
+        ) : (
+          <p class="mt-6 max-w-[52ch] text-[1rem] text-ink-muted">{t.sessions.emptyPast}</p>
+        )
+      }
+    </div>
+  </section>
+</Base>

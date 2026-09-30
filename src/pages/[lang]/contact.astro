@@ -1,0 +1,124 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+
+export { getStaticPaths } from "../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const c = t.contact;
+
+/* PLACEHOLDER: every address below is example.org. Replace with the real
+   role-based addresses (info@eyp.az, board@eyp.az, ...) once the domain's
+   mail is set up. */
+const contacts = [
+  { label: c.generalLabel, email: "info@example.org" },
+  { label: c.schoolsLabel, email: "schools@example.org" },
+  { label: c.boardLabel, email: "board@example.org" },
+  { label: c.pressLabel, email: "press@example.org" },
+  { label: c.privacyLabel, email: "privacy@example.org" },
+];
+
+const topics = [
+  c.formTopicApply,
+  c.formTopicSchool,
+  c.formTopicVolunteer,
+  c.formTopicPartner,
+  c.formTopicPress,
+  c.formTopicPrivacy,
+  c.formTopicOther,
+];
+
+const inputClass =
+  "w-full border border-line bg-white px-4 py-3 text-[1rem] focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep/15";
+---
+
+<Base locale={locale} title={c.title} description={c.lead}>
+  <PageHero locale={locale} title={c.title} lead={c.lead} />
+
+  <section class="section">
+    <div class="wrap grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <!-- Form -->
+      <div>
+        <h2 class="text-h2">{c.formTitle}</h2>
+
+        <form data-inert-form data-message={c.formDisabledNote} class="mt-8 grid gap-5">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="grid gap-1.5">
+              <label for="c-name" class="text-[0.87rem] font-semibold">{c.formName}</label>
+              <input id="c-name" name="name" type="text" autocomplete="name" required class={inputClass} />
+            </div>
+            <div class="grid gap-1.5">
+              <label for="c-email" class="text-[0.87rem] font-semibold">{c.formEmail}</label>
+              <input id="c-email" name="email" type="email" autocomplete="email" required class={inputClass} />
+            </div>
+          </div>
+
+          <div class="grid gap-1.5">
+            <label for="c-topic" class="text-[0.87rem] font-semibold">{c.formTopic}</label>
+            <select id="c-topic" name="topic" class={inputClass}>
+              {topics.map((topic) => <option>{topic}</option>)}
+            </select>
+          </div>
+
+          <div class="grid gap-1.5">
+            <label for="c-message" class="text-[0.87rem] font-semibold">{c.formMessage}</label>
+            <textarea id="c-message" name="message" required rows="6" class={inputClass}></textarea>
+          </div>
+
+          <label class="flex items-start gap-2.5 text-[0.85rem] text-ink-muted">
+            <input type="checkbox" required class="mt-1 accent-deep" />
+            <span>{c.formConsent}</span>
+          </label>
+
+          <div>
+            <button type="submit" class="btn btn-primary">{c.formSubmit}</button>
+          </div>
+
+          <p data-form-status class="text-[0.88rem] font-semibold text-amber-700" aria-live="polite"></p>
+
+          <p class="todo">
+            <strong>{t.common.placeholderNotice}.</strong> {c.formDisabledNote}
+          </p>
+        </form>
+      </div>
+
+      <!-- Direct contacts -->
+      <div class="card p-8">
+        <h2 class="font-display text-[1.2rem] font-bold">{c.directTitle}</h2>
+
+        <dl class="mt-6 grid gap-5">
+          {
+            contacts.map((item) => (
+              <div>
+                <dt class="text-[0.8rem] font-semibold uppercase tracking-wide text-ink-muted">
+                  {item.label}
+                </dt>
+                <dd class="mt-1">
+                  <a href={`mailto:${item.email}`} class="break-all text-[0.95rem] text-deep hover:underline">
+                    {item.email}
+                  </a>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="mt-7 border-t border-line pt-6">
+          <h3 class="font-display text-[0.95rem] font-bold">{c.socialTitle}</h3>
+          <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-muted">{c.socialBody}</p>
+        </div>
+
+        <p class="todo mt-6">
+          <strong>{t.common.placeholderNotice}.</strong> All five addresses are
+          <code>example.org</code>.
+        </p>
+
+        <a href={localePath(locale, "privacy")} class="link-arrow mt-6">
+          {t.nav.privacy}
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

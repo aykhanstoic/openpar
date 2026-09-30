@@ -1,9 +1,9 @@
 ---
-title: "Placeholder news post"
+title: "PLACEHOLDER — first news post"
 date: 2026-08-01
 lang: "en"
-excerpt: "Placeholder excerpt for the first news entry."
+excerpt: "Placeholder entry so the News section is not empty. The plan asks for 3–5 real posts before launch."
+tags: ["Announcement"]
 ---
 
-Placeholder body text for a news post. Replace with real content when the
-first announcement is ready.
+PLACEHOLDER body text. Replace before launch.

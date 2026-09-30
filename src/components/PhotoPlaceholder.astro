@@ -1,0 +1,43 @@
+---
+/**
+ * Marked slot for real session photography.
+ *
+ * Deliberately looks like a placeholder — dashed border, camera glyph,
+ * visible label — so nobody mistakes it for a finished design element.
+ * Replace with <Image> once curated photos exist (launch checklist:
+ * 50–80 photos, with consent where minors are identifiable).
+ */
+interface Props {
+  label: string;
+  /** Extra classes; set the aspect ratio here, e.g. "aspect-[4/3]". */
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<figure
+  class:list={[
+    "grid place-items-center rounded-card border-2 border-dashed border-line bg-deep-050/60 text-center",
+    className,
+  ]}
+>
+  <figcaption class="flex max-w-[26ch] flex-col items-center gap-2.5 p-4 text-ink-muted">
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="opacity-60"
+    >
+      <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2l1.1-1.7A1.5 1.5 0 0 1 10.05 3.6h3.9a1.5 1.5 0 0 1 1.25.7L16.3 6h1.2A2.5 2.5 0 0 1 20 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z" />
+      <circle cx="12" cy="13" r="3.6" />
+    </svg>
+    <span class="font-display text-[0.72rem] font-bold uppercase tracking-[0.08em]">{label}</span>
+  </figcaption>
+</figure>

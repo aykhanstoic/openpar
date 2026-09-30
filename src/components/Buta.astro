@@ -1,0 +1,57 @@
+---
+/**
+ * Buta — the Azerbaijani paisley motif, drawn as original line art so it
+ * carries no image licence and takes any colour via `currentColor`.
+ *
+ * One outline is reused at smaller scales for the dotted ring, the inner
+ * echo and the small buta at the heart. Decorative only: always aria-hidden.
+ * Size and colour come from `class`.
+ */
+interface Props {
+  class?: string;
+  /** Stroke width in viewBox units (the motif is 120 × 160). */
+  stroke?: number;
+  /** Outline and curl only — for small sizes, where the ornament would clog. */
+  simple?: boolean;
+}
+
+const { class: className, stroke = 2.4, simple = false } = Astro.props;
+
+/* Round belly bottom-left, rising into a tip that hooks over to the right. */
+const outline =
+  "M52 154C24 154 6 132 6 104C6 72 22 44 44 26C62 11 88 8 104 26C90 22 78 30 82 44C86 56 104 74 106 100C108 132 84 154 52 154Z";
+
+/* Scale about a point; the stroke is divided by k so every ring keeps the
+   same visual weight as the outline. */
+const ring = (k: number, cx = 56, cy = 104) => ({
+  transform: `translate(${cx * (1 - k)} ${cy * (1 - k)}) scale(${k})`,
+  "stroke-width": stroke / k,
+});
+---
+
+<svg
+  viewBox="0 0 120 160"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  class={className}
+>
+  <path d={outline} />
+  {
+    !simple && (
+      <>
+        {/* A zero-length dash with round caps draws a row of dots. */}
+        <path d={outline} {...ring(0.9)} stroke-width={(stroke * 1.5) / 0.9} stroke-dasharray={`0 ${7 / 0.9}`} />
+        <path d={outline} {...ring(0.78)} />
+        <path d={outline} {...ring(0.42, 58, 112)} />
+        {/* Leaf spine and veins inside the small buta */}
+        <path d="M55 126C53 110 60 94 72 84" />
+        <path d="M55 112C50 110 46 106 45 100M59 101C64 101 68 98 70 94" />
+      </>
+    )
+  }
+</svg>

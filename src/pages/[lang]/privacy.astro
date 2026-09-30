@@ -1,0 +1,53 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import { useTranslations, type Locale } from "../../i18n/ui";
+
+export { getStaticPaths } from "../../i18n/paths";
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const pv = t.privacy;
+
+const sections = [
+  { title: pv.s1Title, body: pv.s1Body },
+  { title: pv.s2Title, body: pv.s2Body },
+  { title: pv.s3Title, body: pv.s3Body },
+  { title: pv.s4Title, body: pv.s4Body },
+  { title: pv.s5Title, body: pv.s5Body },
+  { title: pv.s6Title, body: pv.s6Body },
+  { title: pv.s7Title, body: pv.s7Body },
+  { title: pv.s8Title, body: pv.s8Body },
+];
+---
+
+<Base locale={locale} title={pv.title} description={pv.lead}>
+  <PageHero locale={locale} title={pv.title} lead={pv.lead} />
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <!-- Deliberately loud. A skeleton privacy policy that reads like a real
+           one is worse than an obviously absent one. -->
+      <div class="rounded-card border-2 border-amber bg-amber-050 p-7">
+        <h2 class="font-display text-[1.2rem] font-bold text-ink">{pv.warningTitle}</h2>
+        <p class="mt-3 text-[0.95rem] leading-relaxed text-[#6B4A10]">{pv.warningBody}</p>
+      </div>
+
+      <ol class="mt-12 grid gap-9">
+        {
+          sections.map((section, i) => (
+            <li class="grid grid-cols-[34px_1fr] gap-4">
+              <span class="font-display text-[0.85rem] font-bold text-deep">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h2 class="font-display text-[1.12rem] font-bold">{section.title}</h2>
+                <p class="mt-2 text-[0.96rem] leading-relaxed text-ink-muted">{section.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>

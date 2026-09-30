@@ -1,0 +1,43 @@
+---
+import { localePath, useTranslations, type Locale } from "../i18n/ui";
+import Buta from "./Buta.astro";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  lead?: string;
+  /** Optional breadcrumb parent, e.g. { label: "About Us", path: "about" }. */
+  parent?: { label: string; path: string };
+}
+
+const { locale, title, lead, parent } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<!-- The EYP template's slanted pale-blue band, with the headline in indigo. -->
+<section class="slant overflow-hidden">
+  <Buta
+    class="pointer-events-none absolute -top-8 right-[4%] -z-[1] hidden h-[340px] w-auto rotate-[14deg] text-white md:block lg:h-[400px]"
+    stroke={1.8}
+  />
+  <div class="wrap pb-20 pt-10 lg:pb-32 lg:pt-14">
+    <nav class="text-[0.92rem] text-ink-muted" aria-label="Breadcrumb">
+      <a href={localePath(locale)} class="hover:text-deep">{t.nav.home}</a>
+      {
+        parent && (
+          <>
+            <span class="mx-2 opacity-50">/</span>
+            <a href={localePath(locale, parent.path)} class="hover:text-deep">
+              {parent.label}
+            </a>
+          </>
+        )
+      }
+      <span class="mx-2 opacity-50">/</span>
+      <span class="text-ink" aria-current="page">{title}</span>
+    </nav>
+
+    <h1 class="mt-6 max-w-[22ch] text-h1 text-deep">{title}</h1>
+    {lead && <p class="mt-5 max-w-[60ch] text-[1.2rem] leading-relaxed text-ink">{lead}</p>}
+  </div>
+</section>
