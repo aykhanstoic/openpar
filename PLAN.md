@@ -82,6 +82,11 @@ Privacy Policy
 | 2026-08-31 | Menu JS lives in `public/menu.js`, loaded with `<script is:inline src="/menu.js" defer>` | Astro inlines small component scripts, and the site's `script-src 'self'` CSP blocks inline script. An external file is the only form that survives the policy |
 | 2026-08-31 | Page background is **out of scope for us** — `src/components/SiteBackground.astro` is the single swap point for the designer's layer; the hero's lower void is its canvas | Design comes from the external designer (2026-08-25 decision) |
 | 2026-08-31 | Session frontmatter carries optional `titleAz` / `themeAz` / `venueAz`; all rendering goes through `localizeSession()` in `src/lib/sessions.ts`, which falls back to English when a variant is missing | `title`/`theme`/`venue` were EN-only and rendered untranslated on `/az/` (AZ hero read "10th National Selection Conference…"). Optional fields keep "adding a session = one file" true |
+| 2026-09-30 | **Inherit aykhan's branch wholesale**: his `[lang]` routing, split `en.ts`/`az.ts`, content schema, 12 pages and JSON API, in the EYP Spain/Portugal indigo + yellow look (Source Sans 3). **Supersedes** the soft & friendly direction and every 2026-08-31 row above on typefaces, palette, `menu.js`, `SiteBackground` and `localizeSession`. The earlier Home work stays in git history (`57cfee5`) | Riad's call. The other 11 pages already exist and build; re-skinning them was the bigger job |
+| 2026-09-30 | All demo content is **explicit placeholder** — no half-real entries. Removed the two semi-real sessions (NSC '26, Ganja forum); three `sample-*` sessions remain, one per state (open/Members Platform, open/outreach, past) | A teammate filling the site must be able to tell demo from real at a glance |
+| 2026-09-30 | Editing dashboard = a **git-backed CMS (Sveltia or Decap) at `/admin`** over the existing content files; logins are GitHub accounts, every save is a commit that triggers a rebuild. A custom password-gated dashboard that edits the site is **not** built | It would need a server and our own user store, which the hard constraints rule out. A git-backed CMS gives the same add/edit/delete screens with no backend of ours. Roadmap, not built yet |
+| 2026-09-30 | eype.es (Spain) and eyp.pt (Portugal) are the **reference for what content goes on which page** and what the placeholders should be. Our site need not match them | Riad's call: same network, different NCs — borrow the information architecture, not the look |
+| 2026-09-30 | Team preview lives at https://openpar.vercel.app/en/ | Riad set it up; `eyp.az` comes at launch |
 
 ## Tech stack (confirmed 2026-08-22)
 
@@ -127,6 +132,10 @@ ui.aceternity.com, styles.refero.design.
 
 ## Home page — implementation notes (2026-08-31)
 
+> **Superseded 2026-09-30** — the home page described here was replaced when
+> aykhan's branch was inherited (see the decisions log). Kept as a record; the
+> files it mentions are gone from the tree and live in history at `57cfee5`.
+
 Built and verified at 390px phone and 1440px desktop, in both locales.
 
 - **Verification is a real-pixel audit**, not token arithmetic: a Playwright +
@@ -155,6 +164,49 @@ Built and verified at 390px phone and 1440px desktop, in both locales.
 - The site is static, so the CSP is a `<meta>` tag in `Base.astro` and is
   **PROD-only** (Vite's dev HMR needs inline script and a websocket).
 
+## Roadmap (set 2026-09-30)
+
+Detailed launch checklist (legal, content, wiring) lives in `README.md` →
+"Before launch"; this is the order to tackle it in. Nothing here is urgent
+"this second" — it is the sequence.
+
+**Phase 0 — Land the code**
+- Commit the aykhan merge, remove leftover home-page files, push `riad`, merge
+  into `dev`, point the Vercel production branch at `dev`.
+- Fix whatever the code review of aykhan's branch turns up.
+- Tell aykhan to drop his editor launch-config folder from his branch (it
+  is tracked there; our rule is no tooling traces in git).
+- Housekeeping: `@fontsource-variable/*` deps and the `assetsInlineLimit`
+  setting in `astro.config.mjs` are unused now; `docs/design-brief.md` and
+  `docs/design-reference.md` describe the superseded direction.
+
+**Phase 1 — Make it fillable (before inviting the EYP AZ team)**
+- Content inventory: for each page, list the slots against eype.es and eyp.pt
+  (what goes where, what the placeholder says). Mark every placeholder clearly.
+- CMS dashboard at `/admin` (Sveltia or Decap) over sessions, news, board and
+  partners; decide who gets editor access (GitHub accounts); confirm a save
+  triggers a Vercel rebuild.
+- Gather from the NC: board names + consent, 3–5 real news posts, partners,
+  photos (50–80, consent for minors). Look at how other NCs post photos.
+
+**Phase 2 — Legal (before any form is switched on)**
+- Privacy policy, legal notice, safeguarding policy — modelled on the Spain and
+  Portugal sites, written/reviewed by the right person. The site handles data
+  from minors.
+
+**Phase 3 — Wiring and hardening**
+- Newsletter with double opt-in; contact form on a real service.
+- Security that did not survive the merge: CSP (meta now, real headers at deploy
+  for `frame-ancestors` + HSTS), referrer policy, `applyUrl` restricted to http(s).
+- Fonts load from Google Fonts (a third-party request); self-host instead.
+- Daily scheduled rebuild so finished sessions stop showing as upcoming.
+- Analytics, Open Graph image, native Azerbaijani review of EYP terms,
+  confirm `site` URL.
+
+**Phase 4 — Launch**
+- eyp.az registrar access + DNS, production switch, Instagram link-in-bio,
+  announce to schools.
+
 ## Build order (proposed)
 
 1. Site shell (header, nav, EN/AZ switcher, footer) + Home
@@ -175,8 +227,8 @@ Built and verified at 390px phone and 1440px desktop, in both locales.
 - `frame-ancestors` and HSTS cannot be set from a `<meta>` CSP — they must be
   real response headers, added in the host config at deploy time.
 - `form-action 'self'` in the CSP must gain the newsletter provider's origin
-  when `NEWSLETTER_ACTION_URL` in `src/config.ts` is filled in, or the
-  subscribe POST will be blocked.
+  when the newsletter form is wired to a provider, or the subscribe POST will
+  be blocked. (There is no CSP at all right now — see Roadmap, phase 3.)
 - A static build freezes "now" at build time, so a session only stops being
   "upcoming" on the next deploy. Needs a scheduled rebuild (daily cron on the
   host) before launch.
