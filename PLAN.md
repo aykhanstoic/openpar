@@ -217,6 +217,43 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
 - eyp.az registrar access + DNS, production switch, Instagram link-in-bio,
   announce to schools.
 
+## Content inventory (2026-10-01)
+
+Reference: eype.es (ES) and eyp.pt (PT), every page in their nav. Read via a
+fetch tool that summarises pages, so counts ("6 cards") are indicative, not
+DOM-checked. PT privacy/legal links 404'd; ES versions used.
+
+Status of our slots: **Marked** = already shows a visible Placeholder notice or
+placeholder file. **Verify** = our copy states a fact about EYP AZ that nobody
+at the NC has confirmed (not marked, reads as real). **Need** = data or assets
+only the NC can supply.
+
+| Our page | What ES / PT put there | Our slots | Gap / action |
+| --- | --- | --- | --- |
+| Home | Intro + Join card + alumni card + 6 facts (countries, participants, founded, patrons, events/yr, alumni) + 3 latest news | hero, next session, what-is, 4 numbers, news, gallery, two routes, partners | Network numbers (~40, 1987) are real. **Verify** "14–28", "100% volunteer". **Need** AZ's own figures (members, sessions/yr, alumni, students reached). Gallery **Marked**. |
+| What is EYP? | ES "EYP España" / PT "About EYP": 5 "what makes EYP unique" bullets, 4 groups of evaluation stats (citizenship, intercultural dialogue, skills, youth voice) | format (3 phases), 5 roles, eligibility, 3 "what it is not" | Ours is richer on format than either. **Verify** session length/size claims (3–4 days, ~12 per committee, jury at selection sessions) against how AZ really runs. **Need** the impact stats from EYP International's evaluation (both NCs reuse them). |
+| About | "Who we are": vision line, intro, card grid (5–6), then NC page: PT 1989, 100+ events, 100+ members, 6 events/yr, 300 students/yr; ES two offices | mission, 4 values, history, network, governance, documents | History and documents **Marked**. **Verify** "elected Executive Board", "published accounts", Schwarzkopf/Berlin line. **Need** founding year, recognition date, milestone sessions, statutes, annual report, vision sentence. |
+| Boards | ES: core (6) + extended (5) + Board of Patrons; PT: board (9, 1-year terms) + General Assembly board (3, supervisory) + Advisory board (3). Fields: name, role, photo (ES also email) | executive + supervisory; name, role, roleAz, term, email, photo | **Marked**. Schema already fits PT. **Ask the NC which bodies exist**; a patrons/advisory body needs a third `body` value. **Need** names, consent, photos, role emails. We stay role-based emails only (PT publishes personal ones). |
+| Get involved | Hub of 3–4 cards; subpages: young people (join CTA, brochure, 3 reasons, contact person), schools (teacher role, how to apply, contact), partnership (brochure, offers), alumni (register form) | one page: 5-step route, 5 audiences incl. parents, 5 FAQ; alumni page separate | Better than both on minors (neither has a parents route). **Verify** fee, financial support, parental consent, participant pack, named safeguarding contact (all stated as fact). **Need** a join brochure, a student/teacher contact address. |
+| Alumni | ES/PT: one photo, one paragraph, "Register as an Alumni" → external form | 4 ways to help, testimonials, CTA | Testimonials **Marked**. Our CTA is "get back in touch", no register form: **Need** a Google Form for the alumni register, or drop the "register" wording. |
+| Sessions | Category filter (ES: IF / International / NSC; PT: Members' Weekend / NSC / RSC); card = date, title, summary, image; each opens an event page | status, deadline, outreach flag, apply link, resolutions link, cover | **No session detail page exists** (list only; `detailBackLabel`/`aboutThisSession` copy is unused). **No event-type field** (only `outreach`). Decide: add `type` (NSC/RSC/Members' Weekend/International/Outreach) and a detail route. 3 `sample-*` sessions **Marked**. PT's upcoming list was empty at fetch, so our empty state is right. |
+| News | Categories (ES: Messages from our Board, Our Events; PT: Open Calls); load-more; card = image, date, title, excerpt; ES merges Press room into News | tags, session link, lang, excerpt, cover | **No post detail page exists**, so a card has nothing to open. Fix 4 standard tags: Announcement, Open call, Session recap, Message from the board. **Need** 3–5 real posts. Posts **Marked**. |
+| Partners | Logo grid, optional link, grouped informally; offers (#ReachYoungEurope ~100k young people / 500+ events, #ConversationStarter, #YoungThinkTanks); brochure PDF (PT 3 MB, ES 10 MB); PT Outreach Fund | tier, order, 4 offers, brochure slot | Brochure and reach figures **Marked**. **Need** logos with permission and the brochure. PT's Outreach Fund maps onto our outreach sessions: ask whether AZ has one. |
+| Contact | ES: one email + 2 postal addresses + socials. PT: general + 5 role emails + postal address + socials. **Neither has a form** | 5 role emails, socials, disabled form | Emails and form **Marked**. **Need** postal/legal address, real social handles, real role emails. The form is extra data-protection work neither reference carries: recommend mailto only and drop the form. |
+| Privacy | ES 10 sections: who we are, data and why, rights, sharing, retention, security, breaches, children, updates, contact; covers cookies/analytics | 8 skeleton sections | **Marked**. Skeleton lacks security, breaches, policy updates, cookies/analytics. Needs an owner (phase 2). |
+| Legal notice | ES 11 sections: owner (name, tax ID, address, contact), purpose, terms, IP, third-party links, liability, data, cookies, communications, governing law, last update | **missing** | Add a page stub, **Marked**, linked from the footer. Needs the legal entity's details and an owner (phase 2). |
+| FAQ | Own page: what is EYP, sponsored content, 4 volunteer questions, glossary of event types, roles, terms | 5 questions inside Get involved | Keep inside Get involved. Add the abbreviation glossary (NSC, RSC, IS, chair, delegate) to What is EYP?. Add a sponsored-content question when partners go live. |
+
+Neither reference has, but we do: parents route, newsletter, outreach/Google
+Form flow, format detail. Both have, we skip on purpose: site search (static
+site, tiny), Board of Patrons and Universities (ES-only structures), Understanding
+Europe (ES project). Footer has no social links in ours yet; both references do.
+
+Asks for the NC, in priority order: (1) which governing bodies exist and who is
+on them; (2) legal entity name, registration, postal address; (3) AZ numbers and
+founding history; (4) confirm or correct every **Verify** line above; (5) logos,
+partner list, brochure; (6) 3–5 real news posts and the photo set.
+
 ## Build order (proposed)
 
 1. Site shell (header, nav, EN/AZ switcher, footer) + Home
