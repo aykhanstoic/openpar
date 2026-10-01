@@ -423,23 +423,6 @@ export const az: Dict = {
     socialTitle: "Sosial şəbəkələr",
     socialBody:
       "Gündəlik elanların əksəriyyəti əvvəlcə Instagram-da, sonra burada yerləşdirilir.",
-    formTitle: "Mesaj göndərin",
-    formName: "Ad",
-    formEmail: "E-poçt ünvanı",
-    formTopic: "Mövzu nədir?",
-    formMessage: "Mesaj",
-    formConsent:
-      "EYP Azerbaijan-ın mənə cavab vermək üçün bu mesajı saxlamasına və istifadə etməsinə razıyam — məxfilik siyasətində göstərildiyi kimi.",
-    formSubmit: "Mesajı göndər",
-    formTopicApply: "Deleqat kimi müraciət",
-    formTopicSchool: "Autriç sessiyasına ev sahibliyi",
-    formTopicVolunteer: "Könüllülük və ya rəsmi şəxs təlimi",
-    formTopicPartner: "Tərəfdaşlıq və ya maliyyələşdirmə",
-    formTopicPress: "Mətbuat sorğusu",
-    formTopicPrivacy: "Məlumatların qorunması sorğusu",
-    formTopicOther: "Digər",
-    formDisabledNote:
-      "Bu forma hələ heç nəyə qoşulmayıb. Qoşulana qədər yuxarıdakı e-poçt ünvanlarından istifadə edin.",
   },
 
   /* --------------------------------------------------------------- privacy */

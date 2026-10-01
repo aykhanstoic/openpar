@@ -87,6 +87,7 @@ Privacy Policy
 | 2026-09-30 | Editing dashboard = a **git-backed CMS (Sveltia or Decap) at `/admin`** over the existing content files; logins are GitHub accounts, every save is a commit that triggers a rebuild. A custom password-gated dashboard that edits the site is **not** built | It would need a server and our own user store, which the hard constraints rule out. A git-backed CMS gives the same add/edit/delete screens with no backend of ours. Roadmap, not built yet |
 | 2026-09-30 | eype.es (Spain) and eyp.pt (Portugal) are the **reference for what content goes on which page** and what the placeholders should be. Our site need not match them | Riad's call: same network, different NCs — borrow the information architecture, not the look |
 | 2026-09-30 | Team preview lives at https://openpar.vercel.app/en/ | Riad set it up; `eyp.az` comes at launch |
+| 2026-10-01 | **No contact form.** Contact is role-based mailto addresses only | Neither eype.es nor eyp.pt has a form; a form is extra data-protection surface on a site that handles minors' data |
 
 ## Tech stack (confirmed 2026-08-22)
 
@@ -181,8 +182,11 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   `docs/design-reference.md` describe the superseded direction.
 
 **Phase 1 — Make it fillable (before inviting the EYP AZ team)**
-- Content inventory: for each page, list the slots against eype.es and eyp.pt
-  (what goes where, what the placeholder says). Mark every placeholder clearly.
+- Content inventory: done 2026-10-01, see "Content inventory" below.
+- Build the structural gaps it found: session detail route, news post detail
+  route, event `type` field (NSC / RSC / Members' Weekend / International /
+  Outreach), and a marked legal-notice stub linked from the footer. (Contact form
+  removed 2026-10-01, `/contact` is mailto only.)
 - CMS dashboard at `/admin` (Sveltia or Decap) over sessions, news, board and
   partners; decide who gets editor access (GitHub accounts); confirm a save
   triggers a Vercel rebuild.
@@ -195,7 +199,8 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   from minors.
 
 **Phase 3 — Wiring and hardening**
-- Newsletter with double opt-in; contact form on a real service.
+- Newsletter with double opt-in. No contact form: contact is mailto only
+  (decided 2026-10-01).
 - Security that did not survive the merge: CSP (meta now, real headers at deploy
   for `frame-ancestors` + HSTS), referrer policy, `applyUrl` restricted to http(s).
 - Fonts load from Google Fonts (a third-party request); self-host instead.
@@ -225,7 +230,7 @@ DOM-checked. PT privacy/legal links 404'd; ES versions used.
 
 Status of our slots: **Marked** = already shows a visible Placeholder notice or
 placeholder file. **Verify** = our copy states a fact about EYP AZ that nobody
-at the NC has confirmed (not marked, reads as real). **Need** = data or assets
+at the NC has confirmed (not marked, reads as real; these are logged here only, nothing in the UI flags them). **Need** = data or assets
 only the NC can supply.
 
 | Our page | What ES / PT put there | Our slots | Gap / action |
@@ -236,10 +241,10 @@ only the NC can supply.
 | Boards | ES: core (6) + extended (5) + Board of Patrons; PT: board (9, 1-year terms) + General Assembly board (3, supervisory) + Advisory board (3). Fields: name, role, photo (ES also email) | executive + supervisory; name, role, roleAz, term, email, photo | **Marked**. Schema already fits PT. **Ask the NC which bodies exist**; a patrons/advisory body needs a third `body` value. **Need** names, consent, photos, role emails. We stay role-based emails only (PT publishes personal ones). |
 | Get involved | Hub of 3–4 cards; subpages: young people (join CTA, brochure, 3 reasons, contact person), schools (teacher role, how to apply, contact), partnership (brochure, offers), alumni (register form) | one page: 5-step route, 5 audiences incl. parents, 5 FAQ; alumni page separate | Better than both on minors (neither has a parents route). **Verify** fee, financial support, parental consent, participant pack, named safeguarding contact (all stated as fact). **Need** a join brochure, a student/teacher contact address. |
 | Alumni | ES/PT: one photo, one paragraph, "Register as an Alumni" → external form | 4 ways to help, testimonials, CTA | Testimonials **Marked**. Our CTA is "get back in touch", no register form: **Need** a Google Form for the alumni register, or drop the "register" wording. |
-| Sessions | Category filter (ES: IF / International / NSC; PT: Members' Weekend / NSC / RSC); card = date, title, summary, image; each opens an event page | status, deadline, outreach flag, apply link, resolutions link, cover | **No session detail page exists** (list only; `detailBackLabel`/`aboutThisSession` copy is unused). **No event-type field** (only `outreach`). Decide: add `type` (NSC/RSC/Members' Weekend/International/Outreach) and a detail route. 3 `sample-*` sessions **Marked**. PT's upcoming list was empty at fetch, so our empty state is right. |
-| News | Categories (ES: Messages from our Board, Our Events; PT: Open Calls); load-more; card = image, date, title, excerpt; ES merges Press room into News | tags, session link, lang, excerpt, cover | **No post detail page exists**, so a card has nothing to open. Fix 4 standard tags: Announcement, Open call, Session recap, Message from the board. **Need** 3–5 real posts. Posts **Marked**. |
+| Sessions | Category filter (ES: IF / International / NSC; PT: Members' Weekend / NSC / RSC); card = date, title, summary, image; each opens an event page | status, deadline, outreach flag, apply link, resolutions link, cover | **No session detail page exists** (list only; `detailBackLabel`/`aboutThisSession` copy is unused). **No event-type field** (only `outreach`). Decide: add `type` (NSC/RSC/Members' Weekend/International/Outreach) and a detail route. 3 `sample-*` sessions **Marked**. PT's upcoming list was empty at fetch, so our empty state is right. **Detail page slots** (ES A Coruña NSC page): title, date, venue and city, theme, intro, what happens (committee work, resolutions, General Assembly), cover photo, local significance, organisers' statement, purpose, related events. ES shows no apply link or deadline there; ours keeps both (status, deadline, Members Platform or form button) plus `resolutionsUrl` for past sessions. Everything prose goes in the markdown body. |
+| News | Categories (ES: Messages from our Board, Our Events; PT: Open Calls); load-more; card = image, date, title, excerpt; ES merges Press room into News | tags, session link, lang, excerpt, cover | **No post detail page exists**, so a card has nothing to open. Fix 4 standard tags: Announcement, Open call, Session recap, Message from the board. **Need** 3–5 real posts. Posts **Marked**. **Detail page slots** (ES Santander post): title, date, category, cover, subtitle, 3–4 headed sections, an acknowledgments section thanking institutions; no byline, share buttons, or prev/next. Ours adds the related-session link and the one-language note; subtitle = `excerpt`, rest is the markdown body. |
 | Partners | Logo grid, optional link, grouped informally; offers (#ReachYoungEurope ~100k young people / 500+ events, #ConversationStarter, #YoungThinkTanks); brochure PDF (PT 3 MB, ES 10 MB); PT Outreach Fund | tier, order, 4 offers, brochure slot | Brochure and reach figures **Marked**. **Need** logos with permission and the brochure. PT's Outreach Fund maps onto our outreach sessions: ask whether AZ has one. |
-| Contact | ES: one email + 2 postal addresses + socials. PT: general + 5 role emails + postal address + socials. **Neither has a form** | 5 role emails, socials, disabled form | Emails and form **Marked**. **Need** postal/legal address, real social handles, real role emails. The form is extra data-protection work neither reference carries: recommend mailto only and drop the form. |
+| Contact | ES: one email + 2 postal addresses + socials. PT: general + 5 role emails + postal address + socials. **Neither has a form** | 5 role emails, socials (form removed 2026-10-01) | Emails **Marked**. **Need** postal/legal address, real social handles, real role emails. Decided 2026-10-01: drop the form, mailto only (neither reference has one; it is extra data-protection work on a minors site). |
 | Privacy | ES 10 sections: who we are, data and why, rights, sharing, retention, security, breaches, children, updates, contact; covers cookies/analytics | 8 skeleton sections | **Marked**. Skeleton lacks security, breaches, policy updates, cookies/analytics. Needs an owner (phase 2). |
 | Legal notice | ES 11 sections: owner (name, tax ID, address, contact), purpose, terms, IP, third-party links, liability, data, cookies, communications, governing law, last update | **missing** | Add a page stub, **Marked**, linked from the footer. Needs the legal entity's details and an owner (phase 2). |
 | FAQ | Own page: what is EYP, sponsored content, 4 volunteer questions, glossary of event types, roles, terms | 5 questions inside Get involved | Keep inside Get involved. Add the abbreviation glossary (NSC, RSC, IS, chair, delegate) to What is EYP?. Add a sponsored-content question when partners go live. |

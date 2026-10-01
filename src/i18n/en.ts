@@ -394,23 +394,6 @@ export const en = {
     privacyLabel: "Data protection",
     socialTitle: "Social",
     socialBody: "Most day-to-day announcements go out on Instagram first, then here.",
-    formTitle: "Send a message",
-    formName: "Name",
-    formEmail: "Email address",
-    formTopic: "What is this about?",
-    formMessage: "Message",
-    formConsent:
-      "I agree that EYP Azerbaijan may store and use this message in order to reply to me, as described in the privacy policy.",
-    formSubmit: "Send message",
-    formTopicApply: "Applying as a delegate",
-    formTopicSchool: "Hosting an outreach session",
-    formTopicVolunteer: "Volunteering or officials' training",
-    formTopicPartner: "Partnership or funding",
-    formTopicPress: "Press enquiry",
-    formTopicPrivacy: "Data protection request",
-    formTopicOther: "Something else",
-    formDisabledNote:
-      "This form is not connected to anything yet. Until it is, please use the email addresses above.",
   },
 
   /* --------------------------------------------------------------- privacy */
