@@ -9,6 +9,8 @@ backend:
 
 site_url: https://eyp.az
 publish_mode: simple
+output:
+  omit_empty_optional_fields: true
 locale: en
 
 media_folder: /src/assets/uploads

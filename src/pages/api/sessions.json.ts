@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { jsonResponse } from "../../i18n/pages";
+import { currentStatus } from "../../lib/sessions";
 
 /** GET /api/sessions.json — every published session, soonest first. */
 export const GET: APIRoute = async ({ site }) => {
@@ -17,7 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
       city: data.city ?? null,
       startDate: data.startDate.toISOString().slice(0, 10),
       endDate: data.endDate.toISOString().slice(0, 10),
-      status: data.status,
+      status: currentStatus(data),
       type: data.type ?? null,
       outreach: data.outreach,
       applyDeadline: data.applyDeadline?.toISOString().slice(0, 10) ?? null,

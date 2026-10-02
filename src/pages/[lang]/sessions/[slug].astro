@@ -10,6 +10,7 @@ import {
   locales,
   type Locale,
 } from "../../../i18n/ui";
+import { currentStatus } from "../../../lib/sessions";
 
 export async function getStaticPaths() {
   const sessions = await getCollection("sessions", ({ data }) => !data.draft);
@@ -22,6 +23,7 @@ const locale = Astro.params.lang as Locale;
 const { session } = Astro.props;
 const t = useTranslations(locale);
 const d = session.data;
+const status = currentStatus(d);
 const { Content } = await render(session);
 
 const badgeClass = {
@@ -29,10 +31,10 @@ const badgeClass = {
   "call-open": "badge-open",
   "call-closed": "badge-closed",
   completed: "badge-done",
-}[d.status];
+}[status];
 
 const applyLabel = d.outreach ? t.common.applyGoogleForm : t.common.applyMembersPlatform;
-const canApply = d.status === "call-open" && Boolean(d.applyUrl);
+const canApply = status === "call-open" && Boolean(d.applyUrl);
 ---
 
 <Base locale={locale} title={d.title} description={d.summary ?? d.theme}>
@@ -54,7 +56,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
 
       <aside class="card p-6">
         <div class="mb-4 flex flex-wrap items-center gap-2">
-          <span class:list={["badge", badgeClass]}>{t.status[d.status]}</span>
+          <span class:list={["badge", badgeClass]}>{t.status[status]}</span>
           {d.type && <span class="badge badge-done">{t.sessions.types[d.type]}</span>}
           {d.outreach && <span class="badge badge-outreach">{t.sessions.outreachLabel}</span>}
         </div>
@@ -69,7 +71,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
             <dd>{d.city ? `${d.venue}, ${d.city}` : d.venue}</dd>
           </div>
           {
-            d.applyDeadline && d.status === "call-open" && (
+            d.applyDeadline && status === "call-open" && (
               <div class="flex gap-2">
                 <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.deadline}</dt>
                 <dd class="font-semibold text-deep">{formatDate(d.applyDeadline, locale)}</dd>
@@ -84,7 +86,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
               <a href={d.applyUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
                 {applyLabel}
               </a>
-            ) : d.status === "call-closed" ? (
+            ) : status === "call-closed" ? (
               <span class="text-[0.85rem] text-ink-muted">{t.common.applicationsClosed}</span>
             ) : null
           }

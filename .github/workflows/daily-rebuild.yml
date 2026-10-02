@@ -1,0 +1,19 @@
+# The site is static, so "applications close on <deadline>" only takes effect
+# when it is rebuilt. This pings the Vercel deploy hook shortly after UTC
+# midnight, which is when a deadline day ends. Scheduled workflows only run
+# from the default branch.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "5 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$HOOK"

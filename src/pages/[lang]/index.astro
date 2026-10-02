@@ -6,6 +6,7 @@ import NewsCard from "../../components/NewsCard.astro";
 import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+import { currentStatus } from "../../lib/sessions";
 
 export { getStaticPaths } from "../../i18n/paths";
 
@@ -17,8 +18,8 @@ const t = useTranslations(locale);
 const now = new Date();
 const upcoming = (await getCollection("sessions", ({ data }) => !data.draft && data.endDate >= now))
   .sort((a, b) => {
-    const openA = a.data.status === "call-open" ? 0 : 1;
-    const openB = b.data.status === "call-open" ? 0 : 1;
+    const openA = currentStatus(a.data, now) === "call-open" ? 0 : 1;
+    const openB = currentStatus(b.data, now) === "call-open" ? 0 : 1;
     return openA - openB || a.data.startDate.valueOf() - b.data.startDate.valueOf();
   });
 const nextSession = upcoming[0];

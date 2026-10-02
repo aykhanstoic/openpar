@@ -4,6 +4,7 @@ import Base from "../../../layouts/Base.astro";
 import PageHero from "../../../components/PageHero.astro";
 import SessionCard from "../../../components/SessionCard.astro";
 import { useTranslations, type Locale } from "../../../i18n/ui";
+import { currentStatus } from "../../../lib/sessions";
 
 export { getStaticPaths } from "../../../i18n/paths";
 
@@ -19,8 +20,8 @@ const now = new Date();
 const upcoming = all
   .filter((s) => s.data.endDate >= now)
   .sort((a, b) => {
-    const openA = a.data.status === "call-open" ? 0 : 1;
-    const openB = b.data.status === "call-open" ? 0 : 1;
+    const openA = currentStatus(a.data, now) === "call-open" ? 0 : 1;
+    const openB = currentStatus(b.data, now) === "call-open" ? 0 : 1;
     return openA - openB || a.data.startDate.valueOf() - b.data.startDate.valueOf();
   });
 

@@ -206,13 +206,23 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
 **Phase 3 — Wiring and hardening**
 - Newsletter with double opt-in. No contact form: contact is mailto only
   (decided 2026-10-01).
-- Security that did not survive the merge: CSP (meta now, real headers at deploy
-  for `frame-ancestors` + HSTS), referrer policy, `applyUrl` restricted to http(s).
+- Done 2026-10-02 (uncommitted): CSP and `Referrer-Policy` as real response headers
+  in `vercel.json` (strict policy for the site, a separate one for `/admin`);
+  `applyUrl`, `resolutionsUrl` and partner `url` are https-only in the schema.
+  Crawled all pages under the site CSP with zero violations. The CSP forces
+  external scripts and stylesheets (`assetsInlineLimit`, `inlineStylesheets` in
+  `astro.config.mjs`) and allows Google Fonts. Not done: HSTS; the GitHub
+  sign-in and API calls under the `/admin` CSP are untested (only the
+  local-repo flow was).
 - Fonts load from Google Fonts (a third-party request); self-host instead.
-- Daily scheduled rebuild so finished sessions stop showing as upcoming, **plus**
-  a deadline/end-date check in `SessionCard.astro` (`canApply` ignores
-  `applyDeadline` today, so "Apply" stays live after the deadline). A build-time
-  check only works together with the daily rebuild. Dates are UTC midnight, so a
+- Done 2026-10-02 (uncommitted): `currentStatus()` in `src/lib/sessions.ts` turns a
+  call-open session into call-closed once its deadline day (UTC) is over, used by
+  the cards, detail page, home/sessions sorting and `/api/sessions.json`.
+  `.github/workflows/daily-rebuild.yml` pings a Vercel deploy hook at 00:05 UTC.
+  **Still to set up:** create the deploy hook in Vercel for the production
+  branch, add it as the `VERCEL_DEPLOY_HOOK` repo secret, and get the workflow
+  onto `main` (scheduled workflows only run from the default branch). A
+  build-time check only works together with the daily rebuild. Dates are UTC midnight, so a
   session moves to "past" at 04:00 Baku time on its last day.
 - From the 2026-09-30 code review, not fixed yet: `sessions.lang` is never read
   (an `az`-only session still shows on `/en/`); the date formatters in
@@ -285,7 +295,7 @@ partner list, brochure; (6) 3–5 real news posts and the photo set.
   real response headers, added in the host config at deploy time.
 - `form-action 'self'` in the CSP must gain the newsletter provider's origin
   when the newsletter form is wired to a provider, or the subscribe POST will
-  be blocked. (There is no CSP at all right now — see Roadmap, phase 3.)
+  be blocked. (The CSP lives in `vercel.json`.)
 - A static build freezes "now" at build time, so a session only stops being
   "upcoming" on the next deploy. Needs a scheduled rebuild (daily cron on the
   host) before launch.

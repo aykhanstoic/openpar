@@ -1,6 +1,12 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+/** z.string().url() also accepts javascript: and data: URLs; links here are rendered as hrefs. */
+const httpsUrl = z
+  .string()
+  .url()
+  .refine((u) => new URL(u).protocol === "https:", { message: "Must be an https:// link" });
+
 /**
  * Content collections are the "dashboard" from the plan: board members add a
  * markdown file, and the site picks it up. No CMS to license, no database to
@@ -36,9 +42,9 @@ const sessions = defineCollection({
         /** What kind of session this is. Outreach is the separate flag below. */
         type: z.enum(["nsc", "rsc", "members-weekend", "international", "training", "other"]).optional(),
         outreach: z.boolean().default(false),
-        applyUrl: z.string().url().optional(),
+        applyUrl: httpsUrl.optional(),
         /** Published resolutions booklet, for completed sessions. */
-        resolutionsUrl: z.string().url().optional(),
+        resolutionsUrl: httpsUrl.optional(),
         cover: image().optional(),
         lang: z.enum(["en", "az", "both"]).default("both"),
         draft: z.boolean().default(false),
@@ -94,7 +100,7 @@ const partners = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      url: z.string().url().optional(),
+      url: httpsUrl.optional(),
       logo: image().optional(),
       tier: z.enum(["principal", "supporting", "in-kind"]).default("supporting"),
       order: z.number().default(50),
