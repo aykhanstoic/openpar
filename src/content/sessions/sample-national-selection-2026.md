@@ -9,6 +9,7 @@ endDate: 2026-12-14
 status: "call-open"
 applyDeadline: 2026-11-20
 applyUrl: "https://members.eyp.org/"
+type: "nsc"
 outreach: false
 ---
 

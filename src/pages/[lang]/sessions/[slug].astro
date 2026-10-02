@@ -1,0 +1,106 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import PageHero from "../../../components/PageHero.astro";
+import {
+  useTranslations,
+  localePath,
+  formatDateRange,
+  formatDate,
+  locales,
+  type Locale,
+} from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const sessions = await getCollection("sessions", ({ data }) => !data.draft);
+  return locales.flatMap((lang) =>
+    sessions.map((session) => ({ params: { lang, slug: session.id }, props: { session } })),
+  );
+}
+
+const locale = Astro.params.lang as Locale;
+const { session } = Astro.props;
+const t = useTranslations(locale);
+const d = session.data;
+const { Content } = await render(session);
+
+const badgeClass = {
+  announced: "badge-announced",
+  "call-open": "badge-open",
+  "call-closed": "badge-closed",
+  completed: "badge-done",
+}[d.status];
+
+const applyLabel = d.outreach ? t.common.applyGoogleForm : t.common.applyMembersPlatform;
+const canApply = d.status === "call-open" && Boolean(d.applyUrl);
+---
+
+<Base locale={locale} title={d.title} description={d.summary ?? d.theme}>
+  <PageHero
+    locale={locale}
+    title={d.title}
+    lead={d.theme}
+    parent={{ label: t.nav.sessions, path: "sessions" }}
+  />
+
+  <section class="section">
+    <div class="wrap grid gap-12 lg:grid-cols-[1.4fr_0.8fr] lg:items-start">
+      <div>
+        <h2 class="text-h2">{t.sessions.aboutThisSession}</h2>
+        <div class="prose-eyp mt-6">
+          <Content />
+        </div>
+      </div>
+
+      <aside class="card p-6">
+        <div class="mb-4 flex flex-wrap items-center gap-2">
+          <span class:list={["badge", badgeClass]}>{t.status[d.status]}</span>
+          {d.type && <span class="badge badge-done">{t.sessions.types[d.type]}</span>}
+          {d.outreach && <span class="badge badge-outreach">{t.sessions.outreachLabel}</span>}
+        </div>
+
+        <dl class="grid gap-2 text-[0.95rem]">
+          <div class="flex gap-2">
+            <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.dates}</dt>
+            <dd>{formatDateRange(d.startDate, d.endDate, locale)}</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.venue}</dt>
+            <dd>{d.city ? `${d.venue}, ${d.city}` : d.venue}</dd>
+          </div>
+          {
+            d.applyDeadline && d.status === "call-open" && (
+              <div class="flex gap-2">
+                <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.deadline}</dt>
+                <dd class="font-semibold text-deep">{formatDate(d.applyDeadline, locale)}</dd>
+              </div>
+            )
+          }
+        </dl>
+
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          {
+            canApply ? (
+              <a href={d.applyUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                {applyLabel}
+              </a>
+            ) : d.status === "call-closed" ? (
+              <span class="text-[0.85rem] text-ink-muted">{t.common.applicationsClosed}</span>
+            ) : null
+          }
+          {
+            d.resolutionsUrl && (
+              <a href={d.resolutionsUrl} target="_blank" rel="noopener noreferrer" class="link-arrow">
+                {t.sessions.resolutions}
+              </a>
+            )
+          }
+        </div>
+
+        <a href={localePath(locale, "sessions")} class="link-arrow mt-6">
+          {t.sessions.detailBackLabel}
+        </a>
+      </aside>
+    </div>
+  </section>
+</Base>

@@ -12,7 +12,7 @@ interface Props {
 const { locale, body, emptyMessage } = Astro.props;
 const t = useTranslations(locale);
 
-const members = (await getCollection("board", (entry) => entry.data.body === body)).sort(
+const members = (await getCollection("board", (entry) => entry.data.group === body)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 

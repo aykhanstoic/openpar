@@ -30,6 +30,7 @@ export function pagesFor(t: Dict): PageMeta[] {
     { slug: "partners", path: "partners", title: t.partners.title, description: t.partners.lead },
     { slug: "contact", path: "contact", title: t.contact.title, description: t.contact.lead },
     { slug: "privacy", path: "privacy", title: t.privacy.title, description: t.privacy.lead },
+    { slug: "legal", path: "legal", title: t.legal.title, description: t.legal.lead },
   ];
 }
 

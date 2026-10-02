@@ -1,0 +1,69 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import PageHero from "../../../components/PageHero.astro";
+import { useTranslations, localePath, formatDate, locales, type Locale } from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("news", ({ data }) => !data.draft);
+  return locales.flatMap((lang) =>
+    posts.map((post) => ({ params: { lang, slug: post.id }, props: { post } })),
+  );
+}
+
+const locale = Astro.params.lang as Locale;
+const { post } = Astro.props;
+const t = useTranslations(locale);
+const d = post.data;
+const { Content } = await render(post);
+
+const session = d.session ? await getEntry(d.session) : undefined;
+const relatedSession = session && !session.data.draft ? session : undefined;
+const isForeign = d.lang !== locale;
+---
+
+<Base locale={locale} title={d.title} description={d.excerpt ?? t.news.lead}>
+  <PageHero
+    locale={locale}
+    title={d.title}
+    lead={d.excerpt}
+    parent={{ label: t.nav.news, path: "news" }}
+  />
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="flex flex-wrap items-center gap-2 text-[0.95rem] text-ink-muted">
+        <time datetime={d.date.toISOString()}>{formatDate(d.date, locale)}</time>
+        {
+          isForeign && (
+            <span class="badge badge-closed" lang={d.lang}>
+              {d.lang.toUpperCase()}
+            </span>
+          )
+        }
+        {d.tags.map((tag) => <span class="badge badge-announced">{tag}</span>)}
+      </div>
+
+      {isForeign && <p class="todo mt-6">{t.news.otherLanguageNote}</p>}
+
+      <div class="prose-eyp mt-8" lang={d.lang}>
+        <Content />
+      </div>
+
+      {
+        relatedSession && (
+          <p class="mt-10 text-[1rem]">
+            <span class="font-semibold">{t.news.relatedSession}:</span>{" "}
+            <a href={localePath(locale, `sessions/${relatedSession.id}`)} class="text-deep hover:underline">
+              {relatedSession.data.title}
+            </a>
+          </p>
+        )
+      }
+
+      <a href={localePath(locale, "news")} class="link-arrow mt-8">
+        {t.news.backLabel}
+      </a>
+    </div>
+  </section>
+</Base>

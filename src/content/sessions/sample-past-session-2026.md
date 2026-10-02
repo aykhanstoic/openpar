@@ -7,6 +7,7 @@ city: "Baku"
 startDate: 2026-03-13
 endDate: 2026-03-15
 status: "completed"
+type: "members-weekend"
 outreach: false
 ---
 

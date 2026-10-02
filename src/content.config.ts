@@ -33,6 +33,8 @@ const sessions = defineCollection({
         status: z.enum(["announced", "call-open", "call-closed", "completed"]),
         /** Application deadline. Only meaningful while status is call-open. */
         applyDeadline: z.coerce.date().optional(),
+        /** What kind of session this is. Outreach is the separate flag below. */
+        type: z.enum(["nsc", "rsc", "members-weekend", "international", "training", "other"]).optional(),
         outreach: z.boolean().default(false),
         applyUrl: z.string().url().optional(),
         /** Published resolutions booklet, for completed sessions. */
@@ -77,7 +79,7 @@ const board = defineCollection({
       name: z.string(),
       role: z.string(),
       roleAz: z.string().optional(),
-      body: z.enum(["executive", "supervisory"]),
+      group: z.enum(["executive", "supervisory"]),
       order: z.number(),
       /** Role-based addresses only — never a volunteer's personal address. */
       email: z.string().email().optional(),

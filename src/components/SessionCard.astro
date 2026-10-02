@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { useTranslations, formatDateRange, formatDayMonth, formatDate, type Locale } from "../i18n/ui";
+import { useTranslations, localePath, formatDateRange, formatDayMonth, formatDate, type Locale } from "../i18n/ui";
 
 interface Props {
   session: CollectionEntry<"sessions">;
@@ -13,6 +13,7 @@ const { session, locale, featured = false } = Astro.props;
 const t = useTranslations(locale);
 const d = session.data;
 
+const detailHref = localePath(locale, `sessions/${session.id}`);
 const chip = formatDayMonth(d.startDate, locale);
 
 const badgeClass = {
@@ -33,6 +34,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
     <!-- Badges -->
     <div class="mb-4 flex flex-wrap items-center gap-2">
       <span class:list={["badge", badgeClass]}>{t.status[d.status]}</span>
+      {d.type && <span class="badge badge-done">{t.sessions.types[d.type]}</span>}
       {d.outreach && <span class="badge badge-outreach">{t.sessions.outreachLabel}</span>}
     </div>
 
@@ -48,7 +50,7 @@ const canApply = d.status === "call-open" && Boolean(d.applyUrl);
 
       <div class="min-w-0">
         <h3 class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.35rem]"]}>
-          {d.title}
+          <a href={detailHref} class="hover:underline">{d.title}</a>
         </h3>
         <p class="mt-1.5 text-ink-muted">{d.theme}</p>
       </div>

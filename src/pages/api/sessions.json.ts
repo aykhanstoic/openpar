@@ -18,6 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
       startDate: data.startDate.toISOString().slice(0, 10),
       endDate: data.endDate.toISOString().slice(0, 10),
       status: data.status,
+      type: data.type ?? null,
       outreach: data.outreach,
       applyDeadline: data.applyDeadline?.toISOString().slice(0, 10) ?? null,
       applyUrl: data.applyUrl ?? null,

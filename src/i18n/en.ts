@@ -25,6 +25,7 @@ export const en = {
     partners: "Partners",
     contact: "Contact",
     privacy: "Privacy",
+    legal: "Legal notice",
     menu: "Menu",
     close: "Close",
     skipToContent: "Skip to content",
@@ -324,6 +325,15 @@ export const en = {
       "Outreach sessions are run in schools and regions outside the usual session circuit. Delegates cannot apply through the Members Platform, so these use a direct form.",
     detailBackLabel: "All sessions",
     aboutThisSession: "About this session",
+    resolutions: "Resolutions booklet",
+    types: {
+      nsc: "National Selection Conference",
+      rsc: "Regional Selection Conference",
+      "members-weekend": "Members' Weekend",
+      international: "International event",
+      training: "Training",
+      other: "Other",
+    },
   },
 
   /* ------------------------------------------------------------------ news */
@@ -332,6 +342,7 @@ export const en = {
     lead: "Session recaps, open calls, member spotlights and announcements.",
     empty: "No posts have been published yet.",
     relatedSession: "Related session",
+    backLabel: "All news",
     publishedOn: "Published",
     otherLanguageNote:
       "Some posts are published in one language only. Those are shown here in the language they were written in.",
@@ -422,6 +433,28 @@ export const en = {
       "Additional protections for participants under 18, how parental consent is recorded, and the named safeguarding contact.",
     s8Title: "Contact",
     s8Body: "The address for data protection requests, and the response time.",
+  },
+
+  /* ----------------------------------------------------------------- legal */
+  legal: {
+    title: "Legal notice",
+    lead: "Who owns this website and the terms for using it.",
+    warningTitle: "This notice is not written yet",
+    warningBody:
+      "The text below is a skeleton showing the sections a real legal notice needs. It has no legal force. The legal entity's details and a legal review are needed before launch.",
+    sections: [
+      { title: "Website owner", body: "Legal name, legal form, registration number, tax ID, registered address and contact email of the organisation that owns this website." },
+      { title: "Purpose of the website", body: "What the site is for: information about EYP Azerbaijan, its sessions and how to apply." },
+      { title: "Terms of use", body: "The rules for using the site." },
+      { title: "Intellectual property", body: "Who owns the text, logos and photographs, and what may be reused." },
+      { title: "Third-party links", body: "Responsibility for external sites this one links to, including the Members Platform and Google Forms." },
+      { title: "Liability", body: "The limits of the organisation's liability for the content and availability of the site." },
+      { title: "Personal data", body: "A pointer to the privacy policy." },
+      { title: "Cookies", body: "Which cookies and analytics the site uses, if any." },
+      { title: "Communications", body: "How the organisation contacts users, and how to opt out." },
+      { title: "Applicable law and jurisdiction", body: "Which law applies and which courts have jurisdiction." },
+      { title: "Last update", body: "The date the notice was last revised." },
+    ],
   },
 
   /* ---------------------------------------------------------------- footer */

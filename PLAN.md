@@ -183,13 +183,18 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
 
 **Phase 1 — Make it fillable (before inviting the EYP AZ team)**
 - Content inventory: done 2026-10-01, see "Content inventory" below.
-- Build the structural gaps it found: session detail route, news post detail
+- Done 2026-10-01 (uncommitted, build + link crawl clean, checked in a browser at 390px, EN + AZ): the structural gaps it found: session detail route, news post detail
   route, event `type` field (NSC / RSC / Members' Weekend / International /
   Outreach), and a marked legal-notice stub linked from the footer. (Contact form
   removed 2026-10-01, `/contact` is mailto only.)
-- CMS dashboard at `/admin` (Sveltia or Decap) over sessions, news, board and
-  partners; decide who gets editor access (GitHub accounts); confirm a save
-  triggers a Vercel rebuild.
+- CMS dashboard at `/admin`: Sveltia CMS 0.227.1 built over sessions, news,
+  board and partners (`public/admin/`, GitHub backend, repo `aykhanstoic/openpar`,
+  branch `dev`). The login screen loads; collections not yet exercised with a real
+  sign-in. Still open: editors must be repo collaborators with write access and
+  sign in with a GitHub access token; confirm a save triggers a Vercel rebuild.
+  Board schema field `body` renamed `group` (the CMS reserves `body` for the
+  markdown text). News tags are the standard English set only (Announcement,
+  Open call, Session recap, Message from the board), no Azerbaijani labels.
 - Gather from the NC: board names + consent, 3–5 real news posts, partners,
   photos (50–80, consent for minors). Look at how other NCs post photos.
 

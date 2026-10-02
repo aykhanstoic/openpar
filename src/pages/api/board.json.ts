@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ site }) => {
       name: data.name,
       role: data.role,
       roleAz: data.roleAz ?? null,
-      body: data.body,
+      body: data.group,
       email: data.email ?? null,
       term: data.term ?? null,
     }));

@@ -9,6 +9,7 @@ endDate: 2026-11-08
 status: "call-open"
 applyDeadline: 2026-10-15
 applyUrl: "https://docs.google.com/forms/"
+type: "rsc"
 outreach: true
 ---
 

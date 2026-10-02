@@ -2,7 +2,7 @@
 name: "Name Surname"
 role: "President"
 roleAz: "Sədr"
-body: "executive"
+group: "executive"
 order: 1
 email: "president@example.org"
 ---

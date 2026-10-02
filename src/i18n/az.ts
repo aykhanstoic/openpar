@@ -31,6 +31,7 @@ export const az: Dict = {
     partners: "Tərəfdaşlar",
     contact: "Əlaqə",
     privacy: "Məxfilik",
+    legal: "Hüquqi bildiriş",
     menu: "Menyu",
     close: "Bağla",
     skipToContent: "Əsas məzmuna keç",
@@ -341,6 +342,15 @@ export const az: Dict = {
       "Autriç sessiyaları adi sessiya dövriyyəsindən kənarda — məktəblərdə və regionlarda keçirilir. Deleqatlar Members Platform vasitəsilə müraciət edə bilmədiyi üçün burada birbaşa formadan istifadə olunur.",
     detailBackLabel: "Bütün sessiyalar",
     aboutThisSession: "Bu sessiya haqqında",
+    resolutions: "Qətnamələr kitabçası",
+    types: {
+      nsc: "Milli Seçim Konfransı",
+      rsc: "Regional Seçim Konfransı",
+      "members-weekend": "Üzvlərin həftəsonu",
+      international: "Beynəlxalq tədbir",
+      training: "Təlim",
+      other: "Digər",
+    },
   },
 
   /* ------------------------------------------------------------------ news */
@@ -349,6 +359,7 @@ export const az: Dict = {
     lead: "Sessiya hesabatları, açıq çağırışlar, üzv təqdimatları və elanlar.",
     empty: "Hələ yazı dərc olunmayıb.",
     relatedSession: "Əlaqəli sessiya",
+    backLabel: "Bütün xəbərlər",
     publishedOn: "Dərc olunub",
     otherLanguageNote:
       "Bəzi yazılar yalnız bir dildə dərc olunur. Onlar burada yazıldıqları dildə göstərilir.",
@@ -455,6 +466,28 @@ export const az: Dict = {
       "18 yaşdan kiçik iştirakçılar üçün əlavə qorunma tədbirləri, valideyn razılığının necə qeydə alınması və təhlükəsizlik üzrə məsul şəxs.",
     s8Title: "Əlaqə",
     s8Body: "Məlumatların qorunması sorğuları üçün ünvan və cavab müddəti.",
+  },
+
+  /* ----------------------------------------------------------------- legal */
+  legal: {
+    title: "Hüquqi bildiriş",
+    lead: "Bu saytın sahibi kimdir və saytdan istifadənin şərtləri hansılardır.",
+    warningTitle: "Bu bildiriş hələ yazılmayıb",
+    warningBody:
+      "Aşağıdakı mətn real hüquqi bildirişin ehtiva etməli olduğu bölmələri göstərən skeletdir. Hüquqi qüvvəsi yoxdur. Sayt açılmazdan əvvəl hüquqi şəxsin rekvizitləri və hüquqi yoxlama lazımdır.",
+    sections: [
+      { title: "Saytın sahibi", body: "Bu saytın sahibi olan təşkilatın hüquqi adı, hüquqi forması, qeydiyyat və vergi nömrəsi, hüquqi ünvanı və əlaqə e-poçtu." },
+      { title: "Saytın məqsədi", body: "Saytın nə üçün mövcud olduğu: EYP Azerbaijan, sessiyalar və müraciət qaydası haqqında məlumat." },
+      { title: "İstifadə şərtləri", body: "Saytdan istifadə qaydaları." },
+      { title: "Əqli mülkiyyət", body: "Mətnlərin, loqotiplərin və fotoların kimə məxsus olduğu və nələrdən təkrar istifadə oluna biləcəyi." },
+      { title: "Üçüncü tərəf keçidləri", body: "Saytın keçid verdiyi xarici saytlar, o cümlədən Members Platform və Google Forms üzrə məsuliyyət." },
+      { title: "Məsuliyyət", body: "Təşkilatın saytın məzmununa və əlçatanlığına görə məsuliyyətinin hədləri." },
+      { title: "Şəxsi məlumatlar", body: "Məxfilik siyasətinə istinad." },
+      { title: "Kukilər", body: "Saytın hansı kukilərdən və analitikadan istifadə etdiyi, əgər istifadə edirsə." },
+      { title: "Əlaqə və bildirişlər", body: "Təşkilatın istifadəçilərlə necə əlaqə saxladığı və abunəlikdən necə çıxmaq olar." },
+      { title: "Tətbiq olunan hüquq və yurisdiksiya", body: "Hansı hüququn tətbiq olunduğu və hansı məhkəmələrin yurisdiksiyası." },
+      { title: "Son yenilənmə", body: "Bildirişin sonuncu dəfə yenidən baxıldığı tarix." },
+    ],
   },
 
   /* ---------------------------------------------------------------- footer */

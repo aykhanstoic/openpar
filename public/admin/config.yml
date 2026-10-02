@@ -1,0 +1,167 @@
+# Sveltia CMS over the Astro content collections (src/content.config.ts).
+# Every save is a commit to `branch`; the host rebuilds the site from it.
+# Keep field names and enums in step with the zod schemas in content.config.ts.
+
+backend:
+  name: github
+  repo: aykhanstoic/openpar
+  branch: dev
+
+site_url: https://eyp.az
+publish_mode: simple
+locale: en
+
+media_folder: /src/assets/uploads
+public_folder: /src/assets/uploads
+
+collections:
+  - name: sessions
+    label: Sessions
+    label_singular: Session
+    folder: src/content/sessions
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    media_folder: /src/assets/sessions
+    public_folder: /src/assets/sessions
+    summary: "{{title}} — {{status}}"
+    sortable_fields: [startDate, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: theme, label: Theme, widget: string }
+      - { name: summary, label: Card summary, widget: text, required: false, hint: "One or two sentences. Falls back to the theme." }
+      - { name: venue, label: Venue, widget: string }
+      - { name: city, label: City, widget: string, required: false }
+      - { name: startDate, label: Start date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { name: endDate, label: End date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - name: status
+        label: Status
+        widget: select
+        options:
+          - { label: Announced, value: announced }
+          - { label: Call open, value: call-open }
+          - { label: Call closed, value: call-closed }
+          - { label: Completed, value: completed }
+        hint: "Call open needs an apply link."
+      - { name: applyDeadline, label: Application deadline, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - name: type
+        label: Type
+        widget: select
+        required: false
+        options:
+          - { label: National Selection Conference, value: nsc }
+          - { label: Regional Selection Conference, value: rsc }
+          - { label: Members' Weekend, value: members-weekend }
+          - { label: International Session, value: international }
+          - { label: Training, value: training }
+          - { label: Other, value: other }
+      - { name: outreach, label: Outreach session (applications via Google Form), widget: boolean, default: false }
+      - { name: applyUrl, label: Apply link, widget: string, required: false, pattern: ["^https://.+", "Must start with https://"] }
+      - { name: resolutionsUrl, label: Resolutions booklet link, widget: string, required: false, pattern: ["^https://.+", "Must start with https://"] }
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - name: lang
+        label: Language
+        widget: select
+        default: both
+        options:
+          - { label: Both, value: both }
+          - { label: English, value: en }
+          - { label: Azerbaijani, value: az }
+      - { name: draft, label: Draft (hidden from the site), widget: boolean, default: false }
+      - { name: body, label: Description, widget: markdown }
+
+  - name: news
+    label: News
+    label_singular: Post
+    folder: src/content/news
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    media_folder: /src/assets/news
+    public_folder: /src/assets/news
+    summary: "{{title}} ({{lang}})"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - name: lang
+        label: Language of this post
+        widget: select
+        options:
+          - { label: English, value: en }
+          - { label: Azerbaijani, value: az }
+      - { name: excerpt, label: Excerpt, widget: text, required: false }
+      - name: session
+        label: Related session
+        widget: relation
+        collection: sessions
+        search_fields: [title]
+        value_field: "{{slug}}"
+        display_fields: [title]
+        required: false
+      - name: tags
+        label: Tags
+        widget: select
+        multiple: true
+        required: false
+        options: [Announcement, Open call, Session recap, Message from the board]
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - { name: draft, label: Draft (hidden from the site), widget: boolean, default: false }
+      - { name: body, label: Body, widget: markdown }
+
+  - name: board
+    label: Board
+    label_singular: Board member
+    folder: src/content/board
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    media_folder: /src/assets/board
+    public_folder: /src/assets/board
+    summary: "{{name}} — {{role}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: Role (English), widget: string }
+      - { name: roleAz, label: Role (Azerbaijani), widget: string, required: false }
+      - name: group
+        label: Board
+        widget: select
+        options:
+          - { label: Executive, value: executive }
+          - { label: Supervisory, value: supervisory }
+      - { name: order, label: Display order (1 = first), widget: number, value_type: int, min: 1 }
+      - { name: email, label: Role-based email, widget: string, required: false, hint: "Role address only (president@…), never a personal one." }
+      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: term, label: Term, widget: string, required: false }
+      - { name: body, label: Bio, widget: markdown, required: false }
+
+  - name: partners
+    label: Partners
+    label_singular: Partner
+    folder: src/content/partners
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    media_folder: /src/assets/partners
+    public_folder: /src/assets/partners
+    summary: "{{name}} ({{tier}})"
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: url, label: Website, widget: string, required: false, pattern: ["^https://.+", "Must start with https://"] }
+      - { name: logo, label: Logo, widget: image, required: false }
+      - name: tier
+        label: Tier
+        widget: select
+        default: supporting
+        options:
+          - { label: Principal, value: principal }
+          - { label: Supporting, value: supporting }
+          - { label: In-kind, value: in-kind }
+      - { name: order, label: Display order (lower = first), widget: number, value_type: int, default: 50 }
+      - { name: body, label: Notes, widget: markdown, required: false }
