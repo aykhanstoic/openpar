@@ -13,11 +13,17 @@ const c = t.contact;
    role-based addresses (info@eyp.az, board@eyp.az, ...) once the domain's
    mail is set up. */
 const contacts = [
-  { label: c.generalLabel, email: "info@example.org" },
-  { label: c.schoolsLabel, email: "schools@example.org" },
-  { label: c.boardLabel, email: "board@example.org" },
-  { label: c.pressLabel, email: "press@example.org" },
-  { label: c.privacyLabel, email: "privacy@example.org" },
+  { label: c.generalLabel, body: c.generalBody, email: "info@example.org" },
+  { label: c.schoolsLabel, body: c.schoolsBody, email: "schools@example.org" },
+  { label: c.boardLabel, body: c.boardBody, email: "board@example.org" },
+  { label: c.pressLabel, body: c.pressBody, email: "press@example.org" },
+  { label: c.privacyLabel, body: c.privacyBody, email: "privacy@example.org" },
+];
+
+const before = [
+  { label: c.beforeWhat, path: "what-is-eyp" },
+  { label: c.beforeParticipate, path: "participate" },
+  { label: c.beforeSessions, path: "sessions" },
 ];
 ---
 
@@ -25,41 +31,64 @@ const contacts = [
   <PageHero locale={locale} title={c.title} lead={c.lead} />
 
   <section class="section">
-    <div class="wrap">
-      <div class="card max-w-xl p-8">
-        <h2 class="font-display text-[1.2rem] font-bold">{c.directTitle}</h2>
+    <div class="wrap grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+      <!-- Topic → address -->
+      <div>
+        <p class="eyebrow">{c.directEyebrow}</p>
+        <h2 class="mt-4 text-h2">{c.directTitle}</h2>
 
-        <dl class="mt-6 grid gap-5">
+        <ul class="mt-9 grid gap-4 sm:grid-cols-2">
           {
-            contacts.map((item) => (
-              <div>
-                <dt class="text-[0.8rem] font-semibold uppercase tracking-wide text-ink-muted">
-                  {item.label}
-                </dt>
-                <dd class="mt-1">
-                  <a href={`mailto:${item.email}`} class="break-all text-[0.95rem] text-deep hover:underline">
+            contacts.map((item, i) => (
+              <li class:list={[i === 0 && "sm:col-span-2"]}>
+                <a
+                  href={`mailto:${item.email}`}
+                  class="card card-hover group flex h-full flex-col p-6"
+                >
+                  <h3 class="font-display text-[1.08rem] font-bold">{item.label}</h3>
+                  <p class="mt-2 flex-1 text-[0.92rem] leading-relaxed text-ink-muted">{item.body}</p>
+                  <span class="mt-4 break-all text-[0.95rem] font-semibold text-deep group-hover:underline">
                     {item.email}
-                  </a>
-                </dd>
-              </div>
+                  </span>
+                </a>
+              </li>
             ))
           }
-        </dl>
+        </ul>
 
-        <div class="mt-7 border-t border-line pt-6">
-          <h3 class="font-display text-[0.95rem] font-bold">{c.socialTitle}</h3>
-          <p class="mt-2 text-[0.9rem] leading-relaxed text-ink-muted">{c.socialBody}</p>
-        </div>
-
-        <p class="todo mt-6">
+        <p class="todo mt-8">
           <strong>{t.common.placeholderNotice}.</strong> All five addresses are
           <code>example.org</code>.
         </p>
+      </div>
 
-        <a href={localePath(locale, "privacy")} class="link-arrow mt-6">
+      <!-- Sidebar -->
+      <aside class="grid gap-6">
+        <div class="card bg-deep-050/60 p-7">
+          <h2 class="font-display text-[1.15rem] font-bold">{c.beforeTitle}</h2>
+          <p class="mt-2 text-[0.92rem] leading-relaxed text-ink-muted">{c.beforeBody}</p>
+          <ul class="mt-5 grid gap-3">
+            {
+              before.map((link) => (
+                <li>
+                  <a href={localePath(locale, link.path)} class="link-arrow text-[0.95rem]">
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="card p-7">
+          <h2 class="font-display text-[1.05rem] font-bold">{c.socialTitle}</h2>
+          <p class="mt-2 text-[0.92rem] leading-relaxed text-ink-muted">{c.socialBody}</p>
+        </div>
+
+        <a href={localePath(locale, "privacy")} class="link-arrow">
           {t.nav.privacy}
         </a>
-      </div>
+      </aside>
     </div>
   </section>
 </Base>
