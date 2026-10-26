@@ -208,10 +208,23 @@ export const en = {
     value4Title: "Accountable",
     value4Body: "An elected Executive Board, a Supervisory Board that checks it, and published accounts.",
 
+    glanceAgeValue: "14–28",
+    glanceAgeLabel: "Age range of our delegates",
+    glanceNetworkValue: "~40",
+    glanceNetworkLabel: "Countries in the EYP network",
+    glanceVolunteerValue: "100%",
+    glanceVolunteerLabel: "Run by volunteers",
+
+    boardEyebrow: "The people",
+    boardTitle: "Who runs EYP Azerbaijan",
+    boardBody:
+      "Two elected bodies, both made up of volunteers. You can write to either of them directly.",
+    boardFullPage: "Full page",
+
     historyEyebrow: "History",
     historyTitle: "EYP Azerbaijan so far",
-    historyBody:
-      "A short history of the National Committee belongs here: when it was founded, when it was recognised by the international network, and the sessions that mattered along the way.",
+    /** Milestones, oldest first. The History section stays hidden while this is empty. */
+    milestones: [] as { year: string; title: string; body: string }[],
 
     networkEyebrow: "The wider network",
     networkTitle: "Where we sit",
@@ -225,8 +238,6 @@ export const en = {
     governanceTitle: "How decisions get made",
     governanceBody:
       "Members elect the Executive Board, which runs the organisation day to day. The Supervisory Board checks its work and reports back to the membership. Statutes and annual reports are published so that both can be held to them.",
-    governanceExecCta: "Executive Board",
-    governanceSupCta: "Supervisory Board",
     documentsTitle: "Documents",
     documentsBody: "Statutes, annual reports and financial summaries will be published here as downloadable PDFs.",
   },
@@ -385,32 +396,26 @@ export const en = {
   contact: {
     title: "Contact",
     lead:
-      "Questions about applying, hosting a session, partnering with us, or how we handle your data.",
-    directTitle: "Direct contacts",
+      "Questions about applying, hosting a session, partnering with us, or how we handle your data. Pick the address that fits and it reaches the right people first time.",
+    directEyebrow: "Write to us",
+    directTitle: "Who to write to",
     generalLabel: "General enquiries",
+    generalBody: "Anything that does not fit below, or if you are not sure where to start.",
     schoolsLabel: "Schools and outreach",
+    schoolsBody: "Hosting an outreach session, or bringing a group of students to one of ours.",
     boardLabel: "Executive Board",
+    boardBody: "Partnerships, funding, and anything that needs a decision from the board.",
     pressLabel: "Press and media",
+    pressBody: "Interviews, photos from past sessions, and statements for publication.",
     privacyLabel: "Data protection",
+    privacyBody: "Requests to see, correct or delete the personal data we hold about you.",
     socialTitle: "Social",
     socialBody: "Most day-to-day announcements go out on Instagram first, then here.",
-    formTitle: "Send a message",
-    formName: "Name",
-    formEmail: "Email address",
-    formTopic: "What is this about?",
-    formMessage: "Message",
-    formConsent:
-      "I agree that EYP Azerbaijan may store and use this message in order to reply to me, as described in the privacy policy.",
-    formSubmit: "Send message",
-    formTopicApply: "Applying as a delegate",
-    formTopicSchool: "Hosting an outreach session",
-    formTopicVolunteer: "Volunteering or officials' training",
-    formTopicPartner: "Partnership or funding",
-    formTopicPress: "Press enquiry",
-    formTopicPrivacy: "Data protection request",
-    formTopicOther: "Something else",
-    formDisabledNote:
-      "This form is not connected to anything yet. Until it is, please use the email addresses above.",
+    beforeTitle: "Before you write",
+    beforeBody: "Most questions about taking part are already answered on these pages.",
+    beforeWhat: "What a session actually involves",
+    beforeParticipate: "How to apply and who can",
+    beforeSessions: "Upcoming sessions and open calls",
   },
 
   /* --------------------------------------------------------------- privacy */
