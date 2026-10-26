@@ -197,11 +197,11 @@ export const az: Dict = {
       "Könüllü təşkilat, idarəetmə strukturu və hər ikisini işlək saxlayan insanlar.",
 
     missionEyebrow: "Missiya",
-    missionTitle: "Partiya xətti olmadan siyasi maarifləndirmə",
+    missionTitle: "Mübahisə etməyi — və dinləməyi öyrənmək",
     missionBody1:
       "EYP Azerbaijan 14–28 yaş arası insanlara Avropa və beynəlxalq məsələləri müzakirə etmək üçün strukturlaşdırılmış məkan verir — komitə işi, yazılı qətnamələr, açıq debat və səsvermə vasitəsilə.",
     missionBody2:
-      "Biz təbliğat qrupu deyilik və siyasi mandatımız yoxdur. Təklif etdiyimiz format sizi mövqeyinizi araşdırmağa, ona qarşı ən güclü etirazı dinləməyə və nə düşündüyünüzü açıq şəkildə bəyan etməyə məcbur edir.",
+      "Biz təbliğat qrupu deyilik və müzakirə etdiyimiz mövzularda heç bir tərəfi tutmuruq. Təklif etdiyimiz format sizi mövqeyinizi araşdırmağa, ona qarşı ən güclü etirazı dinləməyə və nə düşündüyünüzü açıq şəkildə bəyan etməyə məcbur edir.",
     missionBody3:
       "Keçirdiyimiz hər şey könüllülər tərəfindən təşkil olunur və onların çoxu deleqatlardan cəmi bir neçə yaş böyükdür. Bu, xərcə qənaət üsulu deyil. Məhz buna görə on altı yaşlı bir gənc üçün otaq qorxulu görünmür.",
 

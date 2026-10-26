@@ -190,11 +190,11 @@ export const en = {
       "A volunteer organisation, a governance structure, and the people who keep both running.",
 
     missionEyebrow: "Mission",
-    missionTitle: "Political education without a party line",
+    missionTitle: "Learning to argue — and to listen",
     missionBody1:
       "EYP Azerbaijan gives people aged 14 to 28 a structured place to argue about European and international affairs — through committee work, written resolutions, floor debate, and a vote.",
     missionBody2:
-      "We are not an advocacy group and we hold no political mandate. What we offer is a format that makes you research a position, hear the strongest objection to it, and decide in public what you actually think.",
+      "We are not an advocacy group and we take no side on the topics we debate. What we offer is a format that makes you research a position, hear the strongest objection to it, and decide in public what you actually think.",
     missionBody3:
       "Everything we run is organised by volunteers, most of whom are only a few years older than the delegates in the room. That is not a cost-saving measure. It is the reason the room feels survivable to a sixteen-year-old.",
 
