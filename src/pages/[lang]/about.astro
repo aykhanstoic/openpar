@@ -2,6 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
+import BoardGrid from "../../components/BoardGrid.astro";
+import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 
 export { getStaticPaths } from "../../i18n/paths";
@@ -10,58 +12,92 @@ const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const a = t.about;
 
+const glance = [
+  { value: a.glanceAgeValue, label: a.glanceAgeLabel },
+  { value: a.glanceNetworkValue, label: a.glanceNetworkLabel },
+  { value: a.glanceVolunteerValue, label: a.glanceVolunteerLabel },
+];
+
 const values = [
   { title: a.value1Title, body: a.value1Body },
   { title: a.value2Title, body: a.value2Body },
   { title: a.value3Title, body: a.value3Body },
   { title: a.value4Title, body: a.value4Body },
 ];
+
+const boards = [
+  {
+    body: "executive" as const,
+    title: t.boards.executiveTitle,
+    lead: t.boards.executiveLead,
+    empty: t.boards.emptyExecutive,
+    path: "boards/executive",
+  },
+  {
+    body: "supervisory" as const,
+    title: t.boards.supervisoryTitle,
+    lead: t.boards.supervisoryLead,
+    empty: t.boards.emptySupervisory,
+    path: "boards/supervisory",
+  },
+];
 ---
 
 <Base locale={locale} title={a.title} description={a.lead}>
   <PageHero locale={locale} title={a.title} lead={a.lead} />
 
+  <!-- ========================================================== at a glance -->
+  <section class="border-b border-line">
+    <div class="wrap grid divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      {
+        glance.map((g) => (
+          <div class="py-7 sm:px-8 sm:first:pl-0">
+            <p class="font-display text-[2.4rem] font-bold leading-none text-deep">{g.value}</p>
+            <p class="mt-2 text-[0.92rem] text-ink-muted">{g.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
   <!-- =========================================================== mission -->
   <section class="section">
-    <div class="wrap grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+    <div class="wrap grid gap-12 lg:grid-cols-2 lg:items-center">
       <div>
         <p class="eyebrow">{a.missionEyebrow}</p>
         <h2 class="mt-4 text-h2">{a.missionTitle}</h2>
-        <div class="rule-amber mt-6"></div>
+        <div class="mt-7 grid gap-5">
+          <p class="text-[1.05rem] leading-relaxed">{a.missionBody1}</p>
+          <p class="text-[1.05rem] leading-relaxed text-ink-muted">{a.missionBody2}</p>
+          <p class="text-[1.05rem] leading-relaxed text-ink-muted">{a.missionBody3}</p>
+        </div>
       </div>
-      <div class="grid gap-5">
-        <p class="text-[1.05rem] leading-relaxed">{a.missionBody1}</p>
-        <p class="text-[1.05rem] leading-relaxed">{a.missionBody2}</p>
-        <p class="text-[1.05rem] leading-relaxed">{a.missionBody3}</p>
-      </div>
-    </div>
 
-    <div class="wrap mt-12">
-      <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[21/8]" />
+      <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
     </div>
   </section>
 
   <!-- ============================================================ values -->
-  <section class="section bg-deep text-white">
+  <section class="section relative isolate overflow-hidden bg-deep text-white">
+    <Buta
+      class="pointer-events-none absolute -top-20 -left-16 -z-10 h-[380px] w-auto rotate-[14deg] text-white/[0.07]"
+      stroke={1.8}
+    />
     <div class="wrap">
       <div class="max-w-[52ch]">
         <p class="eyebrow eyebrow-invert">{a.valuesEyebrow}</p>
         <h2 class="mt-4 text-h2 text-white">{a.valuesTitle}</h2>
       </div>
 
-      <div class="mt-11 grid gap-x-10 gap-y-9 md:grid-cols-2">
+      <div class="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {
           values.map((v, i) => (
-            <div class="flex gap-4">
+            <div class="border-t-2 border-sun bg-white/[0.06] p-6">
               <span class="font-display text-[0.8rem] font-bold text-white/60">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div>
-                <h3 class="font-display text-[1.12rem] font-bold text-white">{v.title}</h3>
-                <p class="mt-2 max-w-[46ch] text-[0.94rem] leading-relaxed text-white/75">
-                  {v.body}
-                </p>
-              </div>
+              <h3 class="mt-3 font-display text-[1.12rem] font-bold text-white">{v.title}</h3>
+              <p class="mt-2 text-[0.94rem] leading-relaxed text-white/75">{v.body}</p>
             </div>
           ))
         }
@@ -69,30 +105,68 @@ const values = [
     </div>
   </section>
 
-  <!-- =========================================================== history -->
+  <!-- ============================================================= board -->
   <section class="section">
-    <div class="wrap grid gap-12 lg:grid-cols-2">
-      <div>
-        <p class="eyebrow">{a.historyEyebrow}</p>
-        <h2 class="mt-4 text-h2">{a.historyTitle}</h2>
-        <p class="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">{a.historyBody}</p>
-        <p class="todo mt-6 max-w-[60ch]">
-          <strong>{t.common.placeholderNotice}.</strong>
-          {" "}
-          Founding year, recognition by the international network, and milestone
-          sessions are not published anywhere we could verify them.
-        </p>
+    <div class="wrap">
+      <div class="max-w-[56ch]">
+        <p class="eyebrow">{a.boardEyebrow}</p>
+        <h2 class="mt-4 text-h2">{a.boardTitle}</h2>
+        <p class="mt-5 text-[1.02rem] leading-relaxed text-ink-muted">{a.boardBody}</p>
       </div>
 
-      <div>
+      {
+        boards.map((b) => (
+          <div class="mt-12">
+            <div class="mb-7 flex flex-wrap items-end justify-between gap-x-8 gap-y-3 border-b border-line pb-5">
+              <div class="max-w-[60ch]">
+                <h3 class="font-display text-[1.35rem] font-bold">{b.title}</h3>
+                <p class="mt-1.5 text-[0.95rem] leading-relaxed text-ink-muted">{b.lead}</p>
+              </div>
+              <a href={localePath(locale, b.path)} class="link-arrow shrink-0">
+                {a.boardFullPage}
+              </a>
+            </div>
+            <BoardGrid locale={locale} body={b.body} emptyMessage={b.empty} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ========================================================== history -->
+  {
+    a.milestones.length > 0 && (
+      <section class="section border-t border-line">
+        <div class="wrap">
+          <p class="eyebrow">{a.historyEyebrow}</p>
+          <h2 class="mt-4 text-h2">{a.historyTitle}</h2>
+
+          <ol class="mt-10 grid gap-8 border-l-2 border-deep/20 pl-7">
+            {a.milestones.map((m) => (
+              <li class="relative">
+                <span
+                  class="absolute -left-[2.15rem] top-1.5 size-3 rounded-full border-2 border-white bg-deep"
+                  aria-hidden="true"
+                />
+                <p class="font-display text-[0.9rem] font-bold text-deep">{m.year}</p>
+                <h3 class="mt-1 font-display text-[1.1rem] font-bold">{m.title}</h3>
+                <p class="mt-1.5 max-w-[60ch] text-[0.95rem] leading-relaxed text-ink-muted">{m.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ================================================ network + governance -->
+  <section class="section bg-cream">
+    <div class="wrap grid gap-8 lg:grid-cols-2">
+      <div class="card p-8">
         <p class="eyebrow">{a.networkEyebrow}</p>
-        <h2 class="mt-4 text-h2">{a.networkTitle}</h2>
-        <p class="mt-5 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">
-          {a.networkBody1}
-        </p>
-        <p class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-ink-muted">
-          {a.networkBody2}
-        </p>
+        <h2 class="mt-4 font-display text-[1.5rem] font-bold">{a.networkTitle}</h2>
+        <p class="mt-5 text-[0.98rem] leading-relaxed text-ink-muted">{a.networkBody1}</p>
+        <p class="mt-4 text-[0.98rem] leading-relaxed text-ink-muted">{a.networkBody2}</p>
         <a
           href="https://eyp.org"
           target="_blank"
@@ -102,36 +176,16 @@ const values = [
           {a.networkCta}
         </a>
       </div>
-    </div>
-  </section>
 
-  <!-- ======================================================== governance -->
-  <section class="section bg-cream">
-    <div class="wrap grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-start">
-      <div>
+      <div class="card p-8">
         <p class="eyebrow">{a.governanceEyebrow}</p>
-        <h2 class="mt-4 text-h2">{a.governanceTitle}</h2>
-        <p class="mt-5 max-w-[54ch] text-[1.02rem] leading-relaxed text-ink-muted">
-          {a.governanceBody}
-        </p>
+        <h2 class="mt-4 font-display text-[1.5rem] font-bold">{a.governanceTitle}</h2>
+        <p class="mt-5 text-[0.98rem] leading-relaxed text-ink-muted">{a.governanceBody}</p>
 
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href={localePath(locale, "boards/executive")} class="btn btn-primary">
-            {a.governanceExecCta}
-          </a>
-          <a href={localePath(locale, "boards/supervisory")} class="btn btn-outline">
-            {a.governanceSupCta}
-          </a>
+        <div class="mt-7 border-t border-line pt-6">
+          <h3 class="font-display text-[1rem] font-bold">{a.documentsTitle}</h3>
+          <p class="mt-2 text-[0.92rem] leading-relaxed text-ink-muted">{a.documentsBody}</p>
         </div>
-      </div>
-
-      <div class="card p-7">
-        <h3 class="font-display text-[1.1rem] font-bold">{a.documentsTitle}</h3>
-        <p class="mt-2.5 text-[0.94rem] leading-relaxed text-ink-muted">{a.documentsBody}</p>
-        <p class="todo mt-5">
-          <strong>{t.common.placeholderNotice}.</strong> No statutes or annual reports have been
-          supplied yet. Grant applications routinely ask for both.
-        </p>
       </div>
     </div>
   </section>
