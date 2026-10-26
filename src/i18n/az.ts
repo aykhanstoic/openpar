@@ -219,10 +219,22 @@ export const az: Dict = {
     value4Body:
       "Seçilmiş İcraiyyə İdarə Heyəti, onu yoxlayan Nəzarət Şurası və dərc olunan maliyyə hesabatları.",
 
+    glanceAgeValue: "14–28",
+    glanceAgeLabel: "Deleqatlarımızın yaş aralığı",
+    glanceNetworkValue: "~40",
+    glanceNetworkLabel: "EYP şəbəkəsindəki ölkələr",
+    glanceVolunteerValue: "100%",
+    glanceVolunteerLabel: "Könüllülər tərəfindən idarə olunur",
+
+    boardEyebrow: "İnsanlar",
+    boardTitle: "EYP Azerbaijan-ı kim idarə edir",
+    boardBody:
+      "Hər ikisi könüllülərdən ibarət iki seçkili orqan. Onların hər birinə birbaşa yaza bilərsiniz.",
+    boardFullPage: "Tam səhifə",
+
     historyEyebrow: "Tarixçə",
     historyTitle: "EYP Azerbaijan bu günə qədər",
-    historyBody:
-      "Milli Komitənin qısa tarixçəsi buraya yazılmalıdır: nə vaxt yaradılıb, beynəlxalq şəbəkə tərəfindən nə vaxt tanınıb və bu yolda hansı sessiyalar önəmli olub.",
+    milestones: [],
 
     networkEyebrow: "Geniş şəbəkə",
     networkTitle: "Şəbəkədəki yerimiz",
@@ -236,8 +248,6 @@ export const az: Dict = {
     governanceTitle: "Qərarlar necə qəbul olunur",
     governanceBody:
       "Üzvlər təşkilatı gündəlik idarə edən İcraiyyə İdarə Heyətini seçir. Nəzarət Şurası onun işini yoxlayır və üzvlərə hesabat verir. Nizamnamə və illik hesabatlar dərc olunur ki, hər ikisi onlara uyğun hərəkət etməyə görə məsuliyyət daşısın.",
-    governanceExecCta: "İcraiyyə İdarə Heyəti",
-    governanceSupCta: "Nəzarət Şurası",
     documentsTitle: "Sənədlər",
     documentsBody:
       "Nizamnamə, illik hesabatlar və maliyyə icmalları burada PDF şəklində dərc olunacaq.",
@@ -413,33 +423,27 @@ export const az: Dict = {
   contact: {
     title: "Əlaqə",
     lead:
-      "Müraciət etmək, sessiya keçirmək, bizimlə tərəfdaşlıq və məlumatlarınızın necə saxlanması barədə suallar.",
-    directTitle: "Birbaşa əlaqə",
+      "Müraciət etmək, sessiya keçirmək, bizimlə tərəfdaşlıq və məlumatlarınızın necə saxlanması barədə suallar. Uyğun ünvanı seçin — məktubunuz ilk dəfədən doğru insanlara çatsın.",
+    directEyebrow: "Bizə yazın",
+    directTitle: "Kimə yazmalı",
     generalLabel: "Ümumi sorğular",
+    generalBody: "Aşağıdakılara uyğun gəlməyən hər şey və ya haradan başlayacağınızı bilmirsinizsə.",
     schoolsLabel: "Məktəblər və autriç",
+    schoolsBody: "Autriç sessiyasına ev sahibliyi etmək və ya şagird qrupunu sessiyalarımızdan birinə gətirmək.",
     boardLabel: "İcraiyyə İdarə Heyəti",
+    boardBody: "Tərəfdaşlıq, maliyyələşdirmə və idarə heyətinin qərarını tələb edən hər şey.",
     pressLabel: "Mətbuat və media",
+    pressBody: "Müsahibələr, keçmiş sessiyalardan fotolar və dərc üçün bəyanatlar.",
     privacyLabel: "Məlumatların qorunması",
+    privacyBody: "Haqqınızda saxladığımız şəxsi məlumatları görmək, düzəltmək və ya silmək üçün sorğular.",
     socialTitle: "Sosial şəbəkələr",
     socialBody:
       "Gündəlik elanların əksəriyyəti əvvəlcə Instagram-da, sonra burada yerləşdirilir.",
-    formTitle: "Mesaj göndərin",
-    formName: "Ad",
-    formEmail: "E-poçt ünvanı",
-    formTopic: "Mövzu nədir?",
-    formMessage: "Mesaj",
-    formConsent:
-      "EYP Azerbaijan-ın mənə cavab vermək üçün bu mesajı saxlamasına və istifadə etməsinə razıyam — məxfilik siyasətində göstərildiyi kimi.",
-    formSubmit: "Mesajı göndər",
-    formTopicApply: "Deleqat kimi müraciət",
-    formTopicSchool: "Autriç sessiyasına ev sahibliyi",
-    formTopicVolunteer: "Könüllülük və ya rəsmi şəxs təlimi",
-    formTopicPartner: "Tərəfdaşlıq və ya maliyyələşdirmə",
-    formTopicPress: "Mətbuat sorğusu",
-    formTopicPrivacy: "Məlumatların qorunması sorğusu",
-    formTopicOther: "Digər",
-    formDisabledNote:
-      "Bu forma hələ heç nəyə qoşulmayıb. Qoşulana qədər yuxarıdakı e-poçt ünvanlarından istifadə edin.",
+    beforeTitle: "Yazmazdan əvvəl",
+    beforeBody: "İştirakla bağlı sualların çoxunun cavabı artıq bu səhifələrdədir.",
+    beforeWhat: "Sessiya əslində nədən ibarətdir",
+    beforeParticipate: "Necə müraciət etmək olar və kim edə bilər",
+    beforeSessions: "Qarşıdakı sessiyalar və açıq müraciətlər",
   },
 
   /* --------------------------------------------------------------- privacy */
