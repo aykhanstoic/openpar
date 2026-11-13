@@ -1,10 +1,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { getSecret } from "astro:env/server";
-import { ID_PATTERN } from "./session-doc";
+import { ID_PATTERN } from "./frontmatter";
 
 /**
- * Where session files are read from and written to.
+ * Where the editable files are read from and written to.
  *
  * On Vercel: the GitHub repo, through the contents API, with GITHUB_TOKEN (a
  * fine-grained token limited to this one repo, Contents: read and write).
@@ -14,8 +14,6 @@ import { ID_PATTERN } from "./session-doc";
  * In `astro dev` without a token: the files on this machine, so the editor
  * can be tried locally without touching the repo.
  */
-
-const DIR = "src/content/sessions";
 
 export interface StoredFile {
   id: string;
@@ -38,14 +36,26 @@ export interface Store {
   remove(id: string, message: string, sha?: string): Promise<void>;
 }
 
-const fileFor = (id: string) => {
-  if (!ID_PATTERN.test(id)) throw new StoreError("Invalid session id");
-  return `${DIR}/${id}.md`;
+/** A folder of files, e.g. `src/content/sessions` with extension `md`. */
+export interface Folder {
+  dir: string;
+  ext: "md" | "json";
+}
+
+const fileFor = (folder: Folder, id: string) => {
+  if (!ID_PATTERN.test(id)) throw new StoreError("Invalid id");
+  return `${folder.dir}/${id}.${folder.ext}`;
 };
+
+const idsFrom = (names: string[], folder: Folder) =>
+  names
+    .filter((n) => n.endsWith(`.${folder.ext}`))
+    .map((n) => n.slice(0, -(folder.ext.length + 1)))
+    .filter((id) => ID_PATTERN.test(id));
 
 /* ---------------------------------------------------------------- GitHub */
 
-function githubStore(token: string, repo: string, branch: string): Store {
+function githubStore(folder: Folder, token: string, repo: string, branch: string): Store {
   const api = `https://api.github.com/repos/${repo}/contents`;
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -59,13 +69,18 @@ function githubStore(token: string, repo: string, branch: string): Store {
     const res = await fetch(url, { ...init, headers });
     // 409: the sha is stale. 422: a create hit an existing file (no sha sent).
     if (res.status === 409 || res.status === 422) {
-      throw new ConflictError("Someone else changed this session after you opened it. Go back to the list and try again.");
+      throw new ConflictError("Someone else changed this after you opened it. Go back, open it again, and redo your change.");
+    }
+    if (res.status === 401 || res.status === 403) {
+      throw new StoreError(
+        `GitHub refused (${res.status}). The GITHUB_TOKEN in Vercel is missing, expired, or lacks "Contents: Read and write" on ${repo}.`,
+      );
     }
     return res;
   }
 
   async function get(id: string): Promise<StoredFile | null> {
-    const res = await call(`${api}/${fileFor(id)}?${ref}`);
+    const res = await call(`${api}/${fileFor(folder, id)}?${ref}`);
     if (res.status === 404) return null;
     if (!res.ok) throw new StoreError(`GitHub returned ${res.status} reading ${id}`);
     const j = (await res.json()) as { content: string; sha: string };
@@ -73,7 +88,7 @@ function githubStore(token: string, repo: string, branch: string): Store {
   }
 
   async function put(id: string, content: string, message: string, sha?: string) {
-    const res = await call(`${api}/${fileFor(id)}`, {
+    const res = await call(`${api}/${fileFor(folder, id)}`, {
       method: "PUT",
       body: JSON.stringify({
         message,
@@ -89,14 +104,11 @@ function githubStore(token: string, repo: string, branch: string): Store {
     kind: "github",
     get,
     async list() {
-      const res = await call(`${api}/${DIR}?${ref}`);
+      const res = await call(`${api}/${folder.dir}?${ref}`);
       if (res.status === 404) return [];
-      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} listing sessions`);
+      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} listing ${folder.dir}`);
       const entries = (await res.json()) as { name: string; type: string }[];
-      const ids = entries
-        .filter((e) => e.type === "file" && e.name.endsWith(".md"))
-        .map((e) => e.name.slice(0, -3))
-        .filter((id) => ID_PATTERN.test(id));
+      const ids = idsFrom(entries.filter((e) => e.type === "file").map((e) => e.name), folder);
       const files = await Promise.all(ids.map(get));
       return files.filter((f): f is StoredFile => f !== null);
     },
@@ -107,7 +119,7 @@ function githubStore(token: string, repo: string, branch: string): Store {
     },
     async remove(id, message, sha) {
       if (!sha) throw new StoreError("Missing version for a delete");
-      const res = await call(`${api}/${fileFor(id)}`, {
+      const res = await call(`${api}/${fileFor(folder, id)}`, {
         method: "DELETE",
         body: JSON.stringify({ message, sha, branch }),
       });
@@ -118,8 +130,8 @@ function githubStore(token: string, repo: string, branch: string): Store {
 
 /* ----------------------------------------------------------------- local */
 
-function localStore(): Store {
-  const abs = (id: string) => path.resolve(process.cwd(), fileFor(id));
+function localStore(folder: Folder): Store {
+  const abs = (id: string) => path.resolve(process.cwd(), fileFor(folder, id));
 
   async function get(id: string): Promise<StoredFile | null> {
     try {
@@ -134,19 +146,20 @@ function localStore(): Store {
     kind: "local",
     get,
     async list() {
-      const names = await fs.readdir(path.resolve(process.cwd(), DIR));
-      const ids = names
-        .filter((n) => n.endsWith(".md"))
-        .map((n) => n.slice(0, -3))
-        .filter((id) => ID_PATTERN.test(id));
-      const files = await Promise.all(ids.map(get));
+      let names: string[] = [];
+      try {
+        names = await fs.readdir(path.resolve(process.cwd(), folder.dir));
+      } catch (e) {
+        if ((e as NodeJS.ErrnoException).code !== "ENOENT") throw e;
+      }
+      const files = await Promise.all(idsFrom(names, folder).map(get));
       return files.filter((f): f is StoredFile => f !== null);
     },
     async create(id, content) {
       try {
         await fs.writeFile(abs(id), content, { encoding: "utf8", flag: "wx" });
       } catch (e) {
-        if ((e as NodeJS.ErrnoException).code === "EEXIST") throw new ConflictError("A session with this id already exists.");
+        if ((e as NodeJS.ErrnoException).code === "EEXIST") throw new ConflictError("Something with this name already exists.");
         throw e;
       }
     },
@@ -160,10 +173,17 @@ function localStore(): Store {
 }
 
 /** null = not configured (deployed without a token). */
-export function getStore(): Store | null {
+export function getStore(folder: Folder): Store | null {
   const token = getSecret("GITHUB_TOKEN");
   if (token) {
-    return githubStore(token, getSecret("GITHUB_REPO") ?? "aykhanstoic/openpar", getSecret("GITHUB_BRANCH") ?? "dev");
+    return githubStore(folder, token, getSecret("GITHUB_REPO") ?? "aykhanstoic/openpar", getSecret("GITHUB_BRANCH") ?? "dev");
   }
-  return import.meta.env.DEV ? localStore() : null;
+  return import.meta.env.DEV ? localStore(folder) : null;
+}
+
+/** "Saved." follow-up line: where the change went. */
+export function publishNote(kind: Store["kind"] | undefined): string {
+  return kind === "local"
+    ? "Local mode: only the files on this computer changed. Nothing was sent to GitHub."
+    : "The website updates in about two minutes.";
 }

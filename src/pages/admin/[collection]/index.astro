@@ -1,0 +1,79 @@
+---
+/** List of sessions / news posts / board members / partners. */
+export const prerender = false;
+
+import Admin from "../../../layouts/Admin.astro";
+import { isLoggedIn } from "../../../lib/admin/auth";
+import { getCollection, parseEntry } from "../../../lib/admin/collections";
+import { getStore, publishNote } from "../../../lib/admin/store";
+
+const { url, cookies, params } = Astro;
+if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
+const c = getCollection(params.collection);
+if (!c) return new Response("Not found", { status: 404 });
+const store = getStore(c.folder);
+
+const notices: Record<string, string> = { created: "Saved.", updated: "Changes saved.", deleted: "Deleted." };
+const done = notices[url.searchParams.get("done") ?? ""];
+
+let rows: { id: string; title: string; meta: string[]; draft: boolean; sort: string }[] = [];
+let loadError = "";
+if (store) {
+  try {
+    rows = (await store.list())
+      .map((f) => {
+        const d = parseEntry(f.content).data;
+        return {
+          id: f.id,
+          title: String(d.title ?? d.name ?? f.id),
+          meta: c.summary(d).filter(Boolean),
+          draft: Boolean(d.draft),
+          sort: c.sortKey(d),
+        };
+      })
+      .sort((a, b) => (c.id === "sessions" || c.id === "news" ? b.sort.localeCompare(a.sort) : a.sort.localeCompare(b.sort)));
+  } catch (e) {
+    console.error(e);
+    loadError = e instanceof Error ? e.message : "Could not load the list.";
+  }
+}
+---
+
+<Admin title={c.label} loggedIn>
+  <p><a href="/admin/" class="text-deep underline">← Dashboard</a></p>
+  <div class="mt-3 flex flex-wrap items-center gap-4">
+    <h1 class="font-display text-3xl font-bold text-deep">{c.label}</h1>
+    {store && <a href={`/admin/${c.id}/new`} class="btn btn-primary ms-auto">Add a {c.singular}</a>}
+  </div>
+  <p class="mt-2 text-ink-muted">{c.description} Click one to change or delete it.</p>
+
+  {done && (
+    <p role="status" class="mt-6 rounded border border-deep bg-deep-050 p-3">
+      <strong>{done}</strong> {publishNote(store?.kind)}
+    </p>
+  )}
+  {!store && (
+    <p role="alert" class="mt-6 rounded border border-[#B42318] bg-white p-3">
+      Saving is not set up yet: <code>GITHUB_TOKEN</code> is missing in Vercel. See the README.
+    </p>
+  )}
+  {loadError && <p role="alert" class="mt-6 rounded border border-[#B42318] bg-white p-3">{loadError}</p>}
+
+  {
+    store && !loadError && (rows.length === 0 ? (
+      <p class="mt-6 text-ink-muted">Nothing here yet.</p>
+    ) : (
+      <ul class="mt-6 divide-y divide-line rounded border border-line bg-white">
+        {rows.map((r) => (
+          <li>
+            <a href={`/admin/${c.id}/${r.id}`} class="flex flex-wrap items-baseline gap-x-4 gap-y-1 p-4 hover:bg-deep-050">
+              <span class="font-semibold text-deep underline">{r.title}</span>
+              {r.meta.map((m) => <span class="text-sm text-ink-muted">{m}</span>)}
+              {r.draft && <span class="badge badge-closed">Draft</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ))
+  }
+</Admin>

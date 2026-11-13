@@ -1,0 +1,40 @@
+{
+  "en": {
+    "title": "Alumni",
+    "lead": "The network does not expire when you turn 29. Alumni chair, train, fund, advise, and vouch for us to people who have never heard of the EYP.",
+    "waysEyebrow": "Ways to stay involved",
+    "waysTitle": "What alumni actually do here",
+    "way1Title": "Train the next officials",
+    "way1Body": "Run chairing and media training rounds for members moving from delegate to organiser.",
+    "way2Title": "Sit on a jury",
+    "way2Body": "Observe committee work at selection sessions and help choose the international delegation.",
+    "way3Title": "Open doors",
+    "way3Body": "Introduce us to schools, funders, embassies and employers. This is the single most useful thing alumni do.",
+    "way4Title": "Support the organisation",
+    "way4Body": "Supporting membership and donations keep participation fees low enough that money is not the deciding factor.",
+    "testimonialsTitle": "In their words",
+    "testimonialsBody": "Alumni testimonials with names, session and year will be published here.",
+    "ctaTitle": "Been to a session?",
+    "ctaBody": "Tell us where you ended up. We keep a register so we can ask the right people for the right favours.",
+    "ctaButton": "Get back in touch"
+  },
+  "az": {
+    "title": "Məzunlar",
+    "lead": "29 yaşınız tamam olanda şəbəkə bitmir. Məzunlar sədrlik edir, təlim keçirir, maliyyə dəstəyi verir, məsləhət verir və EYP-ni heç eşitməmiş insanlara bizi tövsiyə edir.",
+    "waysEyebrow": "İştirak yolları",
+    "waysTitle": "Məzunlar burada əslində nə edir",
+    "way1Title": "Növbəti rəsmi şəxsləri hazırlayın",
+    "way1Body": "Deleqatlıqdan təşkilatçılığa keçən üzvlər üçün sədrlik və media təlimləri keçirin.",
+    "way2Title": "Münsiflər heyətində iştirak edin",
+    "way2Body": "Seçim sessiyalarında komitə işini müşahidə edin və beynəlxalq nümayəndə heyətinin seçilməsinə kömək edin.",
+    "way3Title": "Qapılar açın",
+    "way3Body": "Bizi məktəblərlə, maliyyə mənbələri ilə, səfirliklərlə və işəgötürənlərlə tanış edin. Məzunların gördüyü ən faydalı iş budur.",
+    "way4Title": "Təşkilatı dəstəkləyin",
+    "way4Body": "Dəstəkçi üzvlük və ianələr iştirak haqqını elə səviyyədə saxlayır ki, pul həlledici amil olmasın.",
+    "testimonialsTitle": "Onların dili ilə",
+    "testimonialsBody": "Məzunların adı, sessiyası və ili ilə birlikdə rəyləri burada dərc olunacaq.",
+    "ctaTitle": "Sessiyada olmusunuz?",
+    "ctaBody": "Harada olduğunuzu bizə bildirin. Doğru adamlardan doğru köməyi istəyə bilmək üçün reyestr aparırıq.",
+    "ctaButton": "Yenidən əlaqə saxlayın"
+  }
+}

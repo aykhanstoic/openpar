@@ -1,0 +1,164 @@
+---
+/**
+ * The form for one session, news post, board member or partner, built from
+ * the field list in src/lib/admin/collections.ts.
+ */
+import type { Collection, Field, Values } from "../../lib/admin/collections";
+
+interface Props {
+  collection: Collection;
+  values: Values;
+  errors: Record<string, string>;
+  submitLabel: string;
+  /** Version of the file being edited; sent back so a stale save is refused. */
+  sha?: string;
+  /** Choices for `reference` fields, by collection. */
+  refOptions?: Record<string, { value: string; label: string }[]>;
+}
+
+const { collection: c, values, errors, submitLabel, sha, refOptions = {} } = Astro.props;
+
+/* Fields in their groups, in the order the groups first appear. */
+const groups: { title: string; fields: (Field | "body")[] }[] = [];
+const groupFor = (title: string) => {
+  let g = groups.find((x) => x.title === title);
+  if (!g) groups.push((g = { title, fields: [] }));
+  return g;
+};
+for (const f of c.fields) groupFor(f.group).fields.push(f);
+if (c.body) groupFor(c.body.group).fields.push("body");
+groupFor("Publishing");
+
+const input =
+  "mt-1 block w-full rounded border border-line bg-white px-3 py-2 text-base text-ink focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep-050";
+const label = "block font-semibold text-ink";
+const hint = "mt-1 text-sm text-ink-muted";
+const err = "mt-1 text-sm font-semibold text-[#B42318]";
+const describedBy = (name: string, hasHint: boolean) =>
+  [hasHint ? `${name}-hint` : "", errors[name] ? `${name}-error` : ""].filter(Boolean).join(" ") || undefined;
+const picked = (name: string) => new Set((values[name] ?? "").split("\n").filter(Boolean));
+---
+
+<form method="post" class="grid gap-6" novalidate>
+  <input type="hidden" name="action" value="save" />
+  {sha && <input type="hidden" name="sha" value={sha} />}
+
+  {
+    errors.form ? (
+      <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">{errors.form}</p>
+    ) : (
+      Object.keys(errors).length > 0 && (
+        <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">
+          Nothing was saved. Fix the fields marked in red below.
+        </p>
+      )
+    )
+  }
+
+  {
+    groups.map((g) => (
+      <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+        <legend class="px-1 font-display text-lg font-bold text-deep">{g.title}</legend>
+
+        {g.fields.map((f) => {
+          if (f === "body") {
+            return (
+              <div>
+                <label for="body" class={label}>
+                  {c.body!.label} <span class="font-normal text-ink-muted">(optional)</span>
+                </label>
+                <textarea id="body" name="body" rows="12" maxlength="20000" class={input} aria-describedby={describedBy("body", true)}>{values.body}</textarea>
+                <p id="body-hint" class={hint}>
+                  {c.body!.hint} Leave an empty line between paragraphs. A line starting with <code>## </code> becomes a
+                  heading, and <code>**words**</code> become bold.
+                </p>
+                {errors.body && <p id="body-error" class={err}>{errors.body}</p>}
+              </div>
+            );
+          }
+
+          const id = `f-${f.name}`;
+          const opt = !f.required && f.type !== "checkbox" && f.type !== "checkboxes";
+          const invalid = errors[f.name] ? "true" : undefined;
+
+          if (f.type === "checkbox") {
+            return (
+              <div class="flex items-start gap-3">
+                <input id={id} name={f.name} type="checkbox" checked={values[f.name] === "on"} class="mt-1 h-5 w-5" aria-describedby={describedBy(f.name, Boolean(f.hint))} />
+                <div>
+                  <label for={id} class={label}>{f.label}</label>
+                  {f.hint && <p id={`${f.name}-hint`} class={hint}>{f.hint}</p>}
+                  {errors[f.name] && <p id={`${f.name}-error`} class={err}>{errors[f.name]}</p>}
+                </div>
+              </div>
+            );
+          }
+
+          if (f.type === "checkboxes") {
+            return (
+              <fieldset aria-describedby={describedBy(f.name, Boolean(f.hint))}>
+                <legend class={label}>{f.label}</legend>
+                <div class="mt-2 flex flex-wrap gap-x-6 gap-y-2">
+                  {f.options!.map((o) => (
+                    <label class="flex items-center gap-2">
+                      <input type="checkbox" name={f.name} value={o.value} checked={picked(f.name).has(o.value)} class="h-5 w-5" />
+                      {o.label}
+                    </label>
+                  ))}
+                </div>
+                {f.hint && <p id={`${f.name}-hint`} class={hint}>{f.hint}</p>}
+                {errors[f.name] && <p id={`${f.name}-error`} class={err}>{errors[f.name]}</p>}
+              </fieldset>
+            );
+          }
+
+          const choices =
+            f.type === "select" ? f.options! : f.type === "reference" ? [{ value: "", label: "None" }, ...(refOptions[f.ref!] ?? [])] : null;
+
+          return (
+            <div>
+              <label for={id} class={label}>
+                {f.label} {opt && <span class="font-normal text-ink-muted">(optional)</span>}
+              </label>
+              {choices ? (
+                <select id={id} name={f.name} class={input} aria-describedby={describedBy(f.name, Boolean(f.hint))} aria-invalid={invalid}>
+                  {choices.map((o) => <option value={o.value} selected={values[f.name] === o.value}>{o.label}</option>)}
+                </select>
+              ) : f.type === "textarea" ? (
+                <textarea id={id} name={f.name} rows="3" maxlength={f.max} class={input} aria-describedby={describedBy(f.name, Boolean(f.hint))} aria-invalid={invalid}>{values[f.name]}</textarea>
+              ) : (
+                <input
+                  id={id}
+                  name={f.name}
+                  type={f.type === "url" ? "url" : f.type === "email" ? "email" : f.type === "date" ? "date" : f.type === "number" ? "number" : "text"}
+                  value={values[f.name]}
+                  maxlength={f.max}
+                  placeholder={f.type === "url" ? "https://" : undefined}
+                  class={input}
+                  aria-describedby={describedBy(f.name, Boolean(f.hint))}
+                  aria-invalid={invalid}
+                />
+              )}
+              {f.hint && <p id={`${f.name}-hint`} class={hint}>{f.hint}</p>}
+              {errors[f.name] && <p id={`${f.name}-error`} class={err}>{errors[f.name]}</p>}
+            </div>
+          );
+        })}
+
+        {g.title === "Publishing" && (
+          <div>
+            <label for="f-editor" class={label}>Your name</label>
+            <input id="f-editor" name="editor" value={values.editor} maxlength="60" autocomplete="name" class={input} aria-describedby={describedBy("editor", true)} aria-invalid={errors.editor ? "true" : undefined} />
+            <p id="editor-hint" class={hint}>Kept in the change history so the board can see who changed what. Not shown on the website.</p>
+            {errors.editor && <p id="editor-error" class={err}>{errors.editor}</p>}
+          </div>
+        )}
+      </fieldset>
+    ))
+  }
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button type="submit" class="btn btn-primary">{submitLabel}</button>
+    <a href={`/admin/${c.id}/`} class="text-deep underline">Cancel</a>
+  </div>
+</form>

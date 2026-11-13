@@ -1,0 +1,106 @@
+{
+  "en": {
+    "title": "Legal notice",
+    "lead": "Who owns this website and the terms for using it.",
+    "warningTitle": "This notice is not written yet",
+    "warningBody": "The text below is a skeleton showing the sections a real legal notice needs. It has no legal force. The legal entity's details and a legal review are needed before launch.",
+    "sections": [
+      {
+        "title": "Website owner",
+        "body": "Legal name, legal form, registration number, tax ID, registered address and contact email of the organisation that owns this website."
+      },
+      {
+        "title": "Purpose of the website",
+        "body": "What the site is for: information about EYP Azerbaijan, its sessions and how to apply."
+      },
+      {
+        "title": "Terms of use",
+        "body": "The rules for using the site."
+      },
+      {
+        "title": "Intellectual property",
+        "body": "Who owns the text, logos and photographs, and what may be reused."
+      },
+      {
+        "title": "Third-party links",
+        "body": "Responsibility for external sites this one links to, including the Members Platform and Google Forms."
+      },
+      {
+        "title": "Liability",
+        "body": "The limits of the organisation's liability for the content and availability of the site."
+      },
+      {
+        "title": "Personal data",
+        "body": "A pointer to the privacy policy."
+      },
+      {
+        "title": "Cookies",
+        "body": "Which cookies and analytics the site uses, if any."
+      },
+      {
+        "title": "Communications",
+        "body": "How the organisation contacts users, and how to opt out."
+      },
+      {
+        "title": "Applicable law and jurisdiction",
+        "body": "Which law applies and which courts have jurisdiction."
+      },
+      {
+        "title": "Last update",
+        "body": "The date the notice was last revised."
+      }
+    ]
+  },
+  "az": {
+    "title": "Hüquqi bildiriş",
+    "lead": "Bu saytın sahibi kimdir və saytdan istifadənin şərtləri hansılardır.",
+    "warningTitle": "Bu bildiriş hələ yazılmayıb",
+    "warningBody": "Aşağıdakı mətn real hüquqi bildirişin ehtiva etməli olduğu bölmələri göstərən skeletdir. Hüquqi qüvvəsi yoxdur. Sayt açılmazdan əvvəl hüquqi şəxsin rekvizitləri və hüquqi yoxlama lazımdır.",
+    "sections": [
+      {
+        "title": "Saytın sahibi",
+        "body": "Bu saytın sahibi olan təşkilatın hüquqi adı, hüquqi forması, qeydiyyat və vergi nömrəsi, hüquqi ünvanı və əlaqə e-poçtu."
+      },
+      {
+        "title": "Saytın məqsədi",
+        "body": "Saytın nə üçün mövcud olduğu: EYP Azerbaijan, sessiyalar və müraciət qaydası haqqında məlumat."
+      },
+      {
+        "title": "İstifadə şərtləri",
+        "body": "Saytdan istifadə qaydaları."
+      },
+      {
+        "title": "Əqli mülkiyyət",
+        "body": "Mətnlərin, loqotiplərin və fotoların kimə məxsus olduğu və nələrdən təkrar istifadə oluna biləcəyi."
+      },
+      {
+        "title": "Üçüncü tərəf keçidləri",
+        "body": "Saytın keçid verdiyi xarici saytlar, o cümlədən Members Platform və Google Forms üzrə məsuliyyət."
+      },
+      {
+        "title": "Məsuliyyət",
+        "body": "Təşkilatın saytın məzmununa və əlçatanlığına görə məsuliyyətinin hədləri."
+      },
+      {
+        "title": "Şəxsi məlumatlar",
+        "body": "Məxfilik siyasətinə istinad."
+      },
+      {
+        "title": "Kukilər",
+        "body": "Saytın hansı kukilərdən və analitikadan istifadə etdiyi, əgər istifadə edirsə."
+      },
+      {
+        "title": "Əlaqə və bildirişlər",
+        "body": "Təşkilatın istifadəçilərlə necə əlaqə saxladığı və abunəlikdən necə çıxmaq olar."
+      },
+      {
+        "title": "Tətbiq olunan hüquq və yurisdiksiya",
+        "body": "Hansı hüququn tətbiq olunduğu və hansı məhkəmələrin yurisdiksiyası."
+      },
+      {
+        "title": "Son yenilənmə",
+        "body": "Bildirişin sonuncu dəfə yenidən baxıldığı tarix."
+      }
+    ]
+  }
+}

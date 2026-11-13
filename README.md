@@ -29,9 +29,14 @@ drift apart structurally — only their strings differ.
 
 ### Translations are type-checked
 
-`src/i18n/en.ts` exports the copy **and** the `Dict` type derived from it. `src/i18n/az.ts` is
-typed as `Dict`, so adding an English key without an Azerbaijani one is a build error rather than
-a page that silently falls back to English.
+The wording of each page lives in `src/data/pages/<page>.json` as `{ "en": {...}, "az": {...} }`,
+so members can edit it in `/admin`. `src/i18n/en.ts` and `az.ts` hold only the interface labels
+(menu, buttons, statuses, footer) and pull each page's text in from those files.
+
+The build checks every page file (`src/lib/page-text.ts`, run from `src/i18n/ui.ts`): a key
+missing in one language, an empty text, or lists of different lengths stop the build, so Vercel
+keeps the last good site online. To add a new piece of text to a page, add the key to both `en`
+and `az` in its JSON file and use it in the page template; it then shows up in `/admin` by itself.
 
 Adding a third language: add it to `languages` in `src/i18n/ui.ts` and create a dictionary. No
 page needs to change.
@@ -52,18 +57,25 @@ Two schema rules are enforced at build time: `endDate` cannot precede `startDate
 with `status: call-open` must have an `applyUrl`. A malformed entry fails the build instead of
 shipping a broken card.
 
-### The `/admin` editor (sessions)
+### The `/admin` editor
 
-Members add, edit and delete sessions at `/admin` with one shared password; no GitHub account
-needed. A save is checked against the same rules as the build, written to
-`src/content/sessions/` as a commit by a server-side token, and Vercel rebuilds: the site
-updates about two minutes later. Each save asks for the editor's name, which goes into the
-commit message, so the change history shows who did what.
+Members log in at `/admin` with one shared password (no GitHub account) and can change:
 
-Code: `src/pages/admin/` (rendered on request, `prerender = false`), `src/lib/admin/`
-(password check, GitHub storage, form rules), `src/middleware.ts` (keeps `/admin` out of the
-locale routing). Allowed field values live in `src/lib/session-fields.ts`, shared with
-`src/content.config.ts`.
+- **Page text**: every piece of wording on the 12 content pages, English and Azerbaijani side by
+  side, with readable labels ("Mission — Text 2", "FAQ 3 — Answer"). They change words only;
+  the keys and layout stay fixed, except the lists in `LISTS` (`src/lib/page-text.ts`: History
+  milestones, Legal notice sections), which can grow and shrink.
+- **Sessions, news, board members, partners**: add, edit, delete through forms.
+
+A save is checked against the same rules as the build, written to the repo as a commit by a
+server-side token, and Vercel rebuilds: the site updates about two minutes later. Each save asks
+for the editor's name, which goes into the commit message, so the history shows who did what.
+
+Code: `src/pages/admin/` (rendered on request, `prerender = false`); `src/lib/admin/` (password
+check, GitHub storage, the field lists and rules for each collection in `collections.ts`);
+`src/lib/page-text.ts` (page registry, labels, checks); `src/middleware.ts` (keeps `/admin` out
+of the locale routing). A field added to a schema in `src/content.config.ts` must also be added
+to `collections.ts`, or the form will not show it (an edit keeps fields it does not know).
 
 **Setup in Vercel** (Project → Settings → Environment Variables, then redeploy):
 
@@ -82,8 +94,9 @@ the password's length is what really protects it.
 `GITHUB_TOKEN` out and run `npm run dev`. Saves then change the files on your computer instead
 of committing.
 
-Not covered yet: news, board and partners (still edited as files), and cover images (a `cover`
-added by hand is kept when the session is edited).
+Not editable in `/admin`: the menu, buttons and footer labels (`src/i18n/*.ts`), and images
+(session covers, board photos, partner logos). An image added by hand is kept when its entry is
+edited.
 
 ### Design
 
