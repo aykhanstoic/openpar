@@ -1,0 +1,56 @@
+---
+/**
+ * Shell for the /admin pages. Not the public Base layout: no site nav, no
+ * hreflang, never indexed, never cached.
+ */
+import "@fontsource-variable/source-sans-3";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  /** Show the "Log out" button. */
+  loggedIn?: boolean;
+}
+
+const { title, loggedIn = false } = Astro.props;
+
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
+Astro.response.headers.set(
+  "Content-Security-Policy",
+  "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
+);
+/* Not "no-referrer": that makes browsers send `Origin: null` on form posts,
+   which the same-origin check then rejects. */
+Astro.response.headers.set("Referrer-Policy", "same-origin");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title} | EYP Azerbaijan editor</title>
+  </head>
+  <body class="min-h-screen bg-cream text-ink">
+    <header class="border-b border-line bg-white">
+      <div class="mx-auto flex max-w-3xl items-center gap-4 px-4 py-4">
+        <a href="/admin/" class="font-display text-lg font-bold text-deep">EYP Azerbaijan · Editor</a>
+        <a href="/en/" class="ms-auto text-sm text-ink-muted underline hover:text-deep">View site</a>
+        {
+          loggedIn && (
+            <form method="post" action="/admin/">
+              <input type="hidden" name="action" value="logout" />
+              <button type="submit" class="text-sm font-semibold text-deep underline">Log out</button>
+            </form>
+          )
+        }
+      </div>
+    </header>
+    <main class="mx-auto max-w-3xl px-4 py-8">
+      <slot />
+    </main>
+  </body>
+</html>

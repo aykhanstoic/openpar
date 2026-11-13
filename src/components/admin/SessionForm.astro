@@ -1,0 +1,186 @@
+---
+import {
+  SESSION_LANGS,
+  SESSION_STATUSES,
+  SESSION_TYPES,
+  LANG_LABELS,
+  STATUS_LABELS,
+  TYPE_LABELS,
+} from "../../lib/session-fields";
+import type { SessionFormValues } from "../../lib/admin/session-doc";
+
+interface Props {
+  values: SessionFormValues;
+  errors: Record<string, string>;
+  submitLabel: string;
+  /** Version of the file being edited; sent back so a stale save is refused. */
+  sha?: string;
+}
+
+const { values, errors, submitLabel, sha } = Astro.props;
+
+const input =
+  "mt-1 block w-full rounded border border-line bg-white px-3 py-2 text-base text-ink focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep-050";
+const label = "block font-semibold text-ink";
+const hint = "mt-1 text-sm text-ink-muted";
+const err = "mt-1 text-sm font-semibold text-[#B42318]";
+const describedBy = (name: string, hasHint = false) =>
+  [hasHint ? `${name}-hint` : "", errors[name] ? `${name}-error` : ""].filter(Boolean).join(" ") || undefined;
+---
+
+<form method="post" class="grid gap-6" novalidate>
+  <input type="hidden" name="action" value="save" />
+  {sha && <input type="hidden" name="sha" value={sha} />}
+
+  {
+    errors.form && (
+      <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">
+        {errors.form}
+      </p>
+    )
+  }
+  {
+    Object.keys(errors).length > 0 && !errors.form && (
+      <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">
+        Nothing was saved. Fix the fields marked below.
+      </p>
+    )
+  }
+
+  <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+    <legend class="px-1 font-display text-lg font-bold text-deep">The session</legend>
+
+    <div>
+      <label for="title" class={label}>Title</label>
+      <input id="title" name="title" value={values.title} required maxlength="120" class={input} aria-describedby={describedBy("title")} aria-invalid={errors.title ? "true" : undefined} />
+      {errors.title && <p id="title-error" class={err}>{errors.title}</p>}
+    </div>
+
+    <div>
+      <label for="theme" class={label}>Theme</label>
+      <input id="theme" name="theme" value={values.theme} required maxlength="200" class={input} aria-describedby={describedBy("theme")} aria-invalid={errors.theme ? "true" : undefined} />
+      {errors.theme && <p id="theme-error" class={err}>{errors.theme}</p>}
+    </div>
+
+    <div>
+      <label for="summary" class={label}>Card summary <span class="font-normal text-ink-muted">(optional)</span></label>
+      <textarea id="summary" name="summary" rows="2" maxlength="300" class={input} aria-describedby={describedBy("summary", true)}>{values.summary}</textarea>
+      <p id="summary-hint" class={hint}>One or two sentences for the session card. If empty, the theme is shown.</p>
+      {errors.summary && <p id="summary-error" class={err}>{errors.summary}</p>}
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="venue" class={label}>Venue</label>
+        <input id="venue" name="venue" value={values.venue} required maxlength="120" class={input} aria-describedby={describedBy("venue")} aria-invalid={errors.venue ? "true" : undefined} />
+        {errors.venue && <p id="venue-error" class={err}>{errors.venue}</p>}
+      </div>
+      <div>
+        <label for="city" class={label}>City <span class="font-normal text-ink-muted">(optional)</span></label>
+        <input id="city" name="city" value={values.city} maxlength="60" class={input} aria-describedby={describedBy("city")} />
+        {errors.city && <p id="city-error" class={err}>{errors.city}</p>}
+      </div>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="startDate" class={label}>Start date</label>
+        <input id="startDate" name="startDate" type="date" value={values.startDate} required class={input} aria-describedby={describedBy("startDate")} aria-invalid={errors.startDate ? "true" : undefined} />
+        {errors.startDate && <p id="startDate-error" class={err}>{errors.startDate}</p>}
+      </div>
+      <div>
+        <label for="endDate" class={label}>End date</label>
+        <input id="endDate" name="endDate" type="date" value={values.endDate} required class={input} aria-describedby={describedBy("endDate")} aria-invalid={errors.endDate ? "true" : undefined} />
+        {errors.endDate && <p id="endDate-error" class={err}>{errors.endDate}</p>}
+      </div>
+    </div>
+
+    <div>
+      <label for="type" class={label}>Type <span class="font-normal text-ink-muted">(optional)</span></label>
+      <select id="type" name="type" class={input}>
+        <option value="" selected={values.type === ""}>Not set</option>
+        {SESSION_TYPES.map((t) => <option value={t} selected={values.type === t}>{TYPE_LABELS[t]}</option>)}
+      </select>
+    </div>
+
+    <div>
+      <label for="body" class={label}>Description <span class="font-normal text-ink-muted">(optional)</span></label>
+      <textarea id="body" name="body" rows="10" maxlength="20000" class={input} aria-describedby={describedBy("body", true)}>{values.body}</textarea>
+      <p id="body-hint" class={hint}>Shown on the session's own page. Leave a blank line between paragraphs. <code>## Heading</code> makes a heading, <code>**bold**</code> makes bold text.</p>
+      {errors.body && <p id="body-error" class={err}>{errors.body}</p>}
+    </div>
+  </fieldset>
+
+  <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+    <legend class="px-1 font-display text-lg font-bold text-deep">Applications</legend>
+
+    <div>
+      <label for="status" class={label}>Status</label>
+      <select id="status" name="status" class={input} aria-describedby={describedBy("status", true)}>
+        {SESSION_STATUSES.map((s) => <option value={s} selected={values.status === s}>{STATUS_LABELS[s]}</option>)}
+      </select>
+      <p id="status-hint" class={hint}>"Call open" shows an Apply button and needs an apply link. It turns into "Call closed" by itself the day after the deadline.</p>
+      {errors.status && <p id="status-error" class={err}>{errors.status}</p>}
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="applyDeadline" class={label}>Application deadline <span class="font-normal text-ink-muted">(optional)</span></label>
+        <input id="applyDeadline" name="applyDeadline" type="date" value={values.applyDeadline} class={input} aria-describedby={describedBy("applyDeadline")} />
+        {errors.applyDeadline && <p id="applyDeadline-error" class={err}>{errors.applyDeadline}</p>}
+      </div>
+    </div>
+
+    <div class="flex items-start gap-3">
+      <input id="outreach" name="outreach" type="checkbox" checked={values.outreach === "on"} class="mt-1 h-5 w-5" aria-describedby="outreach-hint" />
+      <div>
+        <label for="outreach" class={label}>Outreach session</label>
+        <p id="outreach-hint" class={hint}>Tick this when applications go through a Google Form instead of the Members Platform.</p>
+      </div>
+    </div>
+
+    <div>
+      <label for="applyUrl" class={label}>Apply link <span class="font-normal text-ink-muted">(needed while the call is open)</span></label>
+      <input id="applyUrl" name="applyUrl" type="url" value={values.applyUrl} placeholder="https://" class={input} aria-describedby={describedBy("applyUrl", true)} aria-invalid={errors.applyUrl ? "true" : undefined} />
+      <p id="applyUrl-hint" class={hint}>The Members Platform page, or the Google Form for an outreach session.</p>
+      {errors.applyUrl && <p id="applyUrl-error" class={err}>{errors.applyUrl}</p>}
+    </div>
+
+    <div>
+      <label for="resolutionsUrl" class={label}>Resolutions booklet link <span class="font-normal text-ink-muted">(optional, after the session)</span></label>
+      <input id="resolutionsUrl" name="resolutionsUrl" type="url" value={values.resolutionsUrl} placeholder="https://" class={input} aria-describedby={describedBy("resolutionsUrl")} aria-invalid={errors.resolutionsUrl ? "true" : undefined} />
+      {errors.resolutionsUrl && <p id="resolutionsUrl-error" class={err}>{errors.resolutionsUrl}</p>}
+    </div>
+  </fieldset>
+
+  <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+    <legend class="px-1 font-display text-lg font-bold text-deep">Publishing</legend>
+
+    <div>
+      <label for="lang" class={label}>Show on</label>
+      <select id="lang" name="lang" class={input}>
+        {SESSION_LANGS.map((l) => <option value={l} selected={values.lang === l}>{LANG_LABELS[l]}</option>)}
+      </select>
+    </div>
+
+    <div class="flex items-start gap-3">
+      <input id="draft" name="draft" type="checkbox" checked={values.draft === "on"} class="mt-1 h-5 w-5" aria-describedby="draft-hint" />
+      <div>
+        <label for="draft" class={label}>Draft</label>
+        <p id="draft-hint" class={hint}>Saved, but hidden from the website until you untick this.</p>
+      </div>
+    </div>
+
+    <div>
+      <label for="editor" class={label}>Your name</label>
+      <input id="editor" name="editor" value={values.editor} required maxlength="60" autocomplete="name" class={input} aria-describedby={describedBy("editor", true)} aria-invalid={errors.editor ? "true" : undefined} />
+      <p id="editor-hint" class={hint}>Kept in the change history so the board can see who changed what. Not shown on the website.</p>
+      {errors.editor && <p id="editor-error" class={err}>{errors.editor}</p>}
+    </div>
+  </fieldset>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button type="submit" class="btn btn-primary">{submitLabel}</button>
+    <a href="/admin/" class="text-deep underline">Cancel</a>
+  </div>
+</form>

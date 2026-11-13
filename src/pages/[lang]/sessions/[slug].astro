@@ -10,12 +10,14 @@ import {
   locales,
   type Locale,
 } from "../../../i18n/ui";
-import { currentStatus } from "../../../lib/sessions";
+import { currentStatus, showsIn } from "../../../lib/sessions";
 
 export async function getStaticPaths() {
   const sessions = await getCollection("sessions", ({ data }) => !data.draft);
   return locales.flatMap((lang) =>
-    sessions.map((session) => ({ params: { lang, slug: session.id }, props: { session } })),
+    sessions
+      .filter((session) => showsIn(session.data, lang))
+      .map((session) => ({ params: { lang, slug: session.id }, props: { session } })),
   );
 }
 
@@ -37,7 +39,12 @@ const applyLabel = d.outreach ? t.common.applyGoogleForm : t.common.applyMembers
 const canApply = status === "call-open" && Boolean(d.applyUrl);
 ---
 
-<Base locale={locale} title={d.title} description={d.summary ?? d.theme}>
+<Base
+  locale={locale}
+  title={d.title}
+  description={d.summary ?? d.theme}
+  singleLocaleFallback={d.lang === "both" ? undefined : "sessions"}
+>
   <PageHero
     locale={locale}
     title={d.title}

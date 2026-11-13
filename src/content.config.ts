@@ -1,5 +1,6 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { SESSION_LANGS, SESSION_STATUSES, SESSION_TYPES } from "./lib/session-fields";
 
 /** z.string().url() also accepts javascript: and data: URLs; links here are rendered as hrefs. */
 const httpsUrl = z
@@ -36,17 +37,17 @@ const sessions = defineCollection({
         city: z.string().optional(),
         startDate: z.coerce.date(),
         endDate: z.coerce.date(),
-        status: z.enum(["announced", "call-open", "call-closed", "completed"]),
+        status: z.enum(SESSION_STATUSES),
         /** Application deadline. Only meaningful while status is call-open. */
         applyDeadline: z.coerce.date().optional(),
         /** What kind of session this is. Outreach is the separate flag below. */
-        type: z.enum(["nsc", "rsc", "members-weekend", "international", "training", "other"]).optional(),
+        type: z.enum(SESSION_TYPES).optional(),
         outreach: z.boolean().default(false),
         applyUrl: httpsUrl.optional(),
         /** Published resolutions booklet, for completed sessions. */
         resolutionsUrl: httpsUrl.optional(),
         cover: image().optional(),
-        lang: z.enum(["en", "az", "both"]).default("both"),
+        lang: z.enum(SESSION_LANGS).default("both"),
         draft: z.boolean().default(false),
       })
       .refine((d) => d.endDate >= d.startDate, {

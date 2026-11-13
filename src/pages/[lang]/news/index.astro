@@ -4,6 +4,7 @@ import Base from "../../../layouts/Base.astro";
 import PageHero from "../../../components/PageHero.astro";
 import NewsCard from "../../../components/NewsCard.astro";
 import { useTranslations, type Locale } from "../../../i18n/ui";
+import { showsIn } from "../../../lib/sessions";
 
 export { getStaticPaths } from "../../../i18n/paths";
 
@@ -20,7 +21,7 @@ const sessionTitles = new Map<string, string>();
 for (const post of posts) {
   if (!post.data.session) continue;
   const entry = await getEntry(post.data.session);
-  if (entry && !entry.data.draft) sessionTitles.set(post.id, entry.data.title);
+  if (entry && !entry.data.draft && showsIn(entry.data, locale)) sessionTitles.set(post.id, entry.data.title);
 }
 
 const hasForeign = posts.some((p) => p.data.lang !== locale);

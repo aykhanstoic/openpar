@@ -1,5 +1,9 @@
 # Design reference — EYP National Committee survey
 
+> **Superseded 2026-09-30.** This describes the earlier "soft & friendly" direction,
+> replaced when aykhan's branch was inherited (see the decisions log in `PLAN.md`).
+> Kept as a record only; the NC survey itself is still useful background.
+
 Survey of 31 NC homepages + eyp.org, captured 2026-08-22 with Playwright
 (1440×900, screenshot + computed fonts/colors per site). Purpose: know what
 the network looks like so eyp.az deliberately doesn't look like it, and

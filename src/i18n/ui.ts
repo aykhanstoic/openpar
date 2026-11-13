@@ -19,7 +19,14 @@ export function useTranslations(locale: Locale): Dict {
 }
 
 export function isLocale(value: string | undefined): value is Locale {
-  return value === "en" || value === "az";
+  return (locales as string[]).includes(value ?? "");
+}
+
+const localePrefix = new RegExp(`^/(${locales.join("|")})(?=/|$)`);
+
+/** "/az/sessions/x/" → "/sessions/x/". A path with no locale prefix comes back unchanged. */
+export function stripLocale(pathname: string): string {
+  return pathname.replace(localePrefix, "");
 }
 
 /** Prefix a path with the locale. `path` is given without a leading slash. */
@@ -69,27 +76,27 @@ export const footerInvolvedNav: NavItem[] = [
 
 const intlLocale: Record<Locale, string> = { en: "en-GB", az: "az-AZ" };
 
+/* Content dates are bare YYYY-MM-DD, which parse to UTC midnight. Every
+   formatter pins UTC, or a build machine west of Greenwich prints the day before. */
+const fmt = (locale: Locale, options: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat(intlLocale[locale], { ...options, timeZone: "UTC" });
+
 export function formatDate(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(intlLocale[locale], {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date);
+  return fmt(locale, { day: "numeric", month: "long", year: "numeric" }).format(date);
 }
 
 /** "5–9 November 2026" / collapses a shared month or year where possible. */
 export function formatDateRange(start: Date, end: Date, locale: Locale): string {
-  const tag = intlLocale[locale];
-  const sameYear = start.getFullYear() === end.getFullYear();
-  const sameMonth = sameYear && start.getMonth() === end.getMonth();
+  const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
+  const sameMonth = sameYear && start.getUTCMonth() === end.getUTCMonth();
 
   if (sameMonth) {
-    const day = new Intl.DateTimeFormat(tag, { day: "numeric" });
-    const tail = new Intl.DateTimeFormat(tag, { month: "long", year: "numeric" });
+    const day = fmt(locale, { day: "numeric" });
+    const tail = fmt(locale, { month: "long", year: "numeric" });
     return `${day.format(start)}–${day.format(end)} ${tail.format(end)}`;
   }
 
-  const short = new Intl.DateTimeFormat(tag, {
+  const short = fmt(locale, {
     day: "numeric",
     month: "long",
     ...(sameYear ? {} : { year: "numeric" }),
@@ -99,9 +106,8 @@ export function formatDateRange(start: Date, end: Date, locale: Locale): string 
 
 /** Short day/month pair for the date chip on session cards. */
 export function formatDayMonth(date: Date, locale: Locale): { day: string; month: string } {
-  const tag = intlLocale[locale];
   return {
-    day: new Intl.DateTimeFormat(tag, { day: "numeric" }).format(date),
-    month: new Intl.DateTimeFormat(tag, { month: "short" }).format(date).replace(".", ""),
+    day: fmt(locale, { day: "numeric" }).format(date),
+    month: fmt(locale, { month: "short" }).format(date).replace(".", ""),
   };
 }
