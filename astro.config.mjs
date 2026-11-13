@@ -8,6 +8,17 @@ export default defineConfig({
   // out with `prerender = false`, and the adapter turns those into Vercel
   // Functions.
   adapter: vercel(),
+  // The hosts /admin is served from. Behind Vercel's proxy, Astro only trusts
+  // the forwarded host for these; otherwise it sees "http://localhost", and its
+  // same-origin check rejects every form post ("Cross-site POST form
+  // submissions are forbidden"). Add a domain here when one is connected.
+  security: {
+    allowedDomains: [
+      { hostname: 'openpar.vercel.app', protocol: 'https' },
+      { hostname: 'eyp.az', protocol: 'https' },
+      { hostname: 'www.eyp.az', protocol: 'https' },
+    ],
+  },
   // Read at request time on the server, never bundled into the browser. All
   // optional so the site builds without them; /admin says what is missing.
   env: {
