@@ -1,0 +1,20 @@
+{
+  "en": {
+    "title": "News",
+    "lead": "Session recaps, open calls, member spotlights and announcements.",
+    "empty": "No posts have been published yet.",
+    "relatedSession": "Related session",
+    "backLabel": "All news",
+    "publishedOn": "Published",
+    "otherLanguageNote": "Some posts are published in one language only. Those are shown here in the language they were written in."
+  },
+  "az": {
+    "title": "Xəbərlər",
+    "lead": "Sessiya hesabatları, açıq çağırışlar, üzv təqdimatları və elanlar.",
+    "empty": "Hələ yazı dərc olunmayıb.",
+    "relatedSession": "Əlaqəli sessiya",
+    "backLabel": "Bütün xəbərlər",
+    "publishedOn": "Dərc olunub",
+    "otherLanguageNote": "Bəzi yazılar yalnız bir dildə dərc olunur. Onlar burada yazıldıqları dildə göstərilir."
+  }
+}

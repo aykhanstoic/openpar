@@ -1,5 +1,6 @@
 import { en, type Dict } from "./en";
 import { az } from "./az";
+import { problems, type PageText } from "../lib/page-text";
 
 export const languages = {
   en: "English",
@@ -12,6 +13,16 @@ export const locales = Object.keys(languages) as Locale[];
 export const defaultLocale: Locale = "en";
 
 const dictionaries: Record<Locale, Dict> = { en, az };
+
+/* Page text is edited by members in /admin (src/data/pages/*.json). If a file
+   ever ends up with a missing translation, an empty text or lists of
+   different lengths, stop the build: Vercel then keeps the last good site
+   online instead of publishing a broken page. */
+const pageFiles = import.meta.glob<PageText>("../data/pages/*.json", { eager: true, import: "default" });
+const pageProblems = Object.entries(pageFiles).flatMap(([file, text]) =>
+  problems(file.replace(/^.*\/(.+)\.json$/, "$1"), text),
+);
+if (pageProblems.length) throw new Error(`Page text problems:\n${pageProblems.join("\n")}`);
 
 /** Returns the whole dictionary for a locale. Pages destructure what they need. */
 export function useTranslations(locale: Locale): Dict {

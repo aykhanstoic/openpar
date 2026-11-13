@@ -1,0 +1,214 @@
+---
+/**
+ * Every piece of text on one page, English and Azerbaijani side by side.
+ * Members change wording only: the page layout and which texts exist stay as
+ * they are (lists in LISTS may grow and shrink). See src/lib/page-text.ts.
+ */
+export const prerender = false;
+
+import Admin from "../../../layouts/Admin.astro";
+import { isLoggedIn, sameOrigin } from "../../../lib/admin/auth";
+import { getStore } from "../../../lib/admin/store";
+import { PAGES_FOLDER, getPage } from "../../../lib/admin/pages";
+import {
+  LISTS,
+  MAX_TEXT,
+  fieldName,
+  formErrors,
+  formFor,
+  problems,
+  readPageForm,
+  type PageText,
+} from "../../../lib/page-text";
+
+const { request, url, cookies, params } = Astro;
+if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
+const page = getPage(params.id);
+if (!page) return new Response("Not found", { status: 404 });
+const store = getStore(PAGES_FOLDER);
+if (!store) return Astro.redirect("/admin/pages/", 303);
+
+const file = await store.get(page.id);
+if (!file) return new Response("Not found", { status: 404 });
+const current = JSON.parse(file.content) as PageText;
+
+let text: PageText = current;
+let sha = file.sha;
+let editor = "";
+let errors: Record<string, string> = {};
+let formError = "";
+
+if (request.method === "POST") {
+  if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
+  const form = await request.formData();
+  const action = String(form.get("action") ?? "save");
+  sha = String(form.get("sha") ?? "") || undefined;
+  editor = String(form.get("editor") ?? "").trim().slice(0, 60);
+
+  if (action.startsWith("add:")) {
+    /* "Add a milestone": show the form again with one more empty item. Nothing is saved yet. */
+    const path = action.slice(4);
+    text = readPageForm(page.id, current, form, LISTS[`${page.id}:${path}`] ? path : undefined);
+  } else {
+    text = readPageForm(page.id, current, form);
+    errors = formErrors(text);
+    if (!editor) errors.editor = "Write your name";
+    const left = problems(page.id, text).filter((p) => !/is empty in/.test(p));
+    if (left.length) formError = "This page's text does not match between the two languages. Ask whoever manages the website.";
+
+    if (!Object.keys(errors).length && !formError) {
+      try {
+        await store.update(
+          page.id,
+          `${JSON.stringify(text, null, 2)}\n`,
+          `Update text of "${page.label}" (via /admin, by ${editor})`,
+          sha,
+        );
+        return Astro.redirect("/admin/pages/?done=updated", 303);
+      } catch (e) {
+        console.error(e);
+        formError = e instanceof Error ? e.message : "Saving failed. Nothing was published.";
+      }
+    } else if (!formError) {
+      const onlyName = Object.keys(errors).length === 1 && errors.editor;
+      formError = onlyName
+        ? "Nothing was saved yet. Write your name at the bottom, then press Save changes again."
+        : "Nothing was saved. Every box needs some text: fill in the ones marked in red below.";
+    }
+    Astro.response.status = 400;
+  }
+}
+
+const groups = formFor(page.id, text);
+const box =
+  "mt-1 block w-full rounded border border-line bg-white px-3 py-2 text-base text-ink focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep-050";
+const rows = (a: string, b: string) => Math.min(12, Math.max(2, Math.ceil(Math.max(a.length, b.length) / 60) + 1));
+const errId = (path: string) => `err-${path.replace(/[^a-zA-Z0-9]/g, "-")}`;
+---
+
+<Admin title={`Text: ${page.label}`} loggedIn>
+  <p><a href="/admin/pages/" class="text-deep underline">← All pages</a></p>
+  <h1 class="mt-3 font-display text-3xl font-bold text-deep">{page.label}</h1>
+  <p class="mt-1 text-sm text-ink-muted">
+    See this page on the website: <a class="underline" href={`/en/${page.path}${page.path ? "/" : ""}`} target="_blank">English</a> ·{" "}
+    <a class="underline" href={`/az/${page.path}${page.path ? "/" : ""}`} target="_blank">Azerbaijani</a> (opens in a new tab)
+  </p>
+
+  <div class="mt-4 rounded border border-line bg-white p-4 text-sm">
+    <p class="font-semibold">How this works</p>
+    <ul class="mt-1 list-disc ps-5 text-ink-muted">
+      <li>Every box is one piece of text on the page, in the order it appears there.</li>
+      <li>Change the words, then press <strong>Save changes</strong> at the bottom. Nothing changes on the website before that.</li>
+      <li>Every box needs text in both languages. If you only know one, ask someone to translate before you save.</li>
+      <li>Write plain text. Formatting, links and layout are set by the website itself.</li>
+    </ul>
+  </div>
+
+  <form method="post" class="mt-6 grid gap-6" novalidate>
+    {sha && <input type="hidden" name="sha" value={sha} />}
+    {/* Pressing Enter in a box submits with the first button in the form.
+        Make that "save", not one of the "Add" buttons further down. */}
+    <button type="submit" name="action" value="save" class="sr-only" tabindex="-1" aria-hidden="true">Save</button>
+
+    {formError && (
+      <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">{formError}</p>
+    )}
+
+    {
+      groups.map((g) => (
+        <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+          <legend class="px-1 font-display text-lg font-bold text-deep">{g.title}</legend>
+
+          {g.items.map((item) =>
+            item.kind === "text" ? (
+              <div>
+                <p class="font-semibold text-ink" id={`lbl-${item.path}`}>{item.label}</p>
+                <div class="mt-1 grid gap-3 md:grid-cols-2">
+                  {(["en", "az"] as const).map((lang) => (
+                    <label class="block text-sm text-ink-muted">
+                      {lang === "en" ? "English" : "Azerbaijani"}
+                      {item.long ? (
+                        <textarea
+                          name={fieldName(lang, item.path)}
+                          rows={rows(item.en, item.az)}
+                          maxlength={MAX_TEXT}
+                          lang={lang}
+                          class={box}
+                          aria-invalid={errors[item.path] ? "true" : undefined}
+                          aria-describedby={errors[item.path] ? errId(item.path) : undefined}
+                        >{item[lang]}</textarea>
+                      ) : (
+                        <input
+                          name={fieldName(lang, item.path)}
+                          value={item[lang]}
+                          maxlength={MAX_TEXT}
+                          lang={lang}
+                          class={box}
+                          aria-invalid={errors[item.path] ? "true" : undefined}
+                          aria-describedby={errors[item.path] ? errId(item.path) : undefined}
+                        />
+                      )}
+                    </label>
+                  ))}
+                </div>
+                {errors[item.path] && <p id={errId(item.path)} class="mt-1 text-sm font-semibold text-[#B42318]">{errors[item.path]}</p>}
+              </div>
+            ) : (
+              <div class="grid gap-4">
+                <input type="hidden" name={`count::${item.path}`} value={item.items.length} />
+                {item.items.length === 0 && <p class="text-ink-muted">No {item.itemLabel.toLowerCase()}s yet. This part of the page stays hidden until you add one.</p>}
+                {item.items.map((it, i) => (
+                  <div class="grid gap-3 rounded border border-line-soft bg-cream p-4">
+                    <p class="font-semibold">{item.itemLabel} {i + 1}</p>
+                    {item.fields.map((f) => {
+                      const path = `${item.path}.${i}.${f.key}`;
+                      return (
+                        <div>
+                          <p class="text-sm font-semibold">{f.label}</p>
+                          <div class="mt-1 grid gap-3 md:grid-cols-2">
+                            {(["en", "az"] as const).map((lang) => (
+                              <label class="block text-sm text-ink-muted">
+                                {lang === "en" ? "English" : "Azerbaijani"}
+                                {f.long ? (
+                                  <textarea name={fieldName(lang, path)} rows="3" maxlength={MAX_TEXT} lang={lang} class={box} aria-invalid={errors[path] ? "true" : undefined}>{it[lang][f.key]}</textarea>
+                                ) : (
+                                  <input name={fieldName(lang, path)} value={it[lang][f.key]} maxlength={MAX_TEXT} lang={lang} class={box} aria-invalid={errors[path] ? "true" : undefined} />
+                                )}
+                              </label>
+                            ))}
+                          </div>
+                          {errors[path] && <p class="mt-1 text-sm font-semibold text-[#B42318]">{errors[path]}</p>}
+                        </div>
+                      );
+                    })}
+                    <label class="flex items-center gap-2 text-sm">
+                      <input type="checkbox" name={`remove::${item.path}.${i}`} class="h-4 w-4" />
+                      Remove this {item.itemLabel.toLowerCase()} when I save
+                    </label>
+                  </div>
+                ))}
+                <button type="submit" name="action" value={`add:${item.path}`} class="justify-self-start rounded border border-deep px-4 py-2 font-semibold text-deep hover:bg-deep-050">
+                  + Add a {item.itemLabel.toLowerCase()}
+                </button>
+              </div>
+            ),
+          )}
+        </fieldset>
+      ))
+    }
+
+    <fieldset class="grid gap-4 rounded border border-line bg-white p-5">
+      <legend class="px-1 font-display text-lg font-bold text-deep">Save</legend>
+      <div>
+        <label for="editor" class="block font-semibold">Your name</label>
+        <input id="editor" name="editor" value={editor} maxlength="60" autocomplete="name" class={`${box} max-w-sm`} aria-describedby="editor-hint" aria-invalid={errors.editor ? "true" : undefined} />
+        <p id="editor-hint" class="mt-1 text-sm text-ink-muted">Kept in the change history so the board can see who changed what. Not shown on the website.</p>
+        {errors.editor && <p class="mt-1 text-sm font-semibold text-[#B42318]">{errors.editor}</p>}
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" name="action" value="save" class="btn btn-primary">Save changes</button>
+        <a href="/admin/pages/" class="text-deep underline">Cancel</a>
+      </div>
+    </fieldset>
+  </form>
+</Admin>

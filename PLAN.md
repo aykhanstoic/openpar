@@ -89,6 +89,7 @@ Privacy Policy
 | 2026-09-30 | Team preview lives at https://openpar.vercel.app/en/ | Riad set it up; `eyp.az` comes at launch |
 | 2026-10-01 | **No contact form.** Contact is role-based mailto addresses only | Neither eype.es nor eyp.pt has a form; a form is extra data-protection surface on a site that handles minors' data |
 | 2026-11-13 | **Supersedes the 2026-09-30 dashboard row.** `/admin` is our own editor with **one shared password**: members fill a session form, a Vercel Function validates it and commits the file to GitHub with a server-side token, Vercel rebuilds. Sveltia removed. Public pages stay static; only `/admin` runs on request (`@astrojs/vercel` adapter) | Riad/aykhan want members to publish without GitHub accounts. Vercel Functions remove the "needs a server" objection; there is still no database or user store, and every change stays in git history with the editor's name |
+| 2026-11-13 | `/admin` edits **all page content**, not just sessions: page wording moved from `src/i18n/{en,az}.ts` into `src/data/pages/*.json` (both languages per file), plus forms for news, board and partners. Interface labels (menu, buttons, footer) and images stay out of it | Members must be able to change the text themselves without reading code. Fixed keys keep the templates safe; the build rejects a page file whose languages do not match |
 
 ## Tech stack (confirmed 2026-08-22)
 
@@ -195,8 +196,9 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   the page, delete, logout, foreign-origin POST refused, forged cookie refused,
   lockout after 5 wrong passwords). **Not yet tested against GitHub**: needs
   `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` and `GITHUB_TOKEN` set in Vercel, then
-  one real save to confirm the commit lands and triggers a rebuild. Next: news,
-  then board/partners, then cover image upload. Board schema field is `group`;
+  one real save to confirm the commit lands and triggers a rebuild. Done
+  2026-11-13: confirmed on production (commit 35deb43), then extended to page
+  text, news, board and partners (tested locally end to end). Next: image upload. Board schema field is `group`;
   news tags are the standard English set only.
 - Gather from the NC: board names + consent, 3–5 real news posts, partners,
   photos (50–80, consent for minors). Look at how other NCs post photos.

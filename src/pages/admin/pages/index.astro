@@ -1,0 +1,44 @@
+---
+/** The list of pages whose text can be edited. */
+export const prerender = false;
+
+import Admin from "../../../layouts/Admin.astro";
+import { isLoggedIn } from "../../../lib/admin/auth";
+import { getStore, publishNote } from "../../../lib/admin/store";
+import { PAGES, PAGES_FOLDER } from "../../../lib/admin/pages";
+
+const { url, cookies } = Astro;
+if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
+const store = getStore(PAGES_FOLDER);
+const done = url.searchParams.get("done") === "updated";
+---
+
+<Admin title="Page text" loggedIn>
+  <p><a href="/admin/" class="text-deep underline">← Dashboard</a></p>
+  <h1 class="mt-3 font-display text-3xl font-bold text-deep">Page text</h1>
+  <p class="mt-2 text-ink-muted">
+    Pick a page to change its wording. You see every piece of text on that page, in English and Azerbaijani side by side.
+  </p>
+
+  {done && (
+    <p role="status" class="mt-6 rounded border border-deep bg-deep-050 p-3">
+      <strong>Changes saved.</strong> {publishNote(store?.kind)}
+    </p>
+  )}
+  {!store && (
+    <p role="alert" class="mt-6 rounded border border-[#B42318] bg-white p-3">
+      Saving is not set up yet: <code>GITHUB_TOKEN</code> is missing in Vercel. See the README.
+    </p>
+  )}
+
+  <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+    {PAGES.map((p) => (
+      <li>
+        <a href={`/admin/pages/${p.id}`} class="block h-full rounded border border-line bg-white p-4 hover:border-deep hover:bg-deep-050">
+          <span class="font-display text-lg font-bold text-deep underline">{p.label}</span>
+          <span class="mt-1 block text-sm text-ink-muted">{p.description}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Admin>

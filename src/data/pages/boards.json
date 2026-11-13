@@ -1,0 +1,20 @@
+{
+  "en": {
+    "executiveTitle": "Executive Board",
+    "executiveLead": "Elected by the membership, responsible for strategy, finances and the annual programme. You can write to any of them directly.",
+    "supervisoryTitle": "Supervisory Board",
+    "supervisoryLead": "Independent of the Executive Board. Reviews its decisions and finances, and reports to the membership at the General Assembly.",
+    "emptyExecutive": "Executive Board members have not been published yet.",
+    "emptySupervisory": "Supervisory Board members have not been published yet.",
+    "termLabel": "Term"
+  },
+  "az": {
+    "executiveTitle": "İcraiyyə İdarə Heyəti",
+    "executiveLead": "Üzvlər tərəfindən seçilir; strategiya, maliyyə və illik proqrama cavabdehdir. İstənilən üzvünə birbaşa yaza bilərsiniz.",
+    "supervisoryTitle": "Nəzarət Şurası",
+    "supervisoryLead": "İcraiyyə İdarə Heyətindən müstəqildir. Onun qərarlarını və maliyyəsini nəzərdən keçirir və Ümumi Yığıncaqda üzvlərə hesabat verir.",
+    "emptyExecutive": "İcraiyyə İdarə Heyətinin üzvləri hələ dərc olunmayıb.",
+    "emptySupervisory": "Nəzarət Şurasının üzvləri hələ dərc olunmayıb.",
+    "termLabel": "Səlahiyyət müddəti"
+  }
+}

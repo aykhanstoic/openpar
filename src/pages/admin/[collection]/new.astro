@@ -1,0 +1,51 @@
+---
+export const prerender = false;
+
+import Admin from "../../../layouts/Admin.astro";
+import EntryForm from "../../../components/admin/EntryForm.astro";
+import { isLoggedIn, sameOrigin } from "../../../lib/admin/auth";
+import { getCollection, readValues, toFile, validate, valuesFrom, type Values } from "../../../lib/admin/collections";
+import { referenceChoices } from "../../../lib/admin/references";
+import { getStore } from "../../../lib/admin/store";
+
+const { request, url, cookies, params } = Astro;
+if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
+const c = getCollection(params.collection);
+if (!c) return new Response("Not found", { status: 404 });
+const store = getStore(c.folder);
+if (!store) return Astro.redirect(`/admin/${c.id}/`, 303);
+
+const refs = await referenceChoices(c);
+let values: Values = valuesFrom(c);
+let errors: Record<string, string> = {};
+
+if (request.method === "POST") {
+  if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
+  values = readValues(c, await request.formData());
+  const result = validate(c, values, refs.ids);
+  if (!result.ok) {
+    errors = result.errors;
+  } else {
+    try {
+      /* Same name as an existing entry: add -2, -3, ... */
+      const base = c.slug(values);
+      const taken = new Set((await store.list()).map((f) => f.id));
+      let id = base;
+      for (let n = 2; taken.has(id); n++) id = `${base}-${n}`;
+      const title = values.title || values.name;
+      await store.create(id, toFile(c, result), `Add ${c.singular} "${title}" (via /admin, by ${values.editor})`);
+      return Astro.redirect(`/admin/${c.id}/?done=created`, 303);
+    } catch (e) {
+      console.error(e);
+      errors = { form: e instanceof Error ? e.message : "Saving failed. Nothing was published." };
+    }
+  }
+  Astro.response.status = 400;
+}
+---
+
+<Admin title={`New ${c.singular}`} loggedIn>
+  <p><a href={`/admin/${c.id}/`} class="text-deep underline">← {c.label}</a></p>
+  <h1 class="mt-3 mb-6 font-display text-3xl font-bold text-deep">Add a {c.singular}</h1>
+  <EntryForm collection={c} values={values} errors={errors} submitLabel="Save and publish" refOptions={refs.options} />
+</Admin>

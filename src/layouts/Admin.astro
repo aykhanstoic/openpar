@@ -16,10 +16,14 @@ const { title, loggedIn = false } = Astro.props;
 
 Astro.response.headers.set("Cache-Control", "no-store");
 Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
-Astro.response.headers.set(
-  "Content-Security-Policy",
-  "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
-);
+/* Production only: the dev server injects CSS as inline <style>, which this
+   policy blocks. (vercel.json sets the same policy on /admin in production.) */
+if (import.meta.env.PROD) {
+  Astro.response.headers.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
+  );
+}
 /* Not "no-referrer": that makes browsers send `Origin: null` on form posts,
    which the same-origin check then rejects. */
 Astro.response.headers.set("Referrer-Policy", "same-origin");

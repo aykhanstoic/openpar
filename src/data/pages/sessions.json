@@ -1,0 +1,44 @@
+{
+  "en": {
+    "title": "Sessions",
+    "lead": "Every session we run, open calls first. Outreach sessions take applications through a linked form because the Members Platform cannot process them.",
+    "upcomingTitle": "Upcoming and open",
+    "pastTitle": "Past sessions",
+    "emptyUpcoming": "No sessions are currently announced.",
+    "emptyPast": "No past sessions have been published yet.",
+    "outreachLabel": "Outreach session",
+    "outreachExplainer": "Outreach sessions are run in schools and regions outside the usual session circuit. Delegates cannot apply through the Members Platform, so these use a direct form.",
+    "detailBackLabel": "All sessions",
+    "aboutThisSession": "About this session",
+    "resolutions": "Resolutions booklet",
+    "types": {
+      "nsc": "National Selection Conference",
+      "rsc": "Regional Selection Conference",
+      "members-weekend": "Members' Weekend",
+      "international": "International event",
+      "training": "Training",
+      "other": "Other"
+    }
+  },
+  "az": {
+    "title": "Sessiyalar",
+    "lead": "Keçirdiyimiz bütün sessiyalar, əvvəlcə açıq çağırışlar. Autriç sessiyaları müraciətləri ayrıca forma ilə qəbul edir, çünki Members Platform onları emal edə bilmir.",
+    "upcomingTitle": "Qarşıdakı və açıq",
+    "pastTitle": "Keçmiş sessiyalar",
+    "emptyUpcoming": "Hazırda elan olunmuş sessiya yoxdur.",
+    "emptyPast": "Hələ keçmiş sessiya dərc olunmayıb.",
+    "outreachLabel": "Autriç sessiyası",
+    "outreachExplainer": "Autriç sessiyaları adi sessiya dövriyyəsindən kənarda — məktəblərdə və regionlarda keçirilir. Deleqatlar Members Platform vasitəsilə müraciət edə bilmədiyi üçün burada birbaşa formadan istifadə olunur.",
+    "detailBackLabel": "Bütün sessiyalar",
+    "aboutThisSession": "Bu sessiya haqqında",
+    "resolutions": "Qətnamələr kitabçası",
+    "types": {
+      "nsc": "Milli Seçim Konfransı",
+      "rsc": "Regional Seçim Konfransı",
+      "members-weekend": "Üzvlərin həftəsonu",
+      "international": "Beynəlxalq tədbir",
+      "training": "Təlim",
+      "other": "Digər"
+    }
+  }
+}
