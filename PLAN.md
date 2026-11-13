@@ -198,7 +198,7 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` and `GITHUB_TOKEN` set in Vercel, then
   one real save to confirm the commit lands and triggers a rebuild. Done
   2026-11-13: confirmed on production (commit 35deb43), then extended to page
-  text, news, board and partners (tested locally end to end). Next: image upload. Board schema field is `group`;
+  text, news, board and partners (tested locally end to end). Photo upload added 2026-11-13 (covers, board photos, partner logos, 8 page photo spots; resized and stripped of metadata on the server). Board schema field is `group`;
   news tags are the standard English set only.
 - Gather from the NC: board names + consent, 3–5 real news posts, partners,
   photos (50–80, consent for minors). Look at how other NCs post photos.

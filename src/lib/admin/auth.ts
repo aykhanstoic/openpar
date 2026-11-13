@@ -114,3 +114,20 @@ export function logOut(cookies: AstroCookies) {
 export function sameOrigin(request: Request, url: URL): boolean {
   return request.headers.get("origin") === url.origin;
 }
+
+/* ------------------------------------------------------- editor's name */
+/* Every save asks "Your name" for the change history. Remember the last one
+   on this browser so it does not have to be typed on every form. */
+const EDITOR_COOKIE = "eyp_editor";
+
+export function rememberEditor(cookies: AstroCookies, name: string, secure: boolean) {
+  cookies.set(EDITOR_COOKIE, name.slice(0, 60), {
+    path: "/admin",
+    httpOnly: true,
+    sameSite: "strict",
+    secure,
+    maxAge: 60 * 60 * 24 * 90,
+  });
+}
+
+export const rememberedEditor = (cookies: AstroCookies) => (cookies.get(EDITOR_COOKIE)?.value ?? "").slice(0, 60);

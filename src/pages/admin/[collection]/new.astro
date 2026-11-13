@@ -3,10 +3,11 @@ export const prerender = false;
 
 import Admin from "../../../layouts/Admin.astro";
 import EntryForm from "../../../components/admin/EntryForm.astro";
-import { isLoggedIn, sameOrigin } from "../../../lib/admin/auth";
+import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../../lib/admin/auth";
 import { getCollection, readValues, toFile, validate, valuesFrom, type Values } from "../../../lib/admin/collections";
 import { referenceChoices } from "../../../lib/admin/references";
-import { getStore } from "../../../lib/admin/store";
+import { getStore, pathOf } from "../../../lib/admin/store";
+import { preparePhotos } from "../../../lib/admin/entry-photos";
 
 const { request, url, cookies, params } = Astro;
 if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
@@ -16,12 +17,13 @@ const store = getStore(c.folder);
 if (!store) return Astro.redirect(`/admin/${c.id}/`, 303);
 
 const refs = await referenceChoices(c);
-let values: Values = valuesFrom(c);
+let values: Values = { ...valuesFrom(c), editor: rememberedEditor(cookies) };
 let errors: Record<string, string> = {};
 
 if (request.method === "POST") {
   if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
-  values = readValues(c, await request.formData());
+  const form = await request.formData();
+  values = readValues(c, form);
   const result = validate(c, values, refs.ids);
   if (!result.ok) {
     errors = result.errors;
@@ -33,8 +35,20 @@ if (request.method === "POST") {
       let id = base;
       for (let n = 2; taken.has(id); n++) id = `${base}-${n}`;
       const title = values.title || values.name;
-      await store.create(id, toFile(c, result), `Add ${c.singular} "${title}" (via /admin, by ${values.editor})`);
-      return Astro.redirect(`/admin/${c.id}/?done=created`, 303);
+      const message = `Add ${c.singular} "${title}" (via /admin, by ${values.editor})`;
+      const photos = await preparePhotos(c, form, result.data, id);
+      if (Object.keys(photos.errors).length) {
+        errors = photos.errors;
+      } else {
+        if (photos.changes.length) {
+          const path = pathOf(c.folder, id);
+          await store.commit([...photos.changes, { path, content: toFile(c, result) }], message, { path, mustNotExist: true });
+        } else {
+          await store.create(id, toFile(c, result), message);
+        }
+        rememberEditor(cookies, values.editor, url.protocol === "https:");
+        return Astro.redirect(`/admin/${c.id}/?done=created`, 303);
+      }
     } catch (e) {
       console.error(e);
       errors = { form: e instanceof Error ? e.message : "Saving failed. Nothing was published." };

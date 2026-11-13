@@ -34,7 +34,24 @@ export interface Store {
   /** Replace a file. `sha` is the version the editor opened. */
   update(id: string, content: string, message: string, sha?: string): Promise<void>;
   remove(id: string, message: string, sha?: string): Promise<void>;
+  /**
+   * Write and delete several repo files in one commit (an entry plus its
+   * photo). `content: null` deletes. `expect` refuses the commit if that file
+   * changed since the editor opened it (sha), or exists when it should not.
+   */
+  commit(changes: Change[], message: string, expect?: { path: string; sha?: string; mustNotExist?: boolean }): Promise<void>;
+  /** Raw bytes of a repo file (for photo previews in /admin). */
+  readRaw(repoPath: string): Promise<Buffer | null>;
 }
+
+export interface Change {
+  /** Path from the repo root, e.g. src/assets/uploads/board/x.jpg */
+  path: string;
+  content: Buffer | string | null;
+}
+
+/** Repo path of an entry's file. */
+export const pathOf = (folder: Folder, id: string) => fileFor(folder, id);
 
 /** A folder of files, e.g. `src/content/sessions` with extension `md`. */
 export interface Folder {
@@ -125,6 +142,55 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       });
       if (!res.ok) throw new StoreError(`GitHub returned ${res.status} deleting ${id}`);
     },
+    async readRaw(repoPath) {
+      const res = await fetch(`${api}/${repoPath}?${ref}`, { headers: { ...headers, Accept: "application/vnd.github.raw" } });
+      if (res.status === 404) return null;
+      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} reading ${repoPath}`);
+      return Buffer.from(await res.arrayBuffer());
+    },
+    async commit(changes, message, expect) {
+      const git = `https://api.github.com/repos/${repo}/git`;
+      const json = async (url: string, init?: RequestInit) => {
+        const res = await call(url, { ...init, headers });
+        if (!res.ok) throw new StoreError(`GitHub returned ${res.status} (${url.replace(git, "git")})`);
+        return res.json();
+      };
+
+      if (expect) {
+        const res = await call(`${api}/${expect.path}?${ref}`);
+        const found = res.status === 404 ? null : ((await res.json()) as { sha: string }).sha;
+        if (expect.mustNotExist ? found !== null : found !== expect.sha) {
+          throw new ConflictError(
+            expect.mustNotExist
+              ? "Something with this name already exists."
+              : "Someone else changed this after you opened it. Go back, open it again, and redo your change.",
+          );
+        }
+      }
+
+      // Two tries: if someone else committed in between, start again from the new tip.
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const head = (await json(`${git}/ref/heads/${encodeURIComponent(branch)}`)).object.sha as string;
+        const baseTree = (await json(`${git}/commits/${head}`)).tree.sha as string;
+        const tree = await Promise.all(
+          changes.map(async (c) => {
+            if (c.content === null) return { path: c.path, mode: "100644", type: "blob", sha: null };
+            const buf = typeof c.content === "string" ? Buffer.from(c.content, "utf8") : c.content;
+            const blob = await json(`${git}/blobs`, { method: "POST", body: JSON.stringify({ content: buf.toString("base64"), encoding: "base64" }) });
+            return { path: c.path, mode: "100644", type: "blob", sha: blob.sha as string };
+          }),
+        );
+        const newTree = await json(`${git}/trees`, { method: "POST", body: JSON.stringify({ base_tree: baseTree, tree }) });
+        const commit = await json(`${git}/commits`, { method: "POST", body: JSON.stringify({ message, tree: newTree.sha, parents: [head] }) });
+        const res = await fetch(`${git}/refs/heads/${encodeURIComponent(branch)}`, {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify({ sha: commit.sha, force: false }),
+        });
+        if (res.ok) return;
+        if (res.status !== 422 || attempt === 1) throw new StoreError(`GitHub returned ${res.status} saving`);
+      }
+    },
   };
 }
 
@@ -168,6 +234,28 @@ function localStore(folder: Folder): Store {
     },
     async remove(id) {
       await fs.unlink(abs(id));
+    },
+    async readRaw(repoPath) {
+      try {
+        return await fs.readFile(path.resolve(process.cwd(), repoPath));
+      } catch (e) {
+        if ((e as NodeJS.ErrnoException).code === "ENOENT") return null;
+        throw e;
+      }
+    },
+    async commit(changes, _message, expect) {
+      if (expect?.mustNotExist) {
+        const exists = await fs.access(path.resolve(process.cwd(), expect.path)).then(() => true, () => false);
+        if (exists) throw new ConflictError("Something with this name already exists.");
+      }
+      for (const c of changes) {
+        const target = path.resolve(process.cwd(), c.path);
+        if (c.content === null) await fs.rm(target, { force: true });
+        else {
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.writeFile(target, c.content);
+        }
+      }
     },
   };
 }

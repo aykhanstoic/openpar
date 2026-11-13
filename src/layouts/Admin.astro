@@ -21,7 +21,7 @@ Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
 if (import.meta.env.PROD) {
   Astro.response.headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
   );
 }
 /* Not "no-referrer": that makes browsers send `Origin: null` on form posts,
@@ -37,6 +37,7 @@ Astro.response.headers.set("Referrer-Policy", "same-origin");
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title} | EYP Azerbaijan editor</title>
+    <script is:inline src="/admin-photos.js" defer></script>
   </head>
   <body class="min-h-screen bg-cream text-ink">
     <header class="border-b border-line bg-white">

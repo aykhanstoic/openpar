@@ -7,7 +7,7 @@
 export const prerender = false;
 
 import Admin from "../../../layouts/Admin.astro";
-import { isLoggedIn, sameOrigin } from "../../../lib/admin/auth";
+import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../../lib/admin/auth";
 import { getStore } from "../../../lib/admin/store";
 import { PAGES_FOLDER, getPage } from "../../../lib/admin/pages";
 import {
@@ -34,7 +34,7 @@ const current = JSON.parse(file.content) as PageText;
 
 let text: PageText = current;
 let sha = file.sha;
-let editor = "";
+let editor = rememberedEditor(cookies);
 let errors: Record<string, string> = {};
 let formError = "";
 
@@ -64,6 +64,7 @@ if (request.method === "POST") {
           `Update text of "${page.label}" (via /admin, by ${editor})`,
           sha,
         );
+        rememberEditor(cookies, editor, url.protocol === "https:");
         return Astro.redirect("/admin/pages/?done=updated", 303);
       } catch (e) {
         console.error(e);

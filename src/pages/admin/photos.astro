@@ -1,0 +1,167 @@
+---
+/**
+ * /admin/photos: the photo spots on the content pages. Each photo has its own
+ * small form, so one upload at a time stays under the server's size limit.
+ */
+export const prerender = false;
+
+import Admin from "../../layouts/Admin.astro";
+import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../lib/admin/auth";
+import { getStore, publishNote, type Change } from "../../lib/admin/store";
+import { ACCEPT, isUploadPath, newUploadPath, processUpload, UploadError } from "../../lib/admin/images";
+import { PHOTO_SPOTS, slotsOf, type PhotosFile } from "../../lib/page-photos";
+
+const { request, url, cookies } = Astro;
+if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
+const store = getStore({ dir: "src/data", ext: "json" });
+if (!store) return Astro.redirect("/admin/", 303);
+
+const PHOTOS_PATH = "src/data/photos.json";
+const file = await store.get("photos");
+const photos: PhotosFile = file ? JSON.parse(file.content) : {};
+
+/** Errors and typed alt texts for the one slot that was just submitted. */
+let failed: { key: string; message: string; altEn: string; altAz: string } | null = null;
+let editor = rememberedEditor(cookies);
+
+if (request.method === "POST") {
+  if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
+  const form = await request.formData();
+  const spot = PHOTO_SPOTS.find((s) => s.id === form.get("spot"));
+  const index = Number(form.get("index"));
+  if (!spot || !Number.isInteger(index) || index < 0 || index >= spot.count) return new Response("Bad request", { status: 400 });
+
+  const key = `${spot.id}-${index}`;
+  const altEn = String(form.get("altEn") ?? "").trim().slice(0, 200);
+  const altAz = String(form.get("altAz") ?? "").trim().slice(0, 200);
+  editor = String(form.get("editor") ?? "").trim().slice(0, 60);
+  const sha = String(form.get("sha") ?? "") || undefined;
+  const slots = slotsOf(photos, spot.id);
+  const current = slots[index];
+  const fail = (message: string) => (failed = { key, message, altEn, altAz });
+
+  try {
+    const remove = Boolean(form.get("remove"));
+    const upload = remove ? null : await processUpload(form.get("photo"), "photo");
+    const changes: Change[] = [];
+    const oldPath = current ? `src/assets/uploads/${current.file}` : "";
+
+    if (!editor) fail("Write your name, then save again.");
+    else if (remove) {
+      if (oldPath && isUploadPath(oldPath)) changes.push({ path: oldPath, content: null });
+      slots[index] = null;
+    } else if (!upload && !current) fail("Choose a photo first.");
+    else if (!altEn || !altAz) fail("Describe the photo in both languages. Screen readers read this out to people who cannot see it.");
+    else if (upload) {
+      const path = newUploadPath("pages", `${spot.id}-${index + 1}`, upload.ext);
+      changes.push({ path, content: upload.data });
+      if (oldPath && isUploadPath(oldPath)) changes.push({ path: oldPath, content: null });
+      slots[index] = { file: path.replace("src/assets/uploads/", ""), alt: { en: altEn, az: altAz } };
+    } else {
+      slots[index] = { file: current!.file, alt: { en: altEn, az: altAz } };
+    }
+
+    if (!failed) {
+      const next: PhotosFile = { ...photos, [spot.id]: slots };
+      changes.push({ path: PHOTOS_PATH, content: `${JSON.stringify(next, null, 2)}\n` });
+      const what = remove ? "Remove" : upload ? "Add" : "Update";
+      await store.commit(changes, `${what} photo ${index + 1} in "${spot.label}" (via /admin, by ${editor})`, { path: PHOTOS_PATH, sha });
+      rememberEditor(cookies, editor, url.protocol === "https:");
+      return Astro.redirect(`/admin/photos?done=1#${key}`, 303);
+    }
+  } catch (e) {
+    console.error(e);
+    fail(e instanceof Error ? e.message : "Saving failed. Nothing was published.");
+  }
+  Astro.response.status = 400;
+}
+
+const done = url.searchParams.get("done") === "1";
+const box = "mt-1 block w-full rounded border border-line bg-white px-3 py-2 text-base text-ink focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep-050";
+---
+
+<Admin title="Page photos" loggedIn>
+  <p><a href="/admin/" class="text-deep underline">← Dashboard</a></p>
+  <h1 class="mt-3 font-display text-3xl font-bold text-deep">Page photos</h1>
+  <p class="mt-2 text-ink-muted">
+    The photos on the Home, About us and Get involved pages. Until a spot has a photo, the website shows a dashed
+    placeholder there. Save one photo at a time.
+  </p>
+  <div class="mt-4 rounded border border-line bg-white p-4 text-sm text-ink-muted">
+    <p class="font-semibold text-ink">Before you upload</p>
+    <ul class="mt-1 list-disc ps-5">
+      <li>Only use photos you are allowed to publish. If someone under 18 can be recognised, you need consent.</li>
+      <li>Wide (landscape) photos fit best. Big photos are shrunk automatically, and hidden location data is removed.</li>
+      <li>"Describe the photo" is read out to people who cannot see it, e.g. "Delegates debating in committee".</li>
+    </ul>
+  </div>
+
+  {done && (
+    <p role="status" class="mt-6 rounded border border-deep bg-deep-050 p-3">
+      <strong>Photo saved.</strong> {publishNote(store.kind)}
+    </p>
+  )}
+
+  {
+    PHOTO_SPOTS.map((spot) => (
+      <section class="mt-10">
+        <h2 class="font-display text-2xl font-bold text-deep">{spot.label}</h2>
+        <p class="mt-1 text-sm text-ink-muted">
+          {spot.description}{" "}
+          <a class="underline" href={`/en/${spot.path}${spot.path ? "/" : ""}`} target="_blank">See the page</a>
+        </p>
+
+        <div class="mt-4 grid gap-4">
+          {slotsOf(photos, spot.id).map((slot, i) => {
+            const key = `${spot.id}-${i}`;
+            const err = failed?.key === key ? failed : null;
+            return (
+              <form id={key} method="post" enctype="multipart/form-data" class="grid gap-4 rounded border border-line bg-white p-5 sm:grid-cols-[10rem_1fr]" novalidate>
+                <input type="hidden" name="spot" value={spot.id} />
+                <input type="hidden" name="index" value={i} />
+                {file?.sha && <input type="hidden" name="sha" value={file.sha} />}
+                <div>
+                  <p class="font-semibold">Photo {i + 1}</p>
+                  {slot ? (
+                    <img src={`/admin/image?p=${encodeURIComponent(`src/assets/uploads/${slot.file}`)}`} alt={slot.alt.en} class="mt-2 h-28 w-40 rounded border border-line object-cover" data-preview-for={`${key}-file`} />
+                  ) : (
+                    <div class="mt-2 grid h-28 w-40 place-items-center rounded border-2 border-dashed border-line text-sm text-ink-muted" data-preview-for={`${key}-file`}>No photo yet</div>
+                  )}
+                </div>
+                <div class="grid gap-3">
+                  <div>
+                    <label for={`${key}-file`} class="text-sm font-semibold">{slot ? "Replace with a new photo" : "Choose a photo"}</label>
+                    <input id={`${key}-file`} name="photo" type="file" accept={ACCEPT} data-photo="photo" class="mt-1 block text-sm" />
+                  </div>
+                  <div class="grid gap-3 md:grid-cols-2">
+                    <label class="block text-sm font-semibold">
+                      Describe the photo (English)
+                      <input name="altEn" value={err ? err.altEn : (slot?.alt.en ?? "")} maxlength="200" lang="en" class={box} />
+                    </label>
+                    <label class="block text-sm font-semibold">
+                      Describe the photo (Azerbaijani)
+                      <input name="altAz" value={err ? err.altAz : (slot?.alt.az ?? "")} maxlength="200" lang="az" class={box} />
+                    </label>
+                  </div>
+                  {slot && (
+                    <label class="flex items-center gap-2 text-sm">
+                      <input type="checkbox" name="remove" class="h-4 w-4" /> Remove this photo (the placeholder comes back)
+                    </label>
+                  )}
+                  <div class="flex flex-wrap items-end gap-3">
+                    <label class="block text-sm font-semibold">
+                      Your name
+                      <input name="editor" value={editor} maxlength="60" autocomplete="name" class={`${box} w-56`} />
+                    </label>
+                    <button type="submit" class="btn btn-primary">Save photo {i + 1}</button>
+                  </div>
+                  {err && <p role="alert" class="text-sm font-semibold text-[#B42318]">{err.message}</p>}
+                </div>
+              </form>
+            );
+          })}
+        </div>
+      </section>
+    ))
+  }
+</Admin>
