@@ -1,17 +1,18 @@
 ---
-import { useTranslations, primaryNav, localePath, type Locale } from "../i18n/ui";
+import { useTranslations, primaryNav, localePath, stripLocale, type Locale } from "../i18n/ui";
 import Buta from "./Buta.astro";
 
 interface Props {
   locale: Locale;
+  /** The locale the language switch leads to, and where. Base works both out. */
+  other: Locale;
+  switcherHref: string;
 }
 
-const { locale } = Astro.props;
+const { locale, other, switcherHref } = Astro.props;
 const t = useTranslations(locale);
 
-const other: Locale = locale === "az" ? "en" : "az";
-const restOfPath = Astro.url.pathname.replace(/^\/(en|az)/, "");
-const switcherHref = `/${other}${restOfPath}`;
+const restOfPath = stripLocale(Astro.url.pathname);
 
 /* Mark the active item. Compare on the un-prefixed path so both locales work. */
 const current = restOfPath.replace(/^\/|\/$/g, "");
@@ -105,7 +106,7 @@ const mobileNav = [
     id="mobile-nav"
     hidden
     class="border-t border-line bg-white xl:hidden"
-    aria-label="Primary"
+    aria-label={t.nav.menu}
   >
     <div class="wrap flex flex-col py-2">
       {
@@ -166,8 +167,12 @@ const mobileNav = [
     setOpen(toggle.getAttribute("aria-expanded") !== "true");
   });
 
+  /* Escape closes the menu and hands focus back to the button, so keyboard
+     users are not left on a link that has just been hidden. */
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setOpen(false);
+    if (e.key !== "Escape" || toggle?.getAttribute("aria-expanded") !== "true") return;
+    setOpen(false);
+    toggle.focus();
   });
 
   /* A resize past the xl breakpoint must clear `hidden`, or the desktop nav

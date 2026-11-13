@@ -10,7 +10,8 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:4321. `npm run build` outputs a static site to `dist/`.
+Then open http://localhost:4321. `npm run build` prerenders every public page as static HTML;
+only the `/admin` editor runs as a Vercel Function (see below).
 
 > **Windows note.** If `npm install` fails on esbuild's postinstall with
 > `'node' is not recognized`, npm is handing `cmd.exe` a PATH without
@@ -44,15 +45,45 @@ between boards. Schemas are in `src/content.config.ts`.
 | --- | --- | --- |
 | `sessions` | `src/content/sessions/` | `outreach: true` switches the apply button from the Members Platform to a direct form |
 | `news` | `src/content/news/` | `lang` is per-post; `session` cross-references a session entry |
-| `board` | `src/content/board/` | `body` is `executive` or `supervisory` |
+| `board` | `src/content/board/` | `group` is `executive` or `supervisory` |
 | `partners` | `src/content/partners/` | Renders on the partners page and the footer strip |
 
 Two schema rules are enforced at build time: `endDate` cannot precede `startDate`, and a session
 with `status: call-open` must have an `applyUrl`. A malformed entry fails the build instead of
 shipping a broken card.
 
-If a future board wants a visual editor, any git-backed CMS (Decap, Sveltia, Tina) can be pointed
-at these folders without schema changes.
+### The `/admin` editor (sessions)
+
+Members add, edit and delete sessions at `/admin` with one shared password; no GitHub account
+needed. A save is checked against the same rules as the build, written to
+`src/content/sessions/` as a commit by a server-side token, and Vercel rebuilds: the site
+updates about two minutes later. Each save asks for the editor's name, which goes into the
+commit message, so the change history shows who did what.
+
+Code: `src/pages/admin/` (rendered on request, `prerender = false`), `src/lib/admin/`
+(password check, GitHub storage, form rules), `src/middleware.ts` (keeps `/admin` out of the
+locale routing). Allowed field values live in `src/lib/session-fields.ts`, shared with
+`src/content.config.ts`.
+
+**Setup in Vercel** (Project → Settings → Environment Variables, then redeploy):
+
+| Variable | Value |
+| --- | --- |
+| `ADMIN_PASSWORD` | The shared password. At least 12 characters; shorter ones are refused. |
+| `ADMIN_SESSION_SECRET` | A random string of 32+ characters (signs the login cookie). |
+| `GITHUB_TOKEN` | A fine-grained GitHub token: only this repo, **Contents: Read and write**. |
+| `GITHUB_REPO` / `GITHUB_BRANCH` | Optional. Default `aykhanstoic/openpar` / `dev`. Must be the branch Vercel deploys as production, or saves only reach previews. |
+
+To remove someone's access, change `ADMIN_PASSWORD`: everyone is logged out and needs the new
+one. Wrong passwords are slowed down (5 per 15 minutes per address, per function instance), so
+the password's length is what really protects it.
+
+**Trying it locally:** copy `.env.example` to `.env`, set the two `ADMIN_*` values, leave
+`GITHUB_TOKEN` out and run `npm run dev`. Saves then change the files on your computer instead
+of committing.
+
+Not covered yet: news, board and partners (still edited as files), and cover images (a `cover`
+added by hand is kept when the session is edited).
 
 ### Design
 
@@ -76,7 +107,9 @@ names keep working.
 
 Type is Source Sans 3 (the open successor of the Source Sans Pro the reference uses). Its
 `latin-ext` subset covers `U+0100–02BA`, which includes the Azerbaijani schwa `ə` — verified
-against the Google Fonts `unicode-range`, not assumed.
+against the font's `unicode-range`, not assumed. It is self-hosted through
+`@fontsource-variable/source-sans-3` (full package CSS, imported in `Base.astro`), so pages
+make no third-party font requests.
 
 ## Before launch
 
@@ -104,9 +137,10 @@ Everything below is a placeholder. Search for `PLACEHOLDER` to find them.
 
 ### Wiring
 
-- [ ] **Forms are inert by design.** Both the contact and newsletter forms intercept submit and
-      show a notice. Connect them to a form service, and the newsletter to a provider that does
-      **double opt-in** (a plan requirement).
+- [ ] **The newsletter form is inert by design.** It intercepts submit and shows a notice.
+      Connect it to a provider that does **double opt-in** (a plan requirement), and add the
+      provider's origin to `form-action` in the CSP in `vercel.json`. There is no contact form:
+      contact is mailto only (decided 2026-10-01).
 - [ ] **Azerbaijani needs a native review.** The translation is complete and idiomatic, but
       EYP-specific terms (`Ümumi Yığıncaq`, `qətnamə`, `komanda qurma`) should match the
       wording the committee already uses with schools.

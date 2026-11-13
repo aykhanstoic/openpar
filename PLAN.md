@@ -88,6 +88,7 @@ Privacy Policy
 | 2026-09-30 | eype.es (Spain) and eyp.pt (Portugal) are the **reference for what content goes on which page** and what the placeholders should be. Our site need not match them | Riad's call: same network, different NCs — borrow the information architecture, not the look |
 | 2026-09-30 | Team preview lives at https://openpar.vercel.app/en/ | Riad set it up; `eyp.az` comes at launch |
 | 2026-10-01 | **No contact form.** Contact is role-based mailto addresses only | Neither eype.es nor eyp.pt has a form; a form is extra data-protection surface on a site that handles minors' data |
+| 2026-11-13 | **Supersedes the 2026-09-30 dashboard row.** `/admin` is our own editor with **one shared password**: members fill a session form, a Vercel Function validates it and commits the file to GitHub with a server-side token, Vercel rebuilds. Sveltia removed. Public pages stay static; only `/admin` runs on request (`@astrojs/vercel` adapter) | Riad/aykhan want members to publish without GitHub accounts. Vercel Functions remove the "needs a server" objection; there is still no database or user store, and every change stays in git history with the editor's name |
 
 ## Tech stack (confirmed 2026-08-22)
 
@@ -177,9 +178,10 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
 - Fix whatever the code review of aykhan's branch turns up.
 - Tell aykhan to drop his editor launch-config folder from his branch (it
   is tracked there; our rule is no tooling traces in git).
-- Housekeeping: `@fontsource-variable/*` deps and the `assetsInlineLimit`
-  setting in `astro.config.mjs` are unused now; `docs/design-brief.md` and
-  `docs/design-reference.md` describe the superseded direction.
+- Housekeeping: done 2026-11-13. Old `@fontsource-variable/fraunces` and
+  `plus-jakarta-sans` removed; `assetsInlineLimit` stays (it keeps woff2 and JS
+  out of `data:` URLs under the CSP); both `docs/design-*.md` carry a
+  "superseded" note.
 
 **Phase 1 — Make it fillable (before inviting the EYP AZ team)**
 - Content inventory: done 2026-10-01, see "Content inventory" below.
@@ -187,14 +189,15 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   route, event `type` field (NSC / RSC / Members' Weekend / International /
   Outreach), and a marked legal-notice stub linked from the footer. (Contact form
   removed 2026-10-01, `/contact` is mailto only.)
-- CMS dashboard at `/admin`: Sveltia CMS 0.227.1 built over sessions, news,
-  board and partners (`public/admin/`, GitHub backend, repo `aykhanstoic/openpar`,
-  branch `dev`). The login screen loads; collections not yet exercised with a real
-  sign-in. Still open: editors must be repo collaborators with write access and
-  sign in with a GitHub access token; confirm a save triggers a Vercel rebuild.
-  Board schema field `body` renamed `group` (the CMS reserves `body` for the
-  markdown text). News tags are the standard English set only (Announcement,
-  Open call, Session recap, Message from the board), no Azerbaijani labels.
+- Editor at `/admin` (replaced Sveltia 2026-11-13, see decisions log): shared
+  password, sessions only (create, edit, delete). Tested locally end to end in
+  local-file mode (validation, save, edit keeps hand-added fields, draft hides
+  the page, delete, logout, foreign-origin POST refused, forged cookie refused,
+  lockout after 5 wrong passwords). **Not yet tested against GitHub**: needs
+  `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` and `GITHUB_TOKEN` set in Vercel, then
+  one real save to confirm the commit lands and triggers a rebuild. Next: news,
+  then board/partners, then cover image upload. Board schema field is `group`;
+  news tags are the standard English set only.
 - Gather from the NC: board names + consent, 3–5 real news posts, partners,
   photos (50–80, consent for minors). Look at how other NCs post photos.
 
@@ -211,10 +214,12 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   `applyUrl`, `resolutionsUrl` and partner `url` are https-only in the schema.
   Crawled all pages under the site CSP with zero violations. The CSP forces
   external scripts and stylesheets (`assetsInlineLimit`, `inlineStylesheets` in
-  `astro.config.mjs`) and allows Google Fonts. Not done: HSTS; the GitHub
-  sign-in and API calls under the `/admin` CSP are untested (only the
-  local-repo flow was).
-- Fonts load from Google Fonts (a third-party request); self-host instead.
+  `astro.config.mjs`). `/admin` now has its own strict CSP (set in `vercel.json`
+  and by `src/layouts/Admin.astro`); `vercel build` confirmed the `vercel.json`
+  headers still apply alongside the adapter's function routes.
+- Done 2026-11-13: fonts self-hosted (`@fontsource-variable/source-sans-3`);
+  Google Fonts dropped from the CSP. HSTS (`max-age=63072000`, no
+  `includeSubDomains` until we know what else lives under eyp.az) in `vercel.json`.
 - Done 2026-10-02 (uncommitted): `currentStatus()` in `src/lib/sessions.ts` turns a
   call-open session into call-closed once its deadline day (UTC) is over, used by
   the cards, detail page, home/sessions sorting and `/api/sessions.json`.
@@ -224,12 +229,13 @@ Detailed launch checklist (legal, content, wiring) lives in `README.md` →
   onto `main` (scheduled workflows only run from the default branch). A
   build-time check only works together with the daily rebuild. Dates are UTC midnight, so a
   session moves to "past" at 04:00 Baku time on its last day.
-- From the 2026-09-30 code review, not fixed yet: `sessions.lang` is never read
-  (an `az`-only session still shows on `/en/`); the date formatters in
-  `src/i18n/ui.ts` lack `timeZone: 'UTC'` (harmless on Vercel, wrong on a
-  west-of-Greenwich build); the locale regex is hardcoded in `Base.astro` and
-  `Header.astro`; mobile menu Escape doesn't return focus to the button and there
-  are two `Primary` nav landmarks.
+- Done 2026-11-13, the 2026-09-30 code review findings: `showsIn()` in
+  `src/lib/sessions.ts` keeps a one-language session off the other locale's
+  home, list, detail route and news links, and its detail page's language
+  switch goes to the other locale's session list (`singleLocaleFallback` on
+  `Base`, no hreflang pair). Date formatters in `src/i18n/ui.ts` pin UTC. The
+  locale prefix regex is built from `locales` (`stripLocale()`). Escape returns
+  focus to the menu button; the mobile nav landmark is labelled "Menu".
 - Analytics, Open Graph image, native Azerbaijani review of EYP terms,
   confirm `site` URL.
 

@@ -1,5 +1,9 @@
 # Design brief — eyp.az (EYP Azerbaijan)
 
+> **Superseded 2026-09-30.** This describes the earlier "soft & friendly" direction,
+> replaced when aykhan's branch was inherited (see the decisions log in `PLAN.md`).
+> Kept as a record only.
+
 Design the mobile web experience for EYP Azerbaijan (National Committee of
 the European Youth Parliament). Audience: high-school/university students
 arriving from Instagram links on their phones, plus teachers and partners.

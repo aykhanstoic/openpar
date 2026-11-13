@@ -1,8 +1,10 @@
 ---
+/* Self-hosted, full package CSS: latin-ext carries the Azerbaijani ə, ğ, ş. */
+import "@fontsource-variable/source-sans-3";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { useTranslations, locales, type Locale } from "../i18n/ui";
+import { useTranslations, locales, stripLocale, localePath, type Locale } from "../i18n/ui";
 
 interface Props {
   locale: Locale;
@@ -10,16 +12,26 @@ interface Props {
   description?: string;
   /** Set on the home page so the <title> is not "Home | EYP Azerbaijan". */
   bareTitle?: boolean;
+  /**
+   * Set when this page exists in `locale` only (a one-language session). The
+   * language switch then goes to this path in the other locale (given without
+   * the locale prefix, e.g. "sessions"), and no hreflang pairs are emitted.
+   */
+  singleLocaleFallback?: string;
 }
 
-const { locale, title, description, bareTitle = false } = Astro.props;
+const { locale, title, description, bareTitle = false, singleLocaleFallback } = Astro.props;
 const t = useTranslations(locale);
 
 const pageTitle = bareTitle ? `${t.site.name} — ${t.site.tagline}` : `${title} | ${t.site.name}`;
 const pageDescription = description ?? t.site.description;
 
 /* Path without the locale prefix, used for hreflang and the switcher. */
-const restOfPath = Astro.url.pathname.replace(/^\/(en|az)/, "") || "/";
+const restOfPath = stripLocale(Astro.url.pathname) || "/";
+const other: Locale = locales.find((l) => l !== locale) ?? locale;
+const switcherHref =
+  singleLocaleFallback === undefined ? `/${other}${restOfPath}` : localePath(other, singleLocaleFallback);
+const site = Astro.site ?? "https://eyp.az";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://eyp.az");
 ---
 
@@ -35,18 +47,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://eyp.az");
     <link rel="canonical" href={canonical.href} />
 
     {/* Tell search engines the two locales are the same page, not duplicates. */}
-    {locales.map((l) => (
-      <link
-        rel="alternate"
-        hreflang={l}
-        href={new URL(`/${l}${restOfPath}`, Astro.site ?? "https://eyp.az").href}
-      />
-    ))}
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href={new URL(`/en${restOfPath}`, Astro.site ?? "https://eyp.az").href}
-    />
+    {singleLocaleFallback === undefined && (
+      <>
+        {locales.map((l) => (
+          <link rel="alternate" hreflang={l} href={new URL(`/${l}${restOfPath}`, site).href} />
+        ))}
+        <link rel="alternate" hreflang="x-default" href={new URL(`/en${restOfPath}`, site).href} />
+      </>
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={t.site.name} />
@@ -56,12 +64,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://eyp.az");
     <meta property="og:url" content={canonical.href} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
   </head>
 
   <body class="flex min-h-screen flex-col">
@@ -72,7 +74,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://eyp.az");
       {t.nav.skipToContent}
     </a>
 
-    <Header locale={locale} />
+    <Header locale={locale} other={other} switcherHref={switcherHref} />
 
     <main id="main" class="flex-1">
       <slot />
