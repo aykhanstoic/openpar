@@ -65,7 +65,17 @@ Members log in at `/admin` with one shared password (no GitHub account) and can 
   side, with readable labels ("Mission — Text 2", "FAQ 3 — Answer"). They change words only;
   the keys and layout stay fixed, except the lists in `LISTS` (`src/lib/page-text.ts`: History
   milestones, Legal notice sections), which can grow and shrink.
-- **Sessions, news, board members, partners**: add, edit, delete through forms.
+- **Sessions, news, board members, partners**: add, edit, delete through forms, including a cover
+  photo (sessions, news), a portrait (board) or a logo (partners).
+- **Page photos** (`/admin/photos`): the photo spots on Home, About us and Get involved
+  (`src/lib/page-photos.ts`, data in `src/data/photos.json`). Each needs a description in both
+  languages (the alt text). A spot without a photo shows the dashed placeholder.
+
+Photos: the browser shrinks big ones before sending (`public/admin-photos.js`; Vercel caps a
+request at 4.5 MB), then the server re-encodes every upload with sharp (`src/lib/admin/images.ts`):
+turned upright, at most 2000 px (logos 800 px, kept as PNG), and **without metadata**, so the GPS
+location phones store in photos never reaches the public repo. Files go to `src/assets/uploads/`,
+in the same commit as the entry that uses them; a replaced or removed photo is deleted.
 
 A save is checked against the same rules as the build, written to the repo as a commit by a
 server-side token, and Vercel rebuilds: the site updates about two minutes later. Each save asks
@@ -94,9 +104,11 @@ the password's length is what really protects it.
 `GITHUB_TOKEN` out and run `npm run dev`. Saves then change the files on your computer instead
 of committing.
 
-Not editable in `/admin`: the menu, buttons and footer labels (`src/i18n/*.ts`), and images
-(session covers, board photos, partner logos). An image added by hand is kept when its entry is
-edited.
+Not editable in `/admin`: the menu, buttons and footer labels (`src/i18n/*.ts`).
+
+Local dev quirk: after a photo is replaced or removed, `npm run dev` may answer 500
+("ImageNotFound") because its content cache still points at the deleted file. Restart the dev
+server. Production builds start clean and are not affected.
 
 ### Design
 

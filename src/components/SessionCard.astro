@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 import { useTranslations, localePath, formatDateRange, formatDayMonth, formatDate, type Locale } from "../i18n/ui";
 import { currentStatus } from "../lib/sessions";
 
@@ -32,6 +33,18 @@ const canApply = status === "call-open" && Boolean(d.applyUrl);
 ---
 
 <article class:list={["card card-hover overflow-hidden", featured && "lg:flex-row"]}>
+  {/* Decorative: the title right below says what the session is. */}
+  {
+    d.cover && (
+      <Image
+        src={d.cover}
+        alt=""
+        widths={[480, 960]}
+        sizes={featured ? "(min-width: 1024px) 40vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+        class:list={["aspect-[16/9] w-full object-cover", featured && "lg:aspect-auto lg:w-2/5"]}
+      />
+    )
+  }
   <div class:list={["flex flex-1 flex-col p-6", featured && "lg:p-8"]}>
     <!-- Badges -->
     <div class="mb-4 flex flex-wrap items-center gap-2">

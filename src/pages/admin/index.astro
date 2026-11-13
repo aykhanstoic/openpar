@@ -45,6 +45,11 @@ const areas = [
     title: "Page text",
     body: `The wording on the ${PAGES.length} pages of the site (About us, What is EYP?, Get involved, Contact...), in English and Azerbaijani.`,
   },
+  {
+    href: "/admin/photos",
+    title: "Page photos",
+    body: "The photos on the Home, About us and Get involved pages.",
+  },
   ...Object.values(COLLECTIONS).map((c) => ({ href: `/admin/${c.id}/`, title: c.label, body: c.description })),
 ];
 ---
@@ -110,7 +115,7 @@ const areas = [
           ))}
         </ul>
         <p class="mt-8 text-sm text-ink-muted">
-          Not editable here: the menu, buttons and footer labels, photos and logos. Ask whoever manages the website for those.
+          Not editable here: the menu, buttons and footer labels. Ask whoever manages the website for those.
         </p>
       </section>
     )

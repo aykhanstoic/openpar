@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
-import PhotoPlaceholder from "../../components/PhotoPlaceholder.astro";
+import PagePhoto from "../../components/PagePhoto.astro";
 import BoardGrid from "../../components/BoardGrid.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
@@ -73,7 +73,7 @@ const boards = [
         </div>
       </div>
 
-      <PhotoPlaceholder label={t.common.photoPlaceholder} class="aspect-[4/3]" />
+      <PagePhoto spot="about-mission" index={0} locale={locale} class="aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />
     </div>
   </section>
 

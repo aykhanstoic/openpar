@@ -8,6 +8,7 @@ import {
 } from "../session-fields";
 import { parseEntry, serializeEntry, slugify, toIso, type ParsedEntry } from "./frontmatter";
 import type { Folder } from "./store";
+import type { ImageKind } from "./images";
 
 /**
  * Everything the /admin editor knows about sessions, news, board members and
@@ -27,7 +28,8 @@ export type FieldType =
   | "url"
   | "email"
   | "number"
-  | "reference";
+  | "reference"
+  | "image";
 
 export interface Field {
   name: string;
@@ -43,6 +45,8 @@ export interface Field {
   omitWhen?: string;
   /** Group heading the field sits under on the form. */
   group: string;
+  /** For `image`: photos are shrunk and saved as JPG, logos keep transparency as PNG. */
+  kind?: ImageKind;
 }
 
 export type CollectionId = "sessions" | "news" | "board" | "partners";
@@ -93,6 +97,7 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "Applications", name: "status", label: "Status", type: "select", required: true, options: opts(SESSION_STATUSES, STATUS_LABELS), hint: "\"Call open\" shows an Apply button and needs an apply link. It turns into \"Call closed\" by itself the day after the deadline." },
       { group: "Applications", name: "applyDeadline", label: "Application deadline", type: "date" },
       { group: "Applications", name: "applyUrl", label: "Apply link", type: "url", hint: "The Members Platform page, or the Google Form for an outreach session. Needed while the call is open." },
+      { group: "The session", name: "cover", label: "Cover photo", type: "image", kind: "photo", hint: "Shown on the session card and at the top of its page. A wide (landscape) photo works best." },
       { group: "The session", name: "type", label: "Type", type: "select", options: [{ value: "", label: "Not set" }, ...opts(SESSION_TYPES, TYPE_LABELS)] },
       { group: "Applications", name: "outreach", label: "Outreach session", type: "checkbox", hint: "Tick this when applications go through a Google Form instead of the Members Platform." },
       { group: "Applications", name: "resolutionsUrl", label: "Resolutions booklet link", type: "url", hint: "After the session." },
@@ -125,6 +130,7 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The post", name: "excerpt", label: "Short summary", type: "textarea", max: 300, hint: "One or two sentences shown on the news list and under the title." },
       { group: "The post", name: "lang", label: "Written in", type: "select", required: true, options: [{ value: "en", label: "English" }, { value: "az", label: "Azerbaijani" }], hint: "A post exists in one language. It is shown on both language versions of the site, marked with its language." },
       { group: "The post", name: "tags", label: "Category", type: "checkboxes", options: ["Announcement", "Open call", "Session recap", "Message from the board"].map((t) => ({ value: t, label: t })) },
+      { group: "The post", name: "cover", label: "Photo", type: "image", kind: "photo", hint: "Shown on the news list and at the top of the post. A wide (landscape) photo works best." },
       { group: "The post", name: "session", label: "Related session", type: "reference", ref: "sessions", hint: "Optional. Adds a link to that session." },
       { group: "Publishing", name: "draft", label: "Draft", type: "checkbox", hint: "Saved, but hidden from the website until you untick this." },
     ],
@@ -149,6 +155,7 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The person", name: "group", label: "Board", type: "select", required: true, options: [{ value: "executive", label: "Executive Board" }, { value: "supervisory", label: "Supervisory Board" }] },
       { group: "The person", name: "order", label: "Position in the list", type: "number", required: true, hint: "1 is shown first." },
       { group: "The person", name: "email", label: "Email", type: "email", hint: "A role address (like president@…), never a personal one." },
+      { group: "The person", name: "photo", label: "Photo", type: "image", kind: "photo", hint: "A portrait, cropped to a square on the site. Only with the person's consent. Without a photo, their initials are shown." },
       { group: "The person", name: "term", label: "Term", type: "text", max: 40, hint: "For example: 2026–2027." },
     ],
     slug: (v) => slugify(`${v.role} ${v.name}`),
@@ -167,6 +174,7 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The partner", name: "name", label: "Name", type: "text", required: true, max: 120 },
       { group: "The partner", name: "url", label: "Website", type: "url" },
       { group: "The partner", name: "tier", label: "Kind of partner", type: "select", required: true, options: [{ value: "supporting", label: "Supporting partner" }, { value: "principal", label: "Principal partner" }, { value: "in-kind", label: "In-kind partner" }] },
+      { group: "The partner", name: "logo", label: "Logo", type: "image", kind: "logo", hint: "A PNG with a transparent background looks best. Without a logo, the name is shown." },
       { group: "The partner", name: "order", label: "Position in the list", type: "number", required: true, hint: "Lower numbers are shown first." },
     ],
     slug: (v) => slugify(v.name),
@@ -270,6 +278,11 @@ export function validate(c: Collection, v: Values, refIds: Record<string, string
         if (s && !f.options?.some((o) => o.value === s)) fail("Pick from the list");
         data[f.name] = s === "" || s === f.omitWhen ? undefined : s;
         break;
+      case "image":
+        // Only paths the editor itself writes (../../assets/...) are accepted.
+        if (s && !isImageValue(s)) fail("Choose the photo again");
+        data[f.name] = s || undefined;
+        break;
       case "reference":
         if (s && !(refIds[f.ref ?? ""] ?? []).includes(s)) fail("Pick from the list");
         data[f.name] = s || undefined;
@@ -297,3 +310,17 @@ export function toFile(c: Collection, result: Extract<Validation, { ok: true }>,
 }
 
 export { parseEntry };
+
+/* ---------------------------------------------------------------- photos */
+
+/** "../../assets/uploads/board/x.jpg" (as written in an entry) → "src/assets/uploads/board/x.jpg". */
+export const repoPathOfImage = (value: string) => value.replace(/^\.\.\/\.\.\//, "src/");
+/** The reverse: how an entry in src/content/<collection>/ points at an upload. */
+export const imageValueOf = (repoPath: string) => repoPath.replace(/^src\//, "../../");
+
+/** An entry's image path: under ../../assets/, no "." or ".." segments. */
+export const isImageValue = (s: string) =>
+  /^\.\.\/\.\.\/assets\/[A-Za-z0-9/_.-]+\.(jpe?g|png|webp)$/i.test(s) &&
+  s.split("/").slice(2).every((seg) => seg !== "" && seg !== "." && seg !== "..");
+
+export const imageFields = (c: Collection) => c.fields.filter((f) => f.type === "image");

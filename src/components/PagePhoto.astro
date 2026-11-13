@@ -1,0 +1,44 @@
+---
+/**
+ * One photo spot on a page: the uploaded photo, or the marked placeholder
+ * while there is none. Spots and their photos are managed in /admin/photos
+ * (src/lib/page-photos.ts, src/data/photos.json).
+ */
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import PhotoPlaceholder from "./PhotoPlaceholder.astro";
+import photos from "../data/photos.json";
+import { slotsOf, type PhotosFile } from "../lib/page-photos";
+import { useTranslations, type Locale } from "../i18n/ui";
+
+interface Props {
+  spot: string;
+  index: number;
+  locale: Locale;
+  /** Aspect ratio and layout classes, e.g. "aspect-[4/3]". */
+  class?: string;
+  sizes?: string;
+}
+
+const { spot, index, locale, class: className, sizes = "(min-width: 1024px) 25vw, 50vw" } = Astro.props;
+const t = useTranslations(locale);
+
+const files = import.meta.glob<ImageMetadata>("../assets/uploads/pages/*.{jpg,png}", { eager: true, import: "default" });
+const entry = slotsOf(photos as PhotosFile, spot)[index];
+const image = entry ? files[`../assets/uploads/${entry.file}`] : undefined;
+if (entry && !image) console.warn(`[photos] ${spot}[${index}] points at a missing file: ${entry.file}`);
+---
+
+{
+  entry && image ? (
+    <Image
+      src={image}
+      alt={entry.alt[locale]}
+      widths={[480, 800, 1200]}
+      sizes={sizes}
+      class:list={["w-full rounded-card object-cover", className]}
+    />
+  ) : (
+    <PhotoPlaceholder label={t.common.photoPlaceholder} class={className} />
+  )
+}
