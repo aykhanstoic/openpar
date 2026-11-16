@@ -64,7 +64,6 @@ export const az: Dict = {
     theme: "Mövzu",
     dates: "Tarixlər",
     email: "E-poçt",
-    placeholderNotice: "Nümunə mətn",
     photoPlaceholder: "Foto — bura sessiya fotoları qoyulacaq",
   },
 

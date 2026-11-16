@@ -4,8 +4,6 @@ import Base from "../../layouts/Base.astro";
 import SessionCard from "../../components/SessionCard.astro";
 import NewsCard from "../../components/NewsCard.astro";
 import PagePhoto from "../../components/PagePhoto.astro";
-import photos from "../../data/photos.json";
-import { slotsOf, type PhotosFile } from "../../lib/page-photos";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 import { currentStatus, showsIn } from "../../lib/sessions";
@@ -203,11 +201,6 @@ const stats = [
       </div>
 
       {/* The "placeholders for now" note goes once every spot has a photo. */}
-      {slotsOf(photos as PhotosFile, "home-gallery").some((p) => !p) && (
-        <p class="todo mt-8 max-w-[80ch]">
-          <strong>{t.common.placeholderNotice}.</strong> {t.home.galleryNote}
-        </p>
-      )}
     </div>
   </section>
 

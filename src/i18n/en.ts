@@ -63,7 +63,6 @@ export const en = {
     theme: "Theme",
     dates: "Dates",
     email: "Email",
-    placeholderNotice: "Placeholder",
     photoPlaceholder: "Photo — session photography goes here",
   },
 
