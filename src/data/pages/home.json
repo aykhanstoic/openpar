@@ -1,6 +1,5 @@
 {
   "en": {
-    "badge": "National Committee of the European Youth Parliament",
     "title": "Learn to argue",
     "titleAccent": "like it matters.",
     "lead": "We put young people from across Azerbaijan in a room with a hard question, a committee that disagrees with them, and two days to produce something they can all sign. No party line. No prizes. Just the argument.",
@@ -14,8 +13,6 @@
     "whatBody2": "At a session you are given a topic, placed in a committee, and asked to negotiate a written resolution with people who read the same material and reached a different conclusion.",
     "whatBody3": "Everyone involved — the chairpersons, the organisers, the journalists — is a volunteer, and most of them were delegates first.",
     "whatCta": "The session format, explained",
-    "numbersEyebrow": "By the numbers",
-    "numbersTitle": "Where we sit in the network",
     "numbers": [
       {
         "value": "~40",
@@ -46,11 +43,9 @@
     "routeMemberTitle": "I am a member or alumnus",
     "routeMemberBody": "Open calls for delegates and officials, training rounds, and ways to stay useful to the organisation after you age out.",
     "routeMemberCta": "Open calls",
-    "partnersEyebrow": "Supported by",
-    "partnersTitle": "Partners"
+    "partnersEyebrow": "Supported by"
   },
   "az": {
-    "badge": "Avropa Gənclər Parlamentinin Milli Komitəsi",
     "title": "Mübahisə etməyi öyrən —",
     "titleAccent": "ciddi şəkildə.",
     "lead": "Azərbaycanın hər yerindən gəncləri bir otağa yığırıq: qarşılarında çətin bir sual, onlarla razılaşmayan bir komitə və hamısının imzalaya biləcəyi bir sənəd hazırlamaq üçün iki gün. Partiya xətti yoxdur. Mükafat yoxdur. Yalnız arqument var.",
@@ -64,8 +59,6 @@
     "whatBody2": "Sessiyada sizə bir mövzu verilir, bir komitəyə təyin olunursunuz və eyni materialı oxuyub fərqli nəticəyə gələn insanlarla yazılı qətnamə razılaşdırmalı olursunuz.",
     "whatBody3": "İştirak edən hər kəs — sədrlər, təşkilatçılar, jurnalistlər — könüllüdür və onların əksəriyyəti bir vaxtlar deleqat olub.",
     "whatCta": "Sessiya formatı barədə ətraflı",
-    "numbersEyebrow": "Rəqəmlərlə",
-    "numbersTitle": "Şəbəkədə yerimiz",
     "numbers": [
       {
         "value": "~40",
@@ -96,7 +89,6 @@
     "routeMemberTitle": "Üzv və ya məzunam",
     "routeMemberBody": "Deleqat və rəsmi şəxs çağırışları, təlim mərhələləri və yaş həddini keçdikdən sonra təşkilata faydalı qalmağın yolları.",
     "routeMemberCta": "Açıq çağırışlar",
-    "partnersEyebrow": "Dəstəkçilərimiz",
-    "partnersTitle": "Tərəfdaşlar"
+    "partnersEyebrow": "Dəstəkçilərimiz"
   }
 }

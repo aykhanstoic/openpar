@@ -4,6 +4,9 @@
     "lead": "Sessions cost money: venues, food, accommodation, travel for delegates who could not otherwise come. Partners are the reason participation fees stay low.",
     "currentTitle": "Current partners",
     "currentEmpty": "Partner organisations will be listed here.",
+    "currentPrincipal": "Principal partners",
+    "currentSupporting": "Supporting partners",
+    "currentInKind": "In-kind partners",
     "supportEyebrow": "Work with us",
     "supportTitle": "What partnership looks like",
     "supportWays": [
@@ -33,6 +36,9 @@
     "lead": "Sessiyalar xərc tələb edir: məkan, yemək, yerləşmə, başqa cür gələ bilməyəcək deleqatlar üçün yol xərci. İştirak haqqının aşağı qalmasının səbəbi tərəfdaşlardır.",
     "currentTitle": "Mövcud tərəfdaşlar",
     "currentEmpty": "Tərəfdaş təşkilatlar burada göstəriləcək.",
+    "currentPrincipal": "Əsas tərəfdaşlar",
+    "currentSupporting": "Dəstəkçi tərəfdaşlar",
+    "currentInKind": "Natura şəklində dəstək verənlər",
     "supportEyebrow": "Bizimlə işləyin",
     "supportTitle": "Tərəfdaşlıq necə görünür",
     "supportWays": [

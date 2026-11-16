@@ -315,7 +315,7 @@ const GROUP_TITLES: Record<string, string> = {
   current: "Partner list",
 };
 
-const TOP_KEYS = new Set(["title", "titleAccent", "lead", "badge", "ctaPrimary", "ctaSecondary", "warningTitle", "warningBody"]);
+const TOP_KEYS = new Set(["title", "titleAccent", "lead", "ctaPrimary", "ctaSecondary", "warningTitle", "warningBody"]);
 
 /** "missionBody2" → ["mission", "Body", "2"] */
 const splitKey = (k: string) => k.match(/[A-Z]?[a-z]+|\d+|[A-Z]+(?![a-z])/g) ?? [k];
@@ -332,7 +332,6 @@ const FULL_LABELS: Record<string, string> = {
   title: "Page heading",
   titleAccent: "Page heading — second line",
   lead: "Intro text under the heading",
-  badge: "Small badge above the heading",
   ctaPrimary: "Main button",
   ctaSecondary: "Second button",
   warningTitle: "Warning box — heading",
@@ -344,7 +343,9 @@ const FULL_LABELS: Record<string, string> = {
   resolutions: "Resolutions booklet link",
   aboutThisSession: "Heading above the description",
   relatedSession: "\"Related session\" label",
-  publishedOn: "\"Published\" label",
+  currentPrincipal: "Heading above principal partners",
+  currentSupporting: "Heading above supporting partners",
+  currentInKind: "Heading above in-kind partners",
   backLabel: "Back link",
   detailBackLabel: "Back link",
   empty: "Text when there are no posts",

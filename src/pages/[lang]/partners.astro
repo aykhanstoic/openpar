@@ -13,6 +13,14 @@ const pt = t.partners;
 
 const partners = (await getCollection("partners")).sort((a, b) => a.data.order - b.data.order);
 
+const tiers = [
+  { tier: "principal", title: pt.currentPrincipal },
+  { tier: "supporting", title: pt.currentSupporting },
+  { tier: "in-kind", title: pt.currentInKind },
+]
+  .map((g) => ({ ...g, partners: partners.filter((p) => p.data.tier === g.tier) }))
+  .filter((g) => g.partners.length > 0);
+
 const ways = pt.supportWays;
 ---
 
@@ -26,25 +34,44 @@ const ways = pt.supportWays;
 
       {
         partners.length > 0 ? (
-          <ul class="mt-9 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {partners.map((p) => (
-              <li class="card grid min-h-[120px] place-items-center p-6">
-                {p.data.logo ? (
-                  <Image
-                    src={p.data.logo}
-                    alt={p.data.name}
-                    widths={[200, 400]}
-                    sizes="200px"
-                    class="max-h-14 w-auto object-contain"
-                  />
-                ) : (
-                  <span class="text-center font-display text-[0.95rem] font-bold text-ink-muted">
-                    {p.data.name}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
+          tiers.map((g) => (
+            <div class="mt-9">
+              <h3 class="font-display text-[1.15rem] font-bold">{g.title}</h3>
+              <ul class="mt-5 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+                {g.partners.map((p) => {
+                  const inner = p.data.logo ? (
+                    <Image
+                      src={p.data.logo}
+                      alt={p.data.name}
+                      widths={[200, 400]}
+                      sizes="200px"
+                      class="max-h-14 w-auto object-contain"
+                    />
+                  ) : (
+                    <span class="text-center font-display text-[0.95rem] font-bold text-ink-muted">
+                      {p.data.name}
+                    </span>
+                  );
+                  return (
+                    <li class="card min-h-[120px]">
+                      {p.data.url ? (
+                        <a
+                          href={p.data.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="grid h-full min-h-[120px] place-items-center p-6"
+                        >
+                          {inner}
+                        </a>
+                      ) : (
+                        <div class="grid h-full min-h-[120px] place-items-center p-6">{inner}</div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))
         ) : (
           <p class="mt-6 max-w-[52ch] text-[1rem] text-ink-muted">{pt.currentEmpty}</p>
         )
