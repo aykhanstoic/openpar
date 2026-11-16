@@ -1,0 +1,37 @@
+---
+/* Rendered on demand so the language follows the missing path: /az/... gets
+   Azerbaijani, everything else English. */
+export const prerender = false;
+
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { isLocale, localePath, type Locale } from "../i18n/ui";
+
+const first = Astro.url.pathname.split("/")[1];
+const locale: Locale = isLocale(first) ? first : "en";
+
+const text = {
+  en: {
+    title: "Page not found",
+    lead: "This page does not exist or has moved.",
+    home: "Go to the home page",
+    sessions: "See our sessions",
+  },
+  az: {
+    title: "Səhifə tapılmadı",
+    lead: "Bu səhifə mövcud deyil və ya başqa ünvana köçürülüb.",
+    home: "Ana səhifəyə keçin",
+    sessions: "Sessiyalarımıza baxın",
+  },
+}[locale];
+---
+
+<Base locale={locale} title={text.title} description={text.lead} singleLocaleFallback="">
+  <PageHero locale={locale} title={text.title} lead={text.lead} />
+  <section class="section">
+    <div class="wrap-narrow flex flex-wrap items-center gap-6">
+      <a class="btn btn-primary" href={localePath(locale)}>{text.home}</a>
+      <a class="font-semibold text-deep underline" href={localePath(locale, "sessions")}>{text.sessions}</a>
+    </div>
+  </section>
+</Base>
