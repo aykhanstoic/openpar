@@ -104,8 +104,6 @@ the password's length is what really protects it.
 `GITHUB_TOKEN` out and run `npm run dev`. Saves then change the files on your computer instead
 of committing.
 
-Not editable in `/admin`: the menu, buttons and footer labels (`src/i18n/*.ts`).
-
 Local dev quirk: after a photo is replaced or removed, `npm run dev` may answer 500
 ("ImageNotFound") because its content cache still points at the deleted file. Restart the dev
 server. Production builds start clean and are not affected.
