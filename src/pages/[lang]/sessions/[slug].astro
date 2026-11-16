@@ -11,7 +11,8 @@ import {
   locales,
   type Locale,
 } from "../../../i18n/ui";
-import { currentStatus, showsIn } from "../../../lib/sessions";
+import { azBody, currentStatus, sessionText, showsIn } from "../../../lib/sessions";
+import { renderMarkdown } from "../../../lib/markdown";
 
 export async function getStaticPaths() {
   const sessions = await getCollection("sessions", ({ data }) => !data.draft);
@@ -28,6 +29,9 @@ const t = useTranslations(locale);
 const d = session.data;
 const status = currentStatus(d);
 const { Content } = await render(session);
+const text = sessionText(d, locale);
+const bodyAz = azBody(d, locale);
+const bodyAzHtml = bodyAz ? await renderMarkdown(bodyAz) : undefined;
 
 const badgeClass = {
   announced: "badge-announced",
@@ -42,14 +46,14 @@ const canApply = status === "call-open" && Boolean(d.applyUrl);
 
 <Base
   locale={locale}
-  title={d.title}
-  description={d.summary ?? d.theme}
+  title={text.title}
+  description={text.summary ?? text.theme}
   singleLocaleFallback={d.lang === "both" ? undefined : "sessions"}
 >
   <PageHero
     locale={locale}
-    title={d.title}
-    lead={d.theme}
+    title={text.title}
+    lead={text.theme}
     parent={{ label: t.nav.sessions, path: "sessions" }}
   />
 
@@ -60,9 +64,13 @@ const canApply = status === "call-open" && Boolean(d.applyUrl);
           <Image src={d.cover} alt="" widths={[640, 1280]} sizes="(min-width: 1024px) 60vw, 100vw" class="mb-10 aspect-[16/9] w-full rounded-card object-cover" />
         )}
         <h2 class="text-h2">{t.sessions.aboutThisSession}</h2>
-        <div class="prose-eyp mt-6">
-          <Content />
-        </div>
+        {bodyAzHtml ? (
+          <div class="prose-eyp mt-6" set:html={bodyAzHtml} />
+        ) : (
+          <div class="prose-eyp mt-6">
+            <Content />
+          </div>
+        )}
       </div>
 
       <aside class="card p-6">

@@ -166,7 +166,7 @@ const picked = (name: string) => new Set((values[name] ?? "").split("\n").filter
                   {choices.map((o) => <option value={o.value} selected={values[f.name] === o.value}>{o.label}</option>)}
                 </select>
               ) : f.type === "textarea" ? (
-                <textarea id={id} name={f.name} rows="3" maxlength={f.max} class={input} aria-describedby={describedBy(f.name, Boolean(f.hint))} aria-invalid={invalid}>{values[f.name]}</textarea>
+                <textarea id={id} name={f.name} rows={f.max && f.max > 1000 ? 12 : 3} maxlength={f.max} class={input} aria-describedby={describedBy(f.name, Boolean(f.hint))} aria-invalid={invalid}>{values[f.name]}</textarea>
               ) : (
                 <input
                   id={id}

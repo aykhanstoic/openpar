@@ -6,7 +6,7 @@ import NewsCard from "../../components/NewsCard.astro";
 import PagePhoto from "../../components/PagePhoto.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
-import { currentStatus, showsIn } from "../../lib/sessions";
+import { currentStatus, sessionText, showsIn } from "../../lib/sessions";
 
 export { getStaticPaths } from "../../i18n/paths";
 
@@ -33,7 +33,7 @@ const sessionTitles = new Map<string, string>();
 for (const post of posts) {
   if (!post.data.session) continue;
   const entry = await getEntry(post.data.session);
-  if (entry && !entry.data.draft && showsIn(entry.data, locale)) sessionTitles.set(post.id, entry.data.title);
+  if (entry && !entry.data.draft && showsIn(entry.data, locale)) sessionTitles.set(post.id, sessionText(entry.data, locale).title);
 }
 
 const stats = t.home.numbers;

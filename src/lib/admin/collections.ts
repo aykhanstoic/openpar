@@ -101,6 +101,10 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The session", name: "type", label: "Type", type: "select", options: [{ value: "", label: "Not set" }, ...opts(SESSION_TYPES, TYPE_LABELS)] },
       { group: "Applications", name: "outreach", label: "Outreach session", type: "checkbox", hint: "Tick this when applications go through a Google Form instead of the Members Platform." },
       { group: "Applications", name: "resolutionsUrl", label: "Resolutions booklet link", type: "url", hint: "After the session." },
+      { group: "Azerbaijani version", name: "titleAz", label: "Title in Azerbaijani", type: "text", max: 120, hint: "If empty, the English title is shown." },
+      { group: "Azerbaijani version", name: "themeAz", label: "Theme in Azerbaijani", type: "text", max: 200, hint: "If empty, the English theme is shown." },
+      { group: "Azerbaijani version", name: "summaryAz", label: "Card summary in Azerbaijani", type: "textarea", max: 300, hint: "If empty, the English summary is shown." },
+      { group: "Azerbaijani version", name: "bodyAz", label: "Description in Azerbaijani", type: "textarea", max: 20000, hint: "If empty, the English description is shown. Same formatting as the English description." },
       { group: "Publishing", name: "lang", label: "Show on", type: "select", required: true, options: opts(SESSION_LANGS, LANG_LABELS), omitWhen: "both" },
       { group: "Publishing", name: "draft", label: "Draft", type: "checkbox", hint: "Saved, but hidden from the website until you untick this." },
     ],
@@ -213,6 +217,7 @@ export function readValues(c: Collection, form: FormData): Values {
   for (const f of c.fields) {
     if (f.type === "checkbox") v[f.name] = form.get(f.name) ? "on" : "";
     else if (f.type === "checkboxes") v[f.name] = form.getAll(f.name).map(String).join("\n");
+    else if (f.type === "textarea") v[f.name] = String(form.get(f.name) ?? "").replace(/\r\n?/g, "\n").trim();
     else v[f.name] = String(form.get(f.name) ?? "").trim();
   }
   if (c.body) v.body = String(form.get("body") ?? "");

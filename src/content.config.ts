@@ -33,6 +33,12 @@ const sessions = defineCollection({
         theme: z.string(),
         /** One or two sentences for the card. Falls back to `theme`. */
         summary: z.string().optional(),
+        /** Azerbaijani text. Each one falls back to the English field when empty. */
+        titleAz: z.string().optional(),
+        themeAz: z.string().optional(),
+        summaryAz: z.string().optional(),
+        /** Markdown, like the entry body. */
+        bodyAz: z.string().optional(),
         venue: z.string(),
         city: z.string().optional(),
         startDate: z.coerce.date(),

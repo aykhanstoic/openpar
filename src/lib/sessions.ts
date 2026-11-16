@@ -22,3 +22,22 @@ export function currentStatus(d: SessionData, now: Date = new Date()): SessionDa
 export function showsIn(d: SessionData, locale: Locale): boolean {
   return d.lang === "both" || d.lang === locale;
 }
+
+/**
+ * Title, theme and summary in `locale`. On the AZ pages each Azerbaijani field
+ * is used when filled in, otherwise the English one.
+ */
+export function sessionText(d: SessionData, locale: Locale) {
+  const az = locale === "az";
+  const pick = (azText: string | undefined, en: string | undefined) => (az && azText?.trim()) || en;
+  return {
+    title: pick(d.titleAz, d.title)!,
+    theme: pick(d.themeAz, d.theme)!,
+    summary: pick(d.summaryAz, d.summary),
+  };
+}
+
+/** The Azerbaijani description, when the AZ page should show it instead of the entry body. */
+export function azBody(d: SessionData, locale: Locale): string | undefined {
+  return locale === "az" && d.bodyAz?.trim() ? d.bodyAz : undefined;
+}
