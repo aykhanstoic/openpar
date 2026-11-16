@@ -54,7 +54,7 @@ if (request.method === "POST") {
     text = readPageForm(page.id, current, form);
     errors = formErrors(page.id, text);
     if (!editor) errors.editor = "Write your name";
-    const left = problems(page.id, text).filter((p) => !/is empty in/.test(p));
+    const left = problems(page.id, text).filter((p) => !/is empty in|: links\./.test(p));
     if (left.length) formError = "This page's text does not match between the two languages. Ask whoever manages the website.";
 
     if (!Object.keys(errors).length && !formError) {

@@ -150,7 +150,7 @@ const picked = (name: string) => new Set((values[name] ?? "").split("\n").filter
               <fieldset aria-describedby={describedBy(f.name, Boolean(f.hint))}>
                 <legend class={label}>{f.label}</legend>
                 <div class="mt-2 flex flex-wrap gap-x-6 gap-y-2">
-                  {f.options!.map((o) => (
+                  {[...f.options!, ...[...picked(f.name)].filter((v) => !f.options!.some((o) => o.value === v)).map((v) => ({ value: v, label: v }))].map((o) => (
                     <label class="flex items-center gap-2">
                       <input type="checkbox" name={f.name} value={o.value} checked={picked(f.name).has(o.value)} class="h-5 w-5" />
                       {o.label}
