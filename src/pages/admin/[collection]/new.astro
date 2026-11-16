@@ -7,7 +7,7 @@ import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../
 import { getCollection, readValues, toFile, validate, valuesFrom, type Values } from "../../../lib/admin/collections";
 import { referenceChoices } from "../../../lib/admin/references";
 import { getStore, pathOf } from "../../../lib/admin/store";
-import { preparePhotos } from "../../../lib/admin/entry-photos";
+import { keptPhotos, photoChanges, readPhotos } from "../../../lib/admin/entry-photos";
 
 const { request, url, cookies, params } = Astro;
 if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
@@ -19,14 +19,17 @@ if (!store) return Astro.redirect(`/admin/${c.id}/`, 303);
 const refs = await referenceChoices(c);
 let values: Values = { ...valuesFrom(c), editor: rememberedEditor(cookies) };
 let errors: Record<string, string> = {};
+let kept: Record<string, string> = {};
 
 if (request.method === "POST") {
   if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
   const form = await request.formData();
   values = readValues(c, form);
+  const photos = await readPhotos(c, form);
+  kept = keptPhotos(photos.choices);
   const result = validate(c, values, refs.ids);
-  if (!result.ok) {
-    errors = result.errors;
+  if (!result.ok || Object.keys(photos.errors).length) {
+    errors = { ...(result.ok ? {} : result.errors), ...photos.errors };
   } else {
     try {
       /* Same name as an existing entry: add -2, -3, ... */
@@ -36,19 +39,15 @@ if (request.method === "POST") {
       for (let n = 2; taken.has(id); n++) id = `${base}-${n}`;
       const title = values.title || values.name;
       const message = `Add ${c.singular} "${title}" (via /admin, by ${values.editor})`;
-      const photos = await preparePhotos(c, form, result.data, id);
-      if (Object.keys(photos.errors).length) {
-        errors = photos.errors;
+      const changes = photoChanges(c, photos.choices, result.data, id);
+      if (changes.length) {
+        const path = pathOf(c.folder, id);
+        await store.commit([...changes, { path, content: toFile(c, result) }], message, { path, mustNotExist: true });
       } else {
-        if (photos.changes.length) {
-          const path = pathOf(c.folder, id);
-          await store.commit([...photos.changes, { path, content: toFile(c, result) }], message, { path, mustNotExist: true });
-        } else {
-          await store.create(id, toFile(c, result), message);
-        }
-        rememberEditor(cookies, values.editor, url.protocol === "https:");
-        return Astro.redirect(`/admin/${c.id}/?done=created`, 303);
+        await store.create(id, toFile(c, result), message);
       }
+      rememberEditor(cookies, values.editor, url.protocol === "https:");
+      return Astro.redirect(`/admin/${c.id}/?done=created`, 303);
     } catch (e) {
       console.error(e);
       errors = { form: e instanceof Error ? e.message : "Saving failed. Nothing was published." };
@@ -61,5 +60,5 @@ if (request.method === "POST") {
 <Admin title={`New ${c.singular}`} loggedIn>
   <p><a href={`/admin/${c.id}/`} class="text-deep underline">← {c.label}</a></p>
   <h1 class="mt-3 mb-6 font-display text-3xl font-bold text-deep">Add a {c.singular}</h1>
-  <EntryForm collection={c} values={values} errors={errors} submitLabel="Save and publish" refOptions={refs.options} />
+  <EntryForm collection={c} values={values} errors={errors} submitLabel="Save and publish" refOptions={refs.options} kept={kept} />
 </Admin>

@@ -8,7 +8,7 @@ import { getCollection, parseEntry, readValues, toFile, validate, valuesFrom, ty
 import { ID_PATTERN } from "../../../lib/admin/frontmatter";
 import { referenceChoices } from "../../../lib/admin/references";
 import { getStore, pathOf } from "../../../lib/admin/store";
-import { photoDeletes, preparePhotos } from "../../../lib/admin/entry-photos";
+import { keptPhotos, photoChanges, photoDeletes, readPhotos } from "../../../lib/admin/entry-photos";
 
 const { request, url, cookies, params } = Astro;
 if (!isLoggedIn(cookies)) return Astro.redirect("/admin/", 303);
@@ -28,6 +28,7 @@ const refs = await referenceChoices(c);
 let values: Values = { ...valuesFrom(c, current), editor: rememberedEditor(cookies) };
 let errors: Record<string, string> = {};
 let deleteError = "";
+let kept: Record<string, string> = {};
 
 if (request.method === "POST") {
   if (!sameOrigin(request, url)) return new Response("Forbidden", { status: 403 });
@@ -58,26 +59,24 @@ if (request.method === "POST") {
     }
   } else {
     values = readValues(c, form);
+    const photos = await readPhotos(c, form);
+    kept = keptPhotos(photos.choices);
     const result = validate(c, values, refs.ids);
-    if (!result.ok) {
-      errors = result.errors;
+    if (!result.ok || Object.keys(photos.errors).length) {
+      errors = { ...(result.ok ? {} : result.errors), ...photos.errors };
     } else {
       try {
         const title = values.title || values.name;
         const message = `Update ${c.singular} "${title}" (via /admin, by ${values.editor})`;
-        const photos = await preparePhotos(c, form, result.data, id);
-        if (Object.keys(photos.errors).length) {
-          errors = photos.errors;
+        const changes = photoChanges(c, photos.choices, result.data, id);
+        if (changes.length) {
+          const path = pathOf(c.folder, id);
+          await store.commit([...changes, { path, content: toFile(c, result, current) }], message, { path, sha });
         } else {
-          if (photos.changes.length) {
-            const path = pathOf(c.folder, id);
-            await store.commit([...photos.changes, { path, content: toFile(c, result, current) }], message, { path, sha });
-          } else {
-            await store.update(id, toFile(c, result, current), message, sha);
-          }
-          rememberEditor(cookies, values.editor, url.protocol === "https:");
-          return Astro.redirect(`/admin/${c.id}/?done=updated`, 303);
+          await store.update(id, toFile(c, result, current), message, sha);
         }
+        rememberEditor(cookies, values.editor, url.protocol === "https:");
+        return Astro.redirect(`/admin/${c.id}/?done=updated`, 303);
       } catch (e) {
         console.error(e);
         errors = { form: e instanceof Error ? e.message : "Saving failed. Nothing was published." };
@@ -100,7 +99,7 @@ if (request.method === "POST") {
     )
   }
   <div class="mt-6">
-    <EntryForm collection={c} values={values} errors={errors} submitLabel="Save changes" sha={file.sha} refOptions={refs.options} />
+    <EntryForm collection={c} values={values} errors={errors} submitLabel="Save changes" sha={file.sha} refOptions={refs.options} kept={kept} />
   </div>
 
   <form method="post" class="mt-12 grid gap-4 rounded border border-[#B42318] bg-white p-5">

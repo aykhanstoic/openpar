@@ -23,12 +23,32 @@ function sniff(buf: Buffer): "jpg" | "png" | "webp" | null {
   return null;
 }
 
+export type Processed = { data: Buffer; ext: "jpg" | "png" };
+
 /** null when no file was chosen. */
-export async function processUpload(file: FormDataEntryValue | null, kind: ImageKind): Promise<{ data: Buffer; ext: "jpg" | "png" } | null> {
+export async function processUpload(file: FormDataEntryValue | null, kind: ImageKind): Promise<Processed | null> {
   if (!file || typeof file === "string" || file.size === 0) return null;
   if (file.size > MAX_UPLOAD_BYTES) throw new UploadError("This photo is too large (over 4 MB). Choose a smaller one.");
+  return processBuffer(Buffer.from(await file.arrayBuffer()), kind);
+}
 
-  const input = Buffer.from(await file.arrayBuffer());
+/**
+ * A photo processed on an earlier save that failed, sent back by the form as
+ * a data: URL so the editor need not choose it again. It comes from the
+ * browser, so it goes through the same checks as a fresh upload.
+ */
+export async function processKept(value: FormDataEntryValue | null, kind: ImageKind): Promise<Processed | null> {
+  if (typeof value !== "string" || value === "") return null;
+  const m = /^data:image\/(?:jpeg|png);base64,([A-Za-z0-9+/]+={0,2})$/.exec(value);
+  if (!m || m[1].length > (MAX_UPLOAD_BYTES * 4) / 3) throw new UploadError("Choose the photo again.");
+  return processBuffer(Buffer.from(m[1], "base64"), kind);
+}
+
+/** The form's hidden value for a processed photo; read back by processKept. */
+export const keptValue = (p: Processed) =>
+  `data:image/${p.ext === "png" ? "png" : "jpeg"};base64,${p.data.toString("base64")}`;
+
+async function processBuffer(input: Buffer, kind: ImageKind): Promise<Processed> {
   if (!sniff(input)) throw new UploadError("This file is not a JPG, PNG or WebP photo.");
 
   const { default: sharp } = await import("sharp");

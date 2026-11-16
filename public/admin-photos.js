@@ -55,6 +55,9 @@
     var file = input.files && input.files[0];
     if (!file) return;
     preview(input, file);
+    // A photo kept from a failed save is replaced by this one: don't send both.
+    var kept = input.form && input.form.querySelector('input[name="' + input.name.replace(/__file$/, "__kept") + '"]');
+    if (kept) kept.remove();
     // Hold the Save buttons while the photo is being shrunk.
     var buttons = input.form ? input.form.querySelectorAll("button[type=submit]") : [];
     buttons.forEach(function (b) { b.disabled = true; });
