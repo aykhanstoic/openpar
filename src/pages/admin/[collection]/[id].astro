@@ -6,7 +6,7 @@ import EntryForm from "../../../components/admin/EntryForm.astro";
 import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../../lib/admin/auth";
 import { getCollection, parseEntry, readValues, toFile, validate, valuesFrom, type Values } from "../../../lib/admin/collections";
 import { ID_PATTERN } from "../../../lib/admin/frontmatter";
-import { referenceChoices } from "../../../lib/admin/references";
+import { referenceChoices, referencedBy } from "../../../lib/admin/references";
 import { getStore, pathOf } from "../../../lib/admin/store";
 import { keptPhotos, photoChanges, photoDeletes, readPhotos } from "../../../lib/admin/entry-photos";
 
@@ -43,6 +43,12 @@ if (request.method === "POST") {
       deleteError = "Tick the box and write your name to delete.";
     } else {
       try {
+        const users = await referencedBy(c, id);
+        if (users.length) {
+          throw new Error(
+            `This ${c.singular} is linked from ${users.map((t) => `"${t}"`).join(", ")}. Remove that link there first ("Related ${c.singular}"), then delete.`,
+          );
+        }
         const message = `Delete ${c.singular} "${name}" (via /admin, by ${editor})`;
         const photos = photoDeletes(c, current.data);
         if (photos.length) {

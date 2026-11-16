@@ -19,3 +19,18 @@ export async function referenceChoices(c: Collection) {
   }
   return { options, ids };
 }
+
+/** Titles of entries whose `reference` fields point at this entry (e.g. news posts about a session). */
+export async function referencedBy(c: Collection, id: string): Promise<string[]> {
+  const titles: string[] = [];
+  for (const other of Object.values(COLLECTIONS)) {
+    const fields = other.fields.filter((f) => f.type === "reference" && f.ref === c.id);
+    if (!fields.length) continue;
+    const store = getStore(other.folder);
+    for (const file of store ? await store.list() : []) {
+      const d = parseEntry(file.content).data;
+      if (fields.some((f) => String(d[f.name] ?? "") === id)) titles.push(String(d.title ?? d.name ?? file.id));
+    }
+  }
+  return titles;
+}
