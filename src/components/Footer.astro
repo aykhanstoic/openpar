@@ -8,6 +8,7 @@ import {
   type Locale,
 } from "../i18n/ui";
 import Buta from "./Buta.astro";
+import sitePage from "../data/pages/site.json";
 
 interface Props {
   locale: Locale;
@@ -128,12 +129,12 @@ const year = new Date().getFullYear();
       </h2>
       <ul class="mt-4 grid gap-2.5 text-[1rem]">
         <li>
-          <a href="https://eyp.org" target="_blank" rel="noopener noreferrer" class="text-white/75 hover:text-white">
+          <a href={sitePage.links.eypInternational} target="_blank" rel="noopener noreferrer" class="text-white/75 hover:text-white">
             {t.footer.eypInternational}
           </a>
         </li>
         <li>
-          <a href="https://schwarzkopf-stiftung.de" target="_blank" rel="noopener noreferrer" class="text-white/75 hover:text-white">
+          <a href={sitePage.links.schwarzkopf} target="_blank" rel="noopener noreferrer" class="text-white/75 hover:text-white">
             {t.footer.schwarzkopf}
           </a>
         </li>

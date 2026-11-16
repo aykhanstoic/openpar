@@ -34,6 +34,7 @@ export const PAGES: PageInfo[] = [
   { id: "contact", label: "Contact", description: "Who to write to about what.", path: "contact" },
   { id: "privacy", label: "Privacy policy", description: "What data we collect and why.", path: "privacy" },
   { id: "legal", label: "Legal notice", description: "Who owns the website and the terms for using it.", path: "legal" },
+  { id: "site", label: "Menu, footer and labels", description: "Text on every page: website name, menu, footer, buttons, session statuses.", path: "" },
 ];
 
 export const getPage = (id: string | undefined) => PAGES.find((p) => p.id === id) ?? null;
@@ -50,6 +51,10 @@ export interface LinkField {
 }
 
 export const LINKS: Record<string, LinkField[]> = {
+  site: [
+    { key: "eypInternational", label: "EYP International website", kind: "url" },
+    { key: "schwarzkopf", label: "Schwarzkopf Foundation website", kind: "url" },
+  ],
   contact: [
     { key: "generalEmail", label: "General enquiries — email", kind: "email" },
     { key: "schoolsEmail", label: "Schools and outreach — email", kind: "email" },
@@ -185,6 +190,11 @@ const WORDS: Record<string, string> = {
 };
 
 const GROUP_TITLES: Record<string, string> = {
+  site: "Website name and description",
+  nav: "Menu",
+  common: "Buttons and labels used on many pages",
+  status: "Session status labels",
+  footer: "Footer",
   top: "Top of the page",
   what: "What is the EYP",
   faq: "Frequently asked questions",
@@ -328,7 +338,7 @@ export function formFor(pageId: string, text: PageText): FormGroup[] {
       push(group, {
         kind: "text",
         path,
-        label: path.includes(".") ? (key.length <= 3 ? key.toUpperCase() : cap(key.replace(/-/g, " "))) : labelFor(key),
+        label: path.includes(".") ? (key.length <= 3 ? key.toUpperCase() : cap(splitKey(key).join(" ").toLowerCase())) : labelFor(key),
         long: en.length > 70 || azText.length > 70,
         en,
         az: azText,
