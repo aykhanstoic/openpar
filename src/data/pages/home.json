@@ -16,14 +16,24 @@
     "whatCta": "The session format, explained",
     "numbersEyebrow": "By the numbers",
     "numbersTitle": "Where we sit in the network",
-    "numberCountriesValue": "~40",
-    "numberCountriesLabel": "Countries in the EYP network",
-    "numberFoundedValue": "1987",
-    "numberFoundedLabel": "Year the EYP was founded",
-    "numberAgeValue": "14–28",
-    "numberAgeLabel": "Age range we work with",
-    "numberVolunteerValue": "100%",
-    "numberVolunteerLabel": "Volunteer-organised",
+    "numbers": [
+      {
+        "value": "~40",
+        "label": "Countries in the EYP network"
+      },
+      {
+        "value": "1987",
+        "label": "Year the EYP was founded"
+      },
+      {
+        "value": "14–28",
+        "label": "Age range we work with"
+      },
+      {
+        "value": "100%",
+        "label": "Volunteer-organised"
+      }
+    ],
     "newsEyebrow": "Latest",
     "newsTitle": "News and session recaps",
     "galleryEyebrow": "In pictures",
@@ -56,14 +66,24 @@
     "whatCta": "Sessiya formatı barədə ətraflı",
     "numbersEyebrow": "Rəqəmlərlə",
     "numbersTitle": "Şəbəkədə yerimiz",
-    "numberCountriesValue": "~40",
-    "numberCountriesLabel": "EYP şəbəkəsindəki ölkə",
-    "numberFoundedValue": "1987",
-    "numberFoundedLabel": "EYP-nin yarandığı il",
-    "numberAgeValue": "14–28",
-    "numberAgeLabel": "İşlədiyimiz yaş aralığı",
-    "numberVolunteerValue": "100%",
-    "numberVolunteerLabel": "Könüllülər tərəfindən təşkil olunur",
+    "numbers": [
+      {
+        "value": "~40",
+        "label": "EYP şəbəkəsindəki ölkə"
+      },
+      {
+        "value": "1987",
+        "label": "EYP-nin yarandığı il"
+      },
+      {
+        "value": "14–28",
+        "label": "İşlədiyimiz yaş aralığı"
+      },
+      {
+        "value": "100%",
+        "label": "Könüllülər tərəfindən təşkil olunur"
+      }
+    ],
     "newsEyebrow": "Ən son",
     "newsTitle": "Xəbərlər və sessiya hesabatları",
     "galleryEyebrow": "Şəkillərdə",

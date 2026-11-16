@@ -9,12 +9,7 @@ const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const al = t.alumni;
 
-const ways = [
-  { title: al.way1Title, body: al.way1Body },
-  { title: al.way2Title, body: al.way2Body },
-  { title: al.way3Title, body: al.way3Body },
-  { title: al.way4Title, body: al.way4Body },
-];
+const ways = al.ways;
 ---
 
 <Base locale={locale} title={al.title} description={al.lead}>

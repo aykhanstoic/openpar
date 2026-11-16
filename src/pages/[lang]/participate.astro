@@ -10,13 +10,7 @@ const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const p = t.participate;
 
-const steps = [
-  { title: p.step1Title, body: p.step1Body },
-  { title: p.step2Title, body: p.step2Body },
-  { title: p.step3Title, body: p.step3Body },
-  { title: p.step4Title, body: p.step4Body },
-  { title: p.step5Title, body: p.step5Body },
-];
+const steps = p.steps;
 
 const audiences = [
   { id: "students", title: p.studentTitle, body: p.studentBody, cta: p.studentCta, href: "sessions", accent: true },
@@ -26,13 +20,7 @@ const audiences = [
   { id: "alumni", title: p.alumniTitle, body: p.alumniBody, cta: p.alumniCta, href: "alumni" },
 ];
 
-const faqs = [
-  { q: p.faq1Q, a: p.faq1A },
-  { q: p.faq2Q, a: p.faq2A },
-  { q: p.faq3Q, a: p.faq3A },
-  { q: p.faq4Q, a: p.faq4A },
-  { q: p.faq5Q, a: p.faq5A },
-];
+const faqs = p.faqs;
 ---
 
 <Base locale={locale} title={p.title} description={p.lead}>

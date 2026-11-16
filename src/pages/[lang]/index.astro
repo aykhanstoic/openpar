@@ -36,12 +36,7 @@ for (const post of posts) {
   if (entry && !entry.data.draft && showsIn(entry.data, locale)) sessionTitles.set(post.id, entry.data.title);
 }
 
-const stats = [
-  { value: t.home.numberCountriesValue, label: t.home.numberCountriesLabel },
-  { value: t.home.numberFoundedValue, label: t.home.numberFoundedLabel },
-  { value: t.home.numberAgeValue, label: t.home.numberAgeLabel },
-  { value: t.home.numberVolunteerValue, label: t.home.numberVolunteerLabel },
-];
+const stats = t.home.numbers;
 ---
 
 <Base locale={locale} title={t.nav.home} bareTitle>

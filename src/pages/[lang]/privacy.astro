@@ -9,16 +9,7 @@ const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const pv = t.privacy;
 
-const sections = [
-  { title: pv.s1Title, body: pv.s1Body },
-  { title: pv.s2Title, body: pv.s2Body },
-  { title: pv.s3Title, body: pv.s3Body },
-  { title: pv.s4Title, body: pv.s4Body },
-  { title: pv.s5Title, body: pv.s5Body },
-  { title: pv.s6Title, body: pv.s6Body },
-  { title: pv.s7Title, body: pv.s7Body },
-  { title: pv.s8Title, body: pv.s8Body },
-];
+const sections = pv.sections;
 ---
 
 <Base locale={locale} title={pv.title} description={pv.lead}>

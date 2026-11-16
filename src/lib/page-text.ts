@@ -92,6 +92,86 @@ export const LISTS: Record<string, { label: string; item: string; fields: { key:
       { key: "body", label: "Text", long: true },
     ],
   },
+  "participate:steps": {
+    label: "Steps",
+    item: "Step",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "participate:faqs": {
+    label: "Frequently asked questions",
+    item: "Question",
+    fields: [
+      { key: "q", label: "Question" },
+      { key: "a", label: "Answer", long: true },
+    ],
+  },
+  "about:values": {
+    label: "Values",
+    item: "Value",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "about:glance": {
+    label: "Numbers",
+    item: "Number",
+    fields: [
+      { key: "value", label: "Number" },
+      { key: "label", label: "What it counts" },
+    ],
+  },
+  "home:numbers": {
+    label: "Numbers",
+    item: "Number",
+    fields: [
+      { key: "value", label: "Number" },
+      { key: "label", label: "What it counts" },
+    ],
+  },
+  "alumni:ways": {
+    label: "Ways to stay involved",
+    item: "Way",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "privacy:sections": {
+    label: "Policy sections",
+    item: "Section",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "partners:supportWays": {
+    label: "Ways to work with us",
+    item: "Way",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "what-is-eyp:roles": {
+    label: "Roles (the first one is highlighted)",
+    item: "Role",
+    fields: [
+      { key: "name", label: "Name" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
+  "what-is-eyp:nots": {
+    label: "What it is not",
+    item: "Point",
+    fields: [
+      { key: "title", label: "Heading" },
+      { key: "body", label: "Text", long: true },
+    ],
+  },
   "legal:sections": {
     label: "Sections",
     item: "Section",
@@ -198,6 +278,8 @@ const GROUP_TITLES: Record<string, string> = {
   top: "Top of the page",
   what: "What is the EYP",
   faq: "Frequently asked questions",
+  faqs: "Frequently asked questions",
+  nots: "What it is not",
   not: "What it is not",
   s: "Policy sections",
   next: "Next session box",

@@ -17,27 +17,47 @@
     "rolesEyebrow": "Who is who",
     "rolesTitle": "Roles at a session",
     "rolesLead": "Delegates are the largest group but not the only one. Every other role is filled by a volunteer, and almost all of them started as delegates.",
-    "roleDelegateName": "Delegate",
-    "roleDelegateBody": "You research a topic, argue it in committee, help write the resolution, and speak in the General Assembly. This is the entry point and requires no prior experience.",
-    "roleChairName": "Chairperson",
-    "roleChairBody": "Runs one committee. Prepares the topic overview, keeps the debate moving, manages the people who talk too much and draws out the ones who do not, and takes no position of their own.",
-    "roleOrganiserName": "Organiser",
-    "roleOrganiserBody": "Builds the session itself: venue, accommodation, food, timetable, budget, safeguarding. Invisible when done well, immediately obvious when not.",
-    "roleMediaName": "Media Team",
-    "roleMediaBody": "Journalists, photographers and video editors who cover the session as it happens, and who are free to be critical of it. Produces the session publication.",
-    "roleJuryName": "Jury",
-    "roleJuryBody": "At selection sessions, the panel that observes committee work and the General Assembly and selects the delegation that will represent Azerbaijan internationally.",
+    "roles": [
+      {
+        "name": "Delegate",
+        "body": "You research a topic, argue it in committee, help write the resolution, and speak in the General Assembly. This is the entry point and requires no prior experience."
+      },
+      {
+        "name": "Chairperson",
+        "body": "Runs one committee. Prepares the topic overview, keeps the debate moving, manages the people who talk too much and draws out the ones who do not, and takes no position of their own."
+      },
+      {
+        "name": "Organiser",
+        "body": "Builds the session itself: venue, accommodation, food, timetable, budget, safeguarding. Invisible when done well, immediately obvious when not."
+      },
+      {
+        "name": "Media Team",
+        "body": "Journalists, photographers and video editors who cover the session as it happens, and who are free to be critical of it. Produces the session publication."
+      },
+      {
+        "name": "Jury",
+        "body": "At selection sessions, the panel that observes committee work and the General Assembly and selects the delegation that will represent Azerbaijan internationally."
+      }
+    ],
     "whoEyebrow": "Eligibility",
     "whoTitle": "Who can take part",
     "whoBody": "The EYP works with people aged 14 to 28. Delegate places at most sessions go to secondary school students; chairing, organising and media roles are usually taken by people who have already attended a session as a delegate. You do not need to study politics, and you do not need to have debated before.",
     "notEyebrow": "Worth being clear about",
     "notTitle": "What it is not",
-    "not1Title": "Not a competition with a prize",
-    "not1Body": "Selection sessions do pick a delegation for an International Session, but there is no trophy and no ranking of delegates. Most sessions select nobody at all.",
-    "not2Title": "Not party politics",
-    "not2Body": "The EYP holds no political mandate and endorses no party. You argue a position because you have thought about it, not because an organisation handed it to you.",
-    "not3Title": "Not a debating club",
-    "not3Body": "There is no scoring, no rebuttal timer, and no winning side. The output is a negotiated document that a majority is willing to vote for."
+    "nots": [
+      {
+        "title": "Not a competition with a prize",
+        "body": "Selection sessions do pick a delegation for an International Session, but there is no trophy and no ranking of delegates. Most sessions select nobody at all."
+      },
+      {
+        "title": "Not party politics",
+        "body": "The EYP holds no political mandate and endorses no party. You argue a position because you have thought about it, not because an organisation handed it to you."
+      },
+      {
+        "title": "Not a debating club",
+        "body": "There is no scoring, no rebuttal timer, and no winning side. The output is a negotiated document that a majority is willing to vote for."
+      }
+    ]
   },
   "az": {
     "title": "EYP nədir?",
@@ -57,26 +77,46 @@
     "rolesEyebrow": "Kim kimdir",
     "rolesTitle": "Sessiyadakı rollar",
     "rolesLead": "Deleqatlar ən böyük qrupdur, amma yeganə deyil. Bütün digər rolları könüllülər doldurur və demək olar ki, hamısı deleqat kimi başlayıb.",
-    "roleDelegateName": "Deleqat",
-    "roleDelegateBody": "Mövzunu araşdırır, komitədə müdafiə edir, qətnamənin yazılmasına kömək edir və Ümumi Yığıncaqda çıxış edirsiniz. Bu, giriş nöqtəsidir və əvvəlcədən təcrübə tələb etmir.",
-    "roleChairName": "Sədr",
-    "roleChairBody": "Bir komitəni idarə edir. Mövzu icmalını hazırlayır, debatı canlı saxlayır, həddindən artıq danışanları tarazlayır və susanları söhbətə cəlb edir — özü isə heç bir mövqe tutmur.",
-    "roleOrganiserName": "Təşkilatçı",
-    "roleOrganiserBody": "Sessiyanın özünü qurur: məkan, yerləşmə, yemək, cədvəl, büdcə, uşaqların təhlükəsizliyi. Yaxşı görüləndə gözə görünmür, görülməyəndə dərhal hiss olunur.",
-    "roleMediaName": "Media Komandası",
-    "roleMediaBody": "Sessiyanı gedişatda işıqlandıran və onu tənqid etməkdə sərbəst olan jurnalistlər, fotoqraflar və video redaktorlar. Sessiya nəşrini hazırlayır.",
-    "roleJuryName": "Münsiflər heyəti",
-    "roleJuryBody": "Seçim sessiyalarında komitə işini və Ümumi Yığıncağı müşahidə edən və Azərbaycanı beynəlxalq səviyyədə təmsil edəcək nümayəndə heyətini seçən qrup.",
+    "roles": [
+      {
+        "name": "Deleqat",
+        "body": "Mövzunu araşdırır, komitədə müdafiə edir, qətnamənin yazılmasına kömək edir və Ümumi Yığıncaqda çıxış edirsiniz. Bu, giriş nöqtəsidir və əvvəlcədən təcrübə tələb etmir."
+      },
+      {
+        "name": "Sədr",
+        "body": "Bir komitəni idarə edir. Mövzu icmalını hazırlayır, debatı canlı saxlayır, həddindən artıq danışanları tarazlayır və susanları söhbətə cəlb edir — özü isə heç bir mövqe tutmur."
+      },
+      {
+        "name": "Təşkilatçı",
+        "body": "Sessiyanın özünü qurur: məkan, yerləşmə, yemək, cədvəl, büdcə, uşaqların təhlükəsizliyi. Yaxşı görüləndə gözə görünmür, görülməyəndə dərhal hiss olunur."
+      },
+      {
+        "name": "Media Komandası",
+        "body": "Sessiyanı gedişatda işıqlandıran və onu tənqid etməkdə sərbəst olan jurnalistlər, fotoqraflar və video redaktorlar. Sessiya nəşrini hazırlayır."
+      },
+      {
+        "name": "Münsiflər heyəti",
+        "body": "Seçim sessiyalarında komitə işini və Ümumi Yığıncağı müşahidə edən və Azərbaycanı beynəlxalq səviyyədə təmsil edəcək nümayəndə heyətini seçən qrup."
+      }
+    ],
     "whoEyebrow": "Kimlər iştirak edə bilər",
     "whoTitle": "İştirak şərtləri",
     "whoBody": "EYP 14–28 yaş arası gənclərlə işləyir. Əksər sessiyalarda deleqat yerləri orta məktəb şagirdlərinə verilir; sədrlik, təşkilatçılıq və media rollarını isə adətən artıq deleqat kimi sessiyada iştirak etmiş insanlar tutur. Siyasət təhsili almağınız da, əvvəllər debat etməyiniz də tələb olunmur.",
     "notEyebrow": "Aydın olmalıdır",
     "notTitle": "Bu nə deyil",
-    "not1Title": "Mükafatlı yarış deyil",
-    "not1Body": "Seçim sessiyaları Beynəlxalq Sessiya üçün nümayəndə heyəti seçir, lakin kubok yoxdur və deleqatlar sıralanmır. Sessiyaların çoxunda ümumiyyətlə heç kim seçilmir.",
-    "not2Title": "Partiya siyasəti deyil",
-    "not2Body": "EYP-nin siyasi mandatı yoxdur və heç bir partiyanı dəstəkləmir. Mövqeyi ona görə müdafiə edirsiniz ki, onun üzərində düşünmüsünüz — təşkilat sizə onu verdiyi üçün yox.",
-    "not3Title": "Debat klubu deyil",
-    "not3Body": "Xal sistemi, cavab taymeri və qalib tərəf yoxdur. Nəticə çoxluğun səs verməyə hazır olduğu razılaşdırılmış sənəddir."
+    "nots": [
+      {
+        "title": "Mükafatlı yarış deyil",
+        "body": "Seçim sessiyaları Beynəlxalq Sessiya üçün nümayəndə heyəti seçir, lakin kubok yoxdur və deleqatlar sıralanmır. Sessiyaların çoxunda ümumiyyətlə heç kim seçilmir."
+      },
+      {
+        "title": "Partiya siyasəti deyil",
+        "body": "EYP-nin siyasi mandatı yoxdur və heç bir partiyanı dəstəkləmir. Mövqeyi ona görə müdafiə edirsiniz ki, onun üzərində düşünmüsünüz — təşkilat sizə onu verdiyi üçün yox."
+      },
+      {
+        "title": "Debat klubu deyil",
+        "body": "Xal sistemi, cavab taymeri və qalib tərəf yoxdur. Nəticə çoxluğun səs verməyə hazır olduğu razılaşdırılmış sənəddir."
+      }
+    ]
   }
 }

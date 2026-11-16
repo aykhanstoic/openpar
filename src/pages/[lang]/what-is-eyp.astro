@@ -14,19 +14,10 @@ const phases = [
   { name: t.whatIsEyp.phase3Name, when: t.whatIsEyp.phase3Duration, body: t.whatIsEyp.phase3Body },
 ];
 
-const roles = [
-  { name: t.whatIsEyp.roleDelegateName, body: t.whatIsEyp.roleDelegateBody, primary: true },
-  { name: t.whatIsEyp.roleChairName, body: t.whatIsEyp.roleChairBody },
-  { name: t.whatIsEyp.roleOrganiserName, body: t.whatIsEyp.roleOrganiserBody },
-  { name: t.whatIsEyp.roleMediaName, body: t.whatIsEyp.roleMediaBody },
-  { name: t.whatIsEyp.roleJuryName, body: t.whatIsEyp.roleJuryBody },
-];
+/* The first role (delegates) gets the highlighted card. */
+const roles = t.whatIsEyp.roles.map((r, i) => ({ ...r, primary: i === 0 }));
 
-const nots = [
-  { title: t.whatIsEyp.not1Title, body: t.whatIsEyp.not1Body },
-  { title: t.whatIsEyp.not2Title, body: t.whatIsEyp.not2Body },
-  { title: t.whatIsEyp.not3Title, body: t.whatIsEyp.not3Body },
-];
+const nots = t.whatIsEyp.nots;
 ---
 
 <Base locale={locale} title={t.whatIsEyp.title} description={t.whatIsEyp.lead}>

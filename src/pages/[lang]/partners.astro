@@ -13,12 +13,7 @@ const pt = t.partners;
 
 const partners = (await getCollection("partners")).sort((a, b) => a.data.order - b.data.order);
 
-const ways = [
-  { title: pt.support1Title, body: pt.support1Body },
-  { title: pt.support2Title, body: pt.support2Body },
-  { title: pt.support3Title, body: pt.support3Body },
-  { title: pt.support4Title, body: pt.support4Body },
-];
+const ways = pt.supportWays;
 ---
 
 <Base locale={locale} title={pt.title} description={pt.lead}>

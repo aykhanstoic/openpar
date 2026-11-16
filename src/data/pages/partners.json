@@ -6,14 +6,24 @@
     "currentEmpty": "Partner organisations will be listed here.",
     "supportEyebrow": "Work with us",
     "supportTitle": "What partnership looks like",
-    "support1Title": "Fund a session",
-    "support1Body": "Underwrite a regional or outreach session and reach several hundred students, teachers and parents.",
-    "support2Title": "Host us",
-    "support2Body": "A venue for a weekend, or rooms for a training round, is often worth more to us than cash.",
-    "support3Title": "Sponsor participation",
-    "support3Body": "Cover the fees of delegates who would otherwise not apply. Targeted, cheap, and the highest-impact thing a sponsor can do.",
-    "support4Title": "Offer expertise",
-    "support4Body": "Speakers, topic experts, and professional training for our volunteers.",
+    "supportWays": [
+      {
+        "title": "Fund a session",
+        "body": "Underwrite a regional or outreach session and reach several hundred students, teachers and parents."
+      },
+      {
+        "title": "Host us",
+        "body": "A venue for a weekend, or rooms for a training round, is often worth more to us than cash."
+      },
+      {
+        "title": "Sponsor participation",
+        "body": "Cover the fees of delegates who would otherwise not apply. Targeted, cheap, and the highest-impact thing a sponsor can do."
+      },
+      {
+        "title": "Offer expertise",
+        "body": "Speakers, topic experts, and professional training for our volunteers."
+      }
+    ],
     "brochureTitle": "Partnership brochure",
     "brochureBody": "A one-page summary of audience, reach and sponsorship tiers will be available here as a PDF.",
     "contactCta": "Talk to the board"
@@ -25,14 +35,24 @@
     "currentEmpty": "Tərəfdaş təşkilatlar burada göstəriləcək.",
     "supportEyebrow": "Bizimlə işləyin",
     "supportTitle": "Tərəfdaşlıq necə görünür",
-    "support1Title": "Sessiyanı maliyyələşdirin",
-    "support1Body": "Regional və ya autriç sessiyasının xərclərini qarşılayın və bir neçə yüz şagirdə, müəllimə və valideynə çatın.",
-    "support2Title": "Bizə məkan verin",
-    "support2Body": "Bir həftəsonluq məkan və ya təlim üçün otaqlar çox vaxt bizim üçün nağd puldan daha dəyərlidir.",
-    "support3Title": "İştirakı dəstəkləyin",
-    "support3Body": "Başqa cür müraciət etməyəcək deleqatların iştirak haqqını ödəyin. Ünvanlı, ucuz və sponsorun edə biləcəyi ən təsirli iş.",
-    "support4Title": "Təcrübənizi paylaşın",
-    "support4Body": "Məruzəçilər, mövzu üzrə mütəxəssislər və könüllülərimiz üçün peşəkar təlimlər.",
+    "supportWays": [
+      {
+        "title": "Sessiyanı maliyyələşdirin",
+        "body": "Regional və ya autriç sessiyasının xərclərini qarşılayın və bir neçə yüz şagirdə, müəllimə və valideynə çatın."
+      },
+      {
+        "title": "Bizə məkan verin",
+        "body": "Bir həftəsonluq məkan və ya təlim üçün otaqlar çox vaxt bizim üçün nağd puldan daha dəyərlidir."
+      },
+      {
+        "title": "İştirakı dəstəkləyin",
+        "body": "Başqa cür müraciət etməyəcək deleqatların iştirak haqqını ödəyin. Ünvanlı, ucuz və sponsorun edə biləcəyi ən təsirli iş."
+      },
+      {
+        "title": "Təcrübənizi paylaşın",
+        "body": "Məruzəçilər, mövzu üzrə mütəxəssislər və könüllülərimiz üçün peşəkar təlimlər."
+      }
+    ],
     "brochureTitle": "Tərəfdaşlıq broşürü",
     "brochureBody": "Auditoriya, əhatə dairəsi və sponsorluq paketlərinin bir səhifəlik icmalı burada PDF şəklində əlçatan olacaq.",
     "contactCta": "İdarə heyəti ilə danışın"

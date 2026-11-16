@@ -9,20 +9,38 @@
     "missionBody3": "Everything we run is organised by volunteers, most of whom are only a few years older than the delegates in the room. That is not a cost-saving measure. It is the reason the room feels survivable to a sixteen-year-old.",
     "valuesEyebrow": "What we hold to",
     "valuesTitle": "Four commitments",
-    "value1Title": "Non-partisan",
-    "value1Body": "No party affiliation, no political mandate, no house position on the topics we debate.",
-    "value2Title": "Youth-run",
-    "value2Body": "Planned, chaired and delivered by young volunteers, with adults in support rather than in charge.",
-    "value3Title": "Open beyond Baku",
-    "value3Body": "Ability is spread evenly across the country and opportunity is not. Outreach sessions exist to narrow that gap.",
-    "value4Title": "Accountable",
-    "value4Body": "An elected Executive Board, a Supervisory Board that checks it, and published accounts.",
-    "glanceAgeValue": "14–28",
-    "glanceAgeLabel": "Age range of our delegates",
-    "glanceNetworkValue": "~40",
-    "glanceNetworkLabel": "Countries in the EYP network",
-    "glanceVolunteerValue": "100%",
-    "glanceVolunteerLabel": "Run by volunteers",
+    "values": [
+      {
+        "title": "Non-partisan",
+        "body": "No party affiliation, no political mandate, no house position on the topics we debate."
+      },
+      {
+        "title": "Youth-run",
+        "body": "Planned, chaired and delivered by young volunteers, with adults in support rather than in charge."
+      },
+      {
+        "title": "Open beyond Baku",
+        "body": "Ability is spread evenly across the country and opportunity is not. Outreach sessions exist to narrow that gap."
+      },
+      {
+        "title": "Accountable",
+        "body": "An elected Executive Board, a Supervisory Board that checks it, and published accounts."
+      }
+    ],
+    "glance": [
+      {
+        "value": "14–28",
+        "label": "Age range of our delegates"
+      },
+      {
+        "value": "~40",
+        "label": "Countries in the EYP network"
+      },
+      {
+        "value": "100%",
+        "label": "Run by volunteers"
+      }
+    ],
     "boardEyebrow": "The people",
     "boardTitle": "Who runs EYP Azerbaijan",
     "boardBody": "Two elected bodies, both made up of volunteers. You can write to either of them directly.",
@@ -51,20 +69,38 @@
     "missionBody3": "Keçirdiyimiz hər şey könüllülər tərəfindən təşkil olunur və onların çoxu deleqatlardan cəmi bir neçə yaş böyükdür. Bu, xərcə qənaət üsulu deyil. Məhz buna görə on altı yaşlı bir gənc üçün otaq qorxulu görünmür.",
     "valuesEyebrow": "Sadiq olduğumuz prinsiplər",
     "valuesTitle": "Dörd öhdəlik",
-    "value1Title": "Bitərəflik",
-    "value1Body": "Partiya mənsubiyyəti yoxdur, siyasi mandat yoxdur, müzakirə etdiyimiz mövzularda rəsmi mövqeyimiz yoxdur.",
-    "value2Title": "Gənclər tərəfindən idarə olunma",
-    "value2Body": "Gənc könüllülər tərəfindən planlaşdırılır, idarə olunur və həyata keçirilir; böyüklər rəhbər deyil, dəstək rolundadır.",
-    "value3Title": "Bakıdan kənara açıqlıq",
-    "value3Body": "Bacarıq ölkə üzrə bərabər paylanıb, imkan isə yox. Autriç sessiyaları məhz bu fərqi azaltmaq üçündür.",
-    "value4Title": "Hesabatlılıq",
-    "value4Body": "Seçilmiş İcraiyyə İdarə Heyəti, onu yoxlayan Nəzarət Şurası və dərc olunan maliyyə hesabatları.",
-    "glanceAgeValue": "14–28",
-    "glanceAgeLabel": "Deleqatlarımızın yaş aralığı",
-    "glanceNetworkValue": "~40",
-    "glanceNetworkLabel": "EYP şəbəkəsindəki ölkələr",
-    "glanceVolunteerValue": "100%",
-    "glanceVolunteerLabel": "Könüllülər tərəfindən idarə olunur",
+    "values": [
+      {
+        "title": "Bitərəflik",
+        "body": "Partiya mənsubiyyəti yoxdur, siyasi mandat yoxdur, müzakirə etdiyimiz mövzularda rəsmi mövqeyimiz yoxdur."
+      },
+      {
+        "title": "Gənclər tərəfindən idarə olunma",
+        "body": "Gənc könüllülər tərəfindən planlaşdırılır, idarə olunur və həyata keçirilir; böyüklər rəhbər deyil, dəstək rolundadır."
+      },
+      {
+        "title": "Bakıdan kənara açıqlıq",
+        "body": "Bacarıq ölkə üzrə bərabər paylanıb, imkan isə yox. Autriç sessiyaları məhz bu fərqi azaltmaq üçündür."
+      },
+      {
+        "title": "Hesabatlılıq",
+        "body": "Seçilmiş İcraiyyə İdarə Heyəti, onu yoxlayan Nəzarət Şurası və dərc olunan maliyyə hesabatları."
+      }
+    ],
+    "glance": [
+      {
+        "value": "14–28",
+        "label": "Deleqatlarımızın yaş aralığı"
+      },
+      {
+        "value": "~40",
+        "label": "EYP şəbəkəsindəki ölkələr"
+      },
+      {
+        "value": "100%",
+        "label": "Könüllülər tərəfindən idarə olunur"
+      }
+    ],
     "boardEyebrow": "İnsanlar",
     "boardTitle": "EYP Azerbaijan-ı kim idarə edir",
     "boardBody": "Hər ikisi könüllülərdən ibarət iki seçkili orqan. Onların hər birinə birbaşa yaza bilərsiniz.",

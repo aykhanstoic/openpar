@@ -13,18 +13,9 @@ const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const a = t.about;
 
-const glance = [
-  { value: a.glanceAgeValue, label: a.glanceAgeLabel },
-  { value: a.glanceNetworkValue, label: a.glanceNetworkLabel },
-  { value: a.glanceVolunteerValue, label: a.glanceVolunteerLabel },
-];
+const glance = a.glance;
 
-const values = [
-  { title: a.value1Title, body: a.value1Body },
-  { title: a.value2Title, body: a.value2Body },
-  { title: a.value3Title, body: a.value3Body },
-  { title: a.value4Title, body: a.value4Body },
-];
+const values = a.values;
 
 const boards = [
   {
