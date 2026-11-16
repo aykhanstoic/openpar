@@ -38,6 +38,44 @@ export const PAGES: PageInfo[] = [
 
 export const getPage = (id: string | undefined) => PAGES.find((p) => p.id === id) ?? null;
 
+/**
+ * Addresses and links that are the same in both languages, stored once in the
+ * page file under "links". `optional` ones may be left empty (hidden on the site).
+ */
+export interface LinkField {
+  key: string;
+  label: string;
+  kind: "email" | "url";
+  optional?: boolean;
+}
+
+export const LINKS: Record<string, LinkField[]> = {
+  contact: [
+    { key: "generalEmail", label: "General enquiries — email", kind: "email" },
+    { key: "schoolsEmail", label: "Schools and outreach — email", kind: "email" },
+    { key: "boardEmail", label: "Executive Board — email", kind: "email" },
+    { key: "pressEmail", label: "Press and media — email", kind: "email" },
+    { key: "privacyEmail", label: "Data protection — email", kind: "email" },
+    { key: "instagram", label: "Instagram page", kind: "url", optional: true },
+    { key: "facebook", label: "Facebook page", kind: "url", optional: true },
+    { key: "linkedin", label: "LinkedIn page", kind: "url", optional: true },
+    { key: "tiktok", label: "TikTok page", kind: "url", optional: true },
+    { key: "youtube", label: "YouTube channel", kind: "url", optional: true },
+  ],
+};
+
+/** What is wrong with one link value, or "" when it is fine. */
+export function linkProblem(f: LinkField, value: string): string {
+  if (!value) return f.optional ? "" : "Fill this in";
+  if (value.length > 300) return "At most 300 characters";
+  if (f.kind === "email") return /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(value) ? "" : "Write an email address, like info@eyp.az";
+  try {
+    return new URL(value).protocol === "https:" ? "" : "The link must start with https://";
+  } catch {
+    return "Write the full link, starting with https://";
+  }
+}
+
 /** Lists editors may add items to or remove items from, with each item's fields. */
 export const LISTS: Record<string, { label: string; item: string; fields: { key: string; label: string; long?: boolean }[] }> = {
   "about:milestones": {
@@ -61,7 +99,7 @@ export const LISTS: Record<string, { label: string; item: string; fields: { key:
 
 export type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
 export type Lang = "en" | "az";
-export type PageText = Record<Lang, Record<string, Json>>;
+export type PageText = Record<Lang, Record<string, Json>> & { links?: Record<string, string> };
 
 export const MAX_TEXT = 5000;
 
@@ -100,6 +138,10 @@ export function problems(page: string, text: PageText): string[] {
     }
   };
   walk(text.en, text.az, "");
+  for (const f of LINKS[page] ?? []) {
+    const problem = linkProblem(f, String(text.links?.[f.key] ?? ""));
+    if (problem) out.push(`${page}: links.${f.key}: ${problem}`);
+  }
   return out;
 }
 
@@ -332,11 +374,14 @@ export function readPageForm(pageId: string, current: PageText, form: FormData, 
     return value;
   };
 
-  return { en: build("en", current.en, "") as Record<string, Json>, az: build("az", current.az, "") as Record<string, Json> };
+  const text: PageText = { en: build("en", current.en, "") as Record<string, Json>, az: build("az", current.az, "") as Record<string, Json> };
+  const links = LINKS[pageId];
+  if (links) text.links = Object.fromEntries(links.map((f) => [f.key, String(form.get(`link::${f.key}`) ?? "").trim()]));
+  return text;
 }
 
-/** Problems a member can fix on the form, keyed by field path. */
-export function formErrors(text: PageText): Record<string, string> {
+/** Problems a member can fix on the form, keyed by field path (links as "link::key"). */
+export function formErrors(pageId: string, text: PageText): Record<string, string> {
   const errors: Record<string, string> = {};
   const walk = (v: Json, path: string, lang: Lang) => {
     if (typeof v === "string") {
@@ -347,6 +392,10 @@ export function formErrors(text: PageText): Record<string, string> {
   };
   walk(text.en, "", "en");
   walk(text.az, "", "az");
+  for (const f of LINKS[pageId] ?? []) {
+    const problem = linkProblem(f, text.links?.[f.key] ?? "");
+    if (problem) errors[`link::${f.key}`] = problem;
+  }
   // List items are written as path.index.key; report them on the field itself.
   return errors;
 }

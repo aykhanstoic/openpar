@@ -2,23 +2,31 @@
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
+import contactPage from "../../data/pages/contact.json";
 
 export { getStaticPaths } from "../../i18n/paths";
 
 const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const c = t.contact;
+/* Addresses and social links are edited in /admin (Contact page). */
+const l = contactPage.links;
 
-/* PLACEHOLDER: every address below is example.org. Replace with the real
-   role-based addresses (info@eyp.az, board@eyp.az, ...) once the domain's
-   mail is set up. */
 const contacts = [
-  { label: c.generalLabel, body: c.generalBody, email: "info@example.org" },
-  { label: c.schoolsLabel, body: c.schoolsBody, email: "schools@example.org" },
-  { label: c.boardLabel, body: c.boardBody, email: "board@example.org" },
-  { label: c.pressLabel, body: c.pressBody, email: "press@example.org" },
-  { label: c.privacyLabel, body: c.privacyBody, email: "privacy@example.org" },
+  { label: c.generalLabel, body: c.generalBody, email: l.generalEmail },
+  { label: c.schoolsLabel, body: c.schoolsBody, email: l.schoolsEmail },
+  { label: c.boardLabel, body: c.boardBody, email: l.boardEmail },
+  { label: c.pressLabel, body: c.pressBody, email: l.pressEmail },
+  { label: c.privacyLabel, body: c.privacyBody, email: l.privacyEmail },
 ];
+
+const social = [
+  { name: "Instagram", url: l.instagram },
+  { name: "Facebook", url: l.facebook },
+  { name: "LinkedIn", url: l.linkedin },
+  { name: "TikTok", url: l.tiktok },
+  { name: "YouTube", url: l.youtube },
+].filter((s) => s.url);
 
 const before = [
   { label: c.beforeWhat, path: "what-is-eyp" },
@@ -79,6 +87,15 @@ const before = [
         <div class="card p-7">
           <h2 class="font-display text-[1.05rem] font-bold">{c.socialTitle}</h2>
           <p class="mt-2 text-[0.92rem] leading-relaxed text-ink-muted">{c.socialBody}</p>
+          {social.length > 0 && (
+            <ul class="mt-5 grid gap-3">
+              {social.map((s) => (
+                <li>
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" class="link-arrow text-[0.95rem]">{s.name}</a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <a href={localePath(locale, "privacy")} class="link-arrow">

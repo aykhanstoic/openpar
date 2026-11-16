@@ -1,4 +1,16 @@
 {
+  "links": {
+    "generalEmail": "info@example.org",
+    "schoolsEmail": "schools@example.org",
+    "boardEmail": "board@example.org",
+    "pressEmail": "press@example.org",
+    "privacyEmail": "privacy@example.org",
+    "instagram": "",
+    "facebook": "",
+    "linkedin": "",
+    "tiktok": "",
+    "youtube": ""
+  },
   "en": {
     "title": "Contact",
     "lead": "Questions about applying, hosting a session, partnering with us, or how we handle your data. Pick the address that fits and it reaches the right people first time.",

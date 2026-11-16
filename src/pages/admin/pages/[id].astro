@@ -11,6 +11,7 @@ import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../
 import { getStore } from "../../../lib/admin/store";
 import { PAGES_FOLDER, getPage } from "../../../lib/admin/pages";
 import {
+  LINKS,
   LISTS,
   MAX_TEXT,
   fieldName,
@@ -51,7 +52,7 @@ if (request.method === "POST") {
     text = readPageForm(page.id, current, form, LISTS[`${page.id}:${path}`] ? path : undefined);
   } else {
     text = readPageForm(page.id, current, form);
-    errors = formErrors(text);
+    errors = formErrors(page.id, text);
     if (!editor) errors.editor = "Write your name";
     const left = problems(page.id, text).filter((p) => !/is empty in/.test(p));
     if (left.length) formError = "This page's text does not match between the two languages. Ask whoever manages the website.";
@@ -74,13 +75,14 @@ if (request.method === "POST") {
       const onlyName = Object.keys(errors).length === 1 && errors.editor;
       formError = onlyName
         ? "Nothing was saved yet. Write your name at the bottom, then press Save changes again."
-        : "Nothing was saved. Every box needs some text: fill in the ones marked in red below.";
+        : "Nothing was saved. Fix the boxes marked in red below.";
     }
     Astro.response.status = 400;
   }
 }
 
 const groups = formFor(page.id, text);
+const links = LINKS[page.id] ?? [];
 const box =
   "mt-1 block w-full rounded border border-line bg-white px-3 py-2 text-base text-ink focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep-050";
 const rows = (a: string, b: string) => Math.min(12, Math.max(2, Math.ceil(Math.max(a.length, b.length) / 60) + 1));
@@ -113,6 +115,32 @@ const errId = (path: string) => `err-${path.replace(/[^a-zA-Z0-9]/g, "-")}`;
 
     {formError && (
       <p role="alert" class="rounded border border-[#B42318] bg-white p-3 font-semibold text-[#B42318]">{formError}</p>
+    )}
+
+    {links.length > 0 && (
+      <fieldset class="grid gap-5 rounded border border-line bg-white p-5">
+        <legend class="px-1 font-display text-lg font-bold text-deep">Email addresses and links</legend>
+        <p class="text-sm text-ink-muted">The same in both languages. Links start with https://. Leave a social media box empty to hide it.</p>
+        {links.map((f) => {
+          const name = `link::${f.key}`;
+          return (
+            <div>
+              <label for={name} class="block font-semibold text-ink">{f.label}{f.optional && <span class="font-normal text-ink-muted"> (optional)</span>}</label>
+              <input
+                id={name}
+                name={name}
+                type={f.kind === "email" ? "email" : "url"}
+                value={text.links?.[f.key] ?? ""}
+                maxlength="300"
+                class={`${box} max-w-xl`}
+                aria-invalid={errors[name] ? "true" : undefined}
+                aria-describedby={errors[name] ? errId(name) : undefined}
+              />
+              {errors[name] && <p id={errId(name)} class="mt-1 text-sm font-semibold text-[#B42318]">{errors[name]}</p>}
+            </div>
+          );
+        })}
+      </fieldset>
     )}
 
     {
