@@ -13,12 +13,16 @@ stands between the finished app and the board.
 
 ## Photos and the 4.5 MB request limit
 
-The browser shrinks photos over 3.5 MB before sending and the server re-encodes to 2000 px, but
-this has only been tested with small files.
+The browser shrinks photos over 3.5 MB before sending and the server re-encodes to 2000 px.
+Tested locally (headless Chrome, then the dev server): a 12 MB, 4032x3024 JPEG became 1.8 MB in
+the browser and was saved as a 735 KB, 2000x1500 JPEG with no metadata. A raw 12 MB file posted
+without the shrink is refused with "too large (over 4 MB)". Every form has one photo input, so
+one save never carries several photos.
 
-- [ ] Upload a real 8–12 MB phone photo and a large PNG on the preview.
-- [ ] Check whether any form takes several photos in one save (the limit is per request).
-- [ ] iPhone HEIC photos are not accepted (JPG, PNG, WebP only): test it, or tell the board.
+- [ ] Repeat with a real phone photo on the Vercel preview (confirms the 4.5 MB cap itself).
+- [ ] iPhone HEIC photos are not accepted (JPG, PNG, WebP only): test it, or tell the board
+      (the board guide does).
+- [ ] A PNG logo that is still over 4 MB after the browser shrink is refused. Unlikely.
 
 ## Content and people
 
