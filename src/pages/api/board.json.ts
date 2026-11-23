@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { jsonResponse } from "../../i18n/pages";
 import { departmentGroups } from "../../lib/departments";
+import { DEPARTMENT_NAMES } from "../../lib/department-fields";
 
 /**
  * GET /api/board.json — executive and supervisory boards, and department members.
@@ -25,10 +26,11 @@ export const GET: APIRoute = async ({ site }) => {
       linkedin: data.linkedin ?? null,
     }));
 
-  /* Department members, grouped by department (English names, alphabetical). */
+  /* Department members, grouped by department in the site's fixed order. */
   const departments = (await departmentGroups("en")).map((d) => ({
-    department: d.name,
-    departmentAz: d.members.find((m) => m.data.departmentAz)?.data.departmentAz ?? null,
+    key: d.key,
+    department: DEPARTMENT_NAMES[d.key].en,
+    departmentAz: DEPARTMENT_NAMES[d.key].az,
     members: d.members.map(({ id, data }) => ({
       id,
       name: data.name,

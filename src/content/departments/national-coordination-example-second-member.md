@@ -2,7 +2,7 @@
 name: "Example: Second Member"
 role: "Member"
 roleAz: "Üzv"
-department: "Communications"
+department: "national-coordination"
 order: 2
 ---
 

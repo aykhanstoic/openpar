@@ -6,6 +6,7 @@ import {
   STATUS_LABELS,
   TYPE_LABELS,
 } from "../session-fields";
+import { DEPARTMENTS, DEPARTMENT_NAMES, type DepartmentKey } from "../department-fields";
 import { parseEntry, serializeEntry, slugify, toIso, type ParsedEntry } from "./frontmatter";
 import type { Folder } from "./store";
 import type { ImageKind } from "./images";
@@ -193,17 +194,16 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The person", name: "name", label: "Full name", type: "text", required: true, max: 80, hint: "Only publish someone's name with their consent." },
       { group: "The person", name: "role", label: "Role (English)", type: "text", required: true, max: 80, hint: "For example: Head of Department, Member." },
       { group: "The person", name: "roleAz", label: "Role (Azerbaijani)", type: "text", max: 80, hint: "If empty, the English role is shown on the Azerbaijani page." },
-      { group: "The person", name: "department", label: "Department (English)", type: "text", required: true, max: 80, hint: "For example: Communications. Spell it exactly the same for everyone in the department, so they are listed together." },
-      { group: "The person", name: "departmentAz", label: "Department (Azerbaijani)", type: "text", max: 80, hint: "For example: Kommunikasiya. Enough on one person in the department; if nobody has it, the English name is shown." },
+      { group: "The person", name: "department", label: "Department", type: "select", required: true, options: DEPARTMENTS.map((d) => ({ value: d, label: DEPARTMENT_NAMES[d].en })), hint: "The site shows the name in English or Azerbaijani to match the page." },
       { group: "The person", name: "order", label: "Position in the department", type: "number", required: true, hint: "1 is shown first, so give the head of the department 1." },
       { group: "The person", name: "email", label: "Email", type: "email", hint: "A role address (like communications@…), never a personal one." },
       { group: "The person", name: "photo", label: "Photo", type: "image", kind: "photo", hint: "A portrait, cropped to a square on the site. Only with the person's consent. Without a photo, their initials are shown." },
       { group: "The person", name: "linkedin", label: "LinkedIn", type: "url", hint: "Their LinkedIn profile, e.g. https://www.linkedin.com/in/name. Only with their consent." },
     ],
     slug: (v) => slugify(`${v.department} ${v.name}`),
-    summary: (d) => [String(d.department ?? ""), String(d.role ?? "")],
-    /* By department, then by position. */
-    sortKey: (d) => `${String(d.department ?? "").trim().toLowerCase()}|${String(d.order ?? 0).padStart(4, "0")}`,
+    summary: (d) => [DEPARTMENT_NAMES[d.department as DepartmentKey]?.en ?? String(d.department ?? ""), String(d.role ?? "")],
+    /* By department in the site's order, then by position. */
+    sortKey: (d) => `${String(DEPARTMENTS.indexOf(d.department as DepartmentKey) + 1).padStart(2, "0")}|${String(d.order ?? 0).padStart(4, "0")}`,
     check(v) {
       const e: Record<string, string> = {};
       if (v.linkedin) {

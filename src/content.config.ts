@@ -1,6 +1,7 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { SESSION_LANGS, SESSION_STATUSES, SESSION_TYPES } from "./lib/session-fields";
+import { DEPARTMENTS } from "./lib/department-fields";
 
 /** z.string().url() also accepts javascript: and data: URLs; links here are rendered as hrefs. */
 const httpsUrl = z
@@ -117,9 +118,8 @@ const departments = defineCollection({
       name: z.string(),
       role: z.string(),
       roleAz: z.string().optional(),
-      /** English name; everyone with the same name is listed together. */
-      department: z.string().trim().min(1),
-      departmentAz: z.string().optional(),
+      /** One of the fixed departments in src/lib/department-fields.ts. */
+      department: z.enum(DEPARTMENTS),
       order: z.number(),
       /** Role-based addresses only — never a volunteer's personal address. */
       email: z.string().email().optional(),
