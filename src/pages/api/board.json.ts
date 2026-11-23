@@ -20,6 +20,8 @@ export const GET: APIRoute = async ({ site }) => {
       body: data.group,
       email: data.email ?? null,
       term: data.term ?? null,
+      year: data.year ?? null,
+      linkedin: data.linkedin ?? null,
     }));
 
   return jsonResponse({

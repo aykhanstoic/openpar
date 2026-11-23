@@ -98,6 +98,11 @@ const board = defineCollection({
       email: z.string().email().optional(),
       photo: image().optional(),
       term: z.string().optional(),
+      /** Year the board's term began. The newest year is the current board; older years are its history. */
+      year: z.number().int().min(2000).max(2100).optional(),
+      linkedin: httpsUrl
+        .refine((u) => /(^|\.)linkedin\.com$/.test(new URL(u).hostname), { message: "Must be a linkedin.com link" })
+        .optional(),
     }),
 });
 

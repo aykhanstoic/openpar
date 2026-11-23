@@ -1,0 +1,74 @@
+---
+/**
+ * One board's page: the current board at /boards/<body>, a past one at
+ * /boards/<body>/<year>. The year row is plain links, so every year has its
+ * own address and works without script.
+ */
+import Base from "../layouts/Base.astro";
+import PageHero from "./PageHero.astro";
+import BoardGrid from "./BoardGrid.astro";
+import { useTranslations, localePath, type Locale } from "../i18n/ui";
+import { boardYears, type BoardBody } from "../lib/board";
+
+interface Props {
+  locale: Locale;
+  body: BoardBody;
+  /** A past year; the current board when left out. */
+  year?: number;
+}
+
+const { locale, body, year } = Astro.props;
+const t = useTranslations(locale);
+const { current, years } = await boardYears();
+const shown = year ?? current;
+const isPast = shown !== current;
+
+const name = body === "executive" ? t.boards.executiveTitle : t.boards.supervisoryTitle;
+const lead = body === "executive" ? t.boards.executiveLead : t.boards.supervisoryLead;
+const title = isPast ? `${name} ${shown}` : name;
+const empty = isPast
+  ? t.boards.emptyYear.replace("{year}", String(shown))
+  : body === "executive"
+    ? t.boards.emptyExecutive
+    : t.boards.emptySupervisory;
+
+const hrefFor = (y: number) => localePath(locale, y === current ? `boards/${body}` : `boards/${body}/${y}`);
+---
+
+<Base locale={locale} title={title} description={lead}>
+  <PageHero locale={locale} title={title} lead={lead} parent={{ label: t.nav.about, path: "about" }} />
+
+  <section class="section">
+    <div class="wrap">
+      <nav aria-label={t.boards.yearsLabel} class="mb-10">
+        <p class="eyebrow mb-4">{t.boards.yearsLabel}</p>
+        <ul class="flex flex-wrap gap-2">
+          {
+            years.map((y) => (
+              <li>
+                <a
+                  href={hrefFor(y)}
+                  aria-current={y === shown ? "page" : undefined}
+                  class="year-link inline-flex items-center gap-2 border border-line px-4 py-2 font-display text-[1rem] font-semibold text-ink transition-colors hover:border-deep hover:text-deep"
+                >
+                  {y}
+                  {y === current && <span class="text-[0.78rem] font-semibold uppercase tracking-wide opacity-75">{t.boards.currentLabel}</span>}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <BoardGrid locale={locale} body={body} year={shown} emptyMessage={empty} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .year-link[aria-current="page"] {
+    background: var(--color-deep);
+    border-color: var(--color-deep);
+    color: #fff;
+  }
+</style>

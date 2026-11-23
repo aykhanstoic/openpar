@@ -6,7 +6,11 @@
     "supervisoryLead": "Independent of the Executive Board. Reviews its decisions and finances, and reports to the membership at the General Assembly.",
     "emptyExecutive": "Executive Board members have not been published yet.",
     "emptySupervisory": "Supervisory Board members have not been published yet.",
-    "termLabel": "Term"
+    "termLabel": "Term",
+    "yearsLabel": "Board by year",
+    "currentLabel": "Current",
+    "emptyYear": "No members have been added for {year} yet.",
+    "linkedinLabel": "LinkedIn profile"
   },
   "az": {
     "executiveTitle": "İcraiyyə İdarə Heyəti",
@@ -15,6 +19,10 @@
     "supervisoryLead": "İcraiyyə İdarə Heyətindən müstəqildir. Onun qərarlarını və maliyyəsini nəzərdən keçirir və Ümumi Yığıncaqda üzvlərə hesabat verir.",
     "emptyExecutive": "İcraiyyə İdarə Heyətinin üzvləri hələ dərc olunmayıb.",
     "emptySupervisory": "Nəzarət Şurasının üzvləri hələ dərc olunmayıb.",
-    "termLabel": "Səlahiyyət müddəti"
+    "termLabel": "Səlahiyyət müddəti",
+    "yearsLabel": "İllər üzrə heyət",
+    "currentLabel": "Hazırkı",
+    "emptyYear": "{year} ili üçün hələ üzv əlavə olunmayıb.",
+    "linkedinLabel": "LinkedIn profili"
   }
 }

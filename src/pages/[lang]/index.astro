@@ -5,6 +5,7 @@ import SessionCard from "../../components/SessionCard.astro";
 import NewsCard from "../../components/NewsCard.astro";
 import PagePhoto from "../../components/PagePhoto.astro";
 import Buta from "../../components/Buta.astro";
+import HeroStars from "../../components/HeroStars.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 import { currentStatus, sessionText, showsIn } from "../../lib/sessions";
 
@@ -44,6 +45,7 @@ const stats = t.home.numbers;
   <!-- EYP template hero (eype.es / eyp.pt): indigo headline on a slanted
        pale-blue band, stacked-button CTA, next session as a white card. -->
   <section class="slant overflow-hidden">
+    <HeroStars />
     <!-- Buta watermark, white on the pale band, behind the session card -->
     <Buta
       class="pointer-events-none absolute left-[31%] top-[2%] -z-[1] hidden h-[90%] w-auto -scale-x-100 -rotate-[12deg] text-white md:block"

@@ -1,0 +1,21 @@
+---
+/** A past board: /en/boards/executive/2024. The current year lives at /boards/executive. */
+import BoardPage from "../../../../components/BoardPage.astro";
+import { locales, type Locale } from "../../../../i18n/ui";
+import { boardYears, type BoardBody } from "../../../../lib/board";
+
+export async function getStaticPaths() {
+  const { current, years } = await boardYears();
+  return locales.flatMap((lang) =>
+    (["executive", "supervisory"] as const).flatMap((body) =>
+      years.filter((y) => y !== current).map((y) => ({ params: { lang, body, year: String(y) } })),
+    ),
+  );
+}
+
+const locale = Astro.params.lang as Locale;
+const body = Astro.params.body as BoardBody;
+const year = Number(Astro.params.year);
+---
+
+<BoardPage locale={locale} body={body} year={year} />

@@ -53,7 +53,7 @@ const boards = [
   </section>
 
   <!-- =========================================================== mission -->
-  <section class="section">
+  <section id="mission" class="section">
     <div class="wrap grid gap-12 lg:grid-cols-2 lg:items-center">
       <div>
         <p class="eyebrow">{a.missionEyebrow}</p>
@@ -70,7 +70,7 @@ const boards = [
   </section>
 
   <!-- ============================================================ values -->
-  <section class="section relative isolate overflow-hidden bg-deep text-white">
+  <section id="values" class="section relative isolate overflow-hidden bg-deep text-white">
     <Buta
       class="pointer-events-none absolute -top-20 -left-16 -z-10 h-[380px] w-auto rotate-[14deg] text-white/[0.07]"
       stroke={1.8}
@@ -98,7 +98,7 @@ const boards = [
   </section>
 
   <!-- ============================================================= board -->
-  <section class="section">
+  <section id="board" class="section">
     <div class="wrap">
       <div class="max-w-[56ch]">
         <p class="eyebrow">{a.boardEyebrow}</p>
@@ -128,7 +128,7 @@ const boards = [
   <!-- ========================================================== history -->
   {
     a.milestones.length > 0 && (
-      <section class="section border-t border-line">
+      <section id="history" class="section border-t border-line">
         <div class="wrap">
           <p class="eyebrow">{a.historyEyebrow}</p>
           <h2 class="mt-4 text-h2">{a.historyTitle}</h2>

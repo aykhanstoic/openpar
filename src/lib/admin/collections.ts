@@ -160,11 +160,26 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The person", name: "order", label: "Position in the list", type: "number", required: true, hint: "1 is shown first." },
       { group: "The person", name: "email", label: "Email", type: "email", hint: "A role address (like president@…), never a personal one." },
       { group: "The person", name: "photo", label: "Photo", type: "image", kind: "photo", hint: "A portrait, cropped to a square on the site. Only with the person's consent. Without a photo, their initials are shown." },
+      { group: "The person", name: "linkedin", label: "LinkedIn", type: "url", hint: "Their LinkedIn profile, e.g. https://www.linkedin.com/in/name. Only with their consent." },
+      { group: "The person", name: "year", label: "Board year", type: "number", required: true, hint: "The year this board's term began: 2026 for a 2026–2027 board. The newest year is shown as the current board; older years appear in the board's history, back to 2020." },
       { group: "The person", name: "term", label: "Term", type: "text", max: 40, hint: "For example: 2026–2027." },
     ],
-    slug: (v) => slugify(`${v.role} ${v.name}`),
-    summary: (d) => [String(d.role ?? ""), d.group === "supervisory" ? "Supervisory Board" : "Executive Board"],
-    sortKey: (d) => `${d.group === "supervisory" ? "b" : "a"}${String(d.order ?? 0).padStart(4, "0")}`,
+    /* The year is in the file name, so someone who served on two boards gets two entries. */
+    slug: (v) => slugify(`${v.role} ${v.name}`, v.year),
+    summary: (d) => [String(d.role ?? ""), d.group === "supervisory" ? "Supervisory Board" : "Executive Board", d.year ? String(d.year) : "Year not set"],
+    /* Newest board first, then by board and position. */
+    sortKey: (d) => `${String(9999 - (Number(d.year) || 9999)).padStart(4, "0")}${d.group === "supervisory" ? "b" : "a"}${String(d.order ?? 0).padStart(4, "0")}`,
+    check(v) {
+      const e: Record<string, string> = {};
+      const y = Number(v.year);
+      if (v.year && (!Number.isInteger(y) || y < 2000 || y > 2100)) e.year = "A year between 2000 and 2100";
+      if (v.linkedin) {
+        let host = "";
+        try { host = new URL(v.linkedin).hostname; } catch { /* the url check reports it */ }
+        if (host && !/(^|\.)linkedin\.com$/.test(host)) e.linkedin = "Must be a linkedin.com link";
+      }
+      return e;
+    },
   },
 
   /* -------------------------------------------------------------- partners */
