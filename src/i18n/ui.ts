@@ -98,6 +98,7 @@ export const primaryNav: NavItem[] = [
       { key: "values", path: "about#values" },
       { key: "executiveBoard", path: "boards/executive" },
       { key: "supervisoryBoard", path: "boards/supervisory" },
+      { key: "departments", path: "about#departments" },
       { key: "history", path: "about#history" },
       { key: "partners", path: "partners" },
     ],

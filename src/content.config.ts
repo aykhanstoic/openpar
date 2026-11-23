@@ -106,6 +106,30 @@ const board = defineCollection({
     }),
 });
 
+/* ------------------------------------------------------------ departments */
+/* The volunteers who run each department (communications, academics, ...).
+   Like the board, but grouped by department and with no yearly history:
+   when someone steps down, their entry is removed. */
+const departments = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/departments" }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      role: z.string(),
+      roleAz: z.string().optional(),
+      /** English name; everyone with the same name is listed together. */
+      department: z.string().trim().min(1),
+      departmentAz: z.string().optional(),
+      order: z.number(),
+      /** Role-based addresses only — never a volunteer's personal address. */
+      email: z.string().email().optional(),
+      photo: image().optional(),
+      linkedin: httpsUrl
+        .refine((u) => /(^|\.)linkedin\.com$/.test(new URL(u).hostname), { message: "Must be a linkedin.com link" })
+        .optional(),
+    }),
+});
+
 /* --------------------------------------------------------------- partners */
 const partners = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/partners" }),
@@ -119,4 +143,4 @@ const partners = defineCollection({
     }),
 });
 
-export const collections = { sessions, news, board, partners };
+export const collections = { sessions, news, board, departments, partners };

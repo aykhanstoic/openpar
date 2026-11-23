@@ -6,6 +6,7 @@ import BoardGrid from "../../components/BoardGrid.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 import sitePage from "../../data/pages/site.json";
+import { departmentGroups } from "../../lib/departments";
 
 export { getStaticPaths } from "../../i18n/paths";
 
@@ -16,6 +17,8 @@ const a = t.about;
 const glance = a.glance;
 
 const values = a.values;
+
+const departments = await departmentGroups(locale);
 
 const boards = [
   {
@@ -124,6 +127,30 @@ const boards = [
       }
     </div>
   </section>
+
+  <!-- ====================================================== departments -->
+  <!-- Shown once department members are added in /admin. One block per
+       department, with the same cards as the boards. -->
+  {
+    departments.length > 0 && (
+      <section id="departments" class="section border-t border-line">
+        <div class="wrap">
+          <div class="max-w-[56ch]">
+            <p class="eyebrow">{a.boardEyebrow}</p>
+            <h2 class="mt-4 text-h2">{a.departmentsTitle}</h2>
+            <p class="mt-5 text-[1.02rem] leading-relaxed text-ink-muted">{a.departmentsBody}</p>
+          </div>
+
+          {departments.map((d) => (
+            <div id={d.id} class="mt-12">
+              <h3 class="mb-7 border-b border-line pb-5 font-display text-[1.35rem] font-bold">{d.name}</h3>
+              <BoardGrid locale={locale} members={d.members} emptyMessage="" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <!-- ========================================================== history -->
   {

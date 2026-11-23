@@ -2,19 +2,20 @@
 import { Image } from "astro:assets";
 import { useTranslations, type Locale } from "../i18n/ui";
 import { boardMembers, type BoardBody } from "../lib/board";
+import type { DepartmentMember } from "../lib/departments";
 
-interface Props {
-  locale: Locale;
-  body: BoardBody;
-  emptyMessage: string;
-  /** A past board's year; the current board when left out. */
-  year?: number;
-}
+/* Either a board (looked up here) or a list given ready-made, such as one
+   department's members. Both use the same cards. */
+type Props = { locale: Locale; emptyMessage: string } & (
+  | { body: BoardBody; /** A past board's year; the current board when left out. */ year?: number; members?: never }
+  | { members: DepartmentMember[]; body?: never; year?: never }
+);
 
 const { locale, body, emptyMessage, year } = Astro.props;
 const t = useTranslations(locale);
 
-const members = await boardMembers(body, year);
+const members: { data: { name: string; role: string; roleAz?: string; email?: string; photo?: ImageMetadata; linkedin?: string; term?: string } }[] =
+  Astro.props.members ?? (await boardMembers(body!, year));
 
 /** Initials stand in until real headshots exist. */
 const initials = (name: string) =>

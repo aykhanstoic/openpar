@@ -1,6 +1,7 @@
 ---
 import { useTranslations, primaryNav, localePath, stripLocale, type Locale } from "../i18n/ui";
 import contactPage from "../data/pages/contact.json";
+import { getCollection } from "astro:content";
 
 interface Props {
   locale: Locale;
@@ -26,7 +27,9 @@ const isActive = (path: string) =>
 type Link = { key: string; label: string; path: string; active: boolean; children: { label: string; path: string }[] };
 /* Some sections only render when they have content: the About history
    appears once milestones are added in /admin. No link to a missing section. */
-const exists = (c: { path: string }) => c.path !== "about#history" || t.about.milestones.length > 0;
+const hasDepartments = (await getCollection("departments")).length > 0;
+const exists = (c: { path: string }) =>
+  c.path === "about#history" ? t.about.milestones.length > 0 : c.path === "about#departments" ? hasDepartments : true;
 const toLink = (item: (typeof primaryNav)[number]): Link => ({
   key: item.key,
   label: t.nav[item.key],
