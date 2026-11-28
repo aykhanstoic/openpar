@@ -93,7 +93,7 @@ const hasOutreach = all.some((s) => s.data.outreach);
               <h3 class="mt-12 font-display text-[1.6rem] font-bold">{year}</h3>
               <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {sessions.map((session) => (
-                  <SessionCard session={session} locale={locale} />
+                  <SessionCard session={session} locale={locale} headingLevel={4} />
                 ))}
               </div>
             </>

@@ -9,9 +9,12 @@ interface Props {
   locale: Locale;
   /** Compact variant for the home page's next-session slot. */
   featured?: boolean;
+  /** Title heading level. The archive nests cards under a year heading, so it passes 4. */
+  headingLevel?: 3 | 4;
 }
 
-const { session, locale, featured = false } = Astro.props;
+const { session, locale, featured = false, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
 const t = useTranslations(locale);
 const d = session.data;
 const status = currentStatus(d);
@@ -65,9 +68,9 @@ const canApply = status === "call-open" && Boolean(d.applyUrl);
       </div>
 
       <div class="min-w-0">
-        <h3 class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.35rem]"]}>
+        <Heading class:list={["font-display font-bold leading-tight", featured ? "text-h2" : "text-[1.35rem]"]}>
           <a href={detailHref} class="hover:underline">{text.title}</a>
-        </h3>
+        </Heading>
         <p class="mt-1.5 text-ink-muted">{text.theme}</p>
       </div>
     </div>
