@@ -82,10 +82,11 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
   };
   const ref = `ref=${encodeURIComponent(branch)}`;
 
-  async function call(url: string, init?: RequestInit) {
+  /** `conflicts`: for the contents-API PUT/DELETE only, where 409 means the sha is
+      stale and 422 that a create hit an existing file. Elsewhere 422 is bad input. */
+  async function call(url: string, init?: RequestInit, conflicts = false) {
     const res = await fetch(url, { ...init, headers });
-    // 409: the sha is stale. 422: a create hit an existing file (no sha sent).
-    if (res.status === 409 || res.status === 422) {
+    if (conflicts && (res.status === 409 || res.status === 422)) {
       throw new ConflictError("Someone else changed this after you opened it. Go back, open it again, and redo your change.");
     }
     if (res.status === 401 || res.status === 403) {
@@ -113,7 +114,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         branch,
         ...(sha ? { sha } : {}),
       }),
-    });
+    }, true);
     if (!res.ok) throw new StoreError(`GitHub returned ${res.status} saving ${id}`);
   }
 
@@ -139,7 +140,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       const res = await call(`${api}/${fileFor(folder, id)}`, {
         method: "DELETE",
         body: JSON.stringify({ message, sha, branch }),
-      });
+      }, true);
       if (!res.ok) throw new StoreError(`GitHub returned ${res.status} deleting ${id}`);
     },
     async readRaw(repoPath) {
@@ -152,7 +153,10 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       const git = `https://api.github.com/repos/${repo}/git`;
       const json = async (url: string, init?: RequestInit) => {
         const res = await call(url, { ...init, headers });
-        if (!res.ok) throw new StoreError(`GitHub returned ${res.status} (${url.replace(git, "git")})`);
+        if (!res.ok) {
+          const detail = ((await res.json().catch(() => ({}))) as { message?: string }).message;
+          throw new StoreError(`GitHub returned ${res.status} (${url.replace(git, "git")})${detail ? `: ${detail}` : ""}`);
+        }
         return res.json();
       };
 
@@ -189,13 +193,17 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         );
         const newTree = await json(`${git}/trees`, { method: "POST", body: JSON.stringify({ base_tree: baseTree, tree }) });
         const commit = await json(`${git}/commits`, { method: "POST", body: JSON.stringify({ message, tree: newTree.sha, parents: [head] }) });
-        const res = await fetch(`${git}/refs/heads/${encodeURIComponent(branch)}`, {
+        const res = await call(`${git}/refs/heads/${encodeURIComponent(branch)}`, {
           method: "PATCH",
-          headers,
           body: JSON.stringify({ sha: commit.sha, force: false }),
         });
         if (res.ok) return;
-        if (res.status !== 422 || attempt === 1) throw new StoreError(`GitHub returned ${res.status} saving`);
+        const detail = ((await res.json().catch(() => ({}))) as { message?: string }).message ?? "";
+        // Only "not a fast forward" means the tip moved; other 422s are branch rules or bad input.
+        if (res.status !== 422 || !/fast.?forward/i.test(detail)) {
+          throw new StoreError(`GitHub returned ${res.status} saving${detail ? `: ${detail}` : ""}`);
+        }
+        if (attempt === 1) throw new ConflictError("Other changes were being saved at the same moment. Nothing was saved: save again.");
       }
     },
   };
