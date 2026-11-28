@@ -6,7 +6,7 @@ import NewsCard from "../../components/NewsCard.astro";
 import PagePhoto from "../../components/PagePhoto.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
-import { currentStatus, sessionText, showsIn } from "../../lib/sessions";
+import { currentStatus, hasEnded, sessionText, showsIn } from "../../lib/sessions";
 
 export { getStaticPaths } from "../../i18n/paths";
 
@@ -16,7 +16,7 @@ const t = useTranslations(locale);
 /* Next session = the soonest one that has not finished yet, open calls first
    so an open call is never buried under a merely-announced later session. */
 const now = new Date();
-const upcoming = (await getCollection("sessions", ({ data }) => !data.draft && showsIn(data, locale) && data.endDate >= now))
+const upcoming = (await getCollection("sessions", ({ data }) => !data.draft && showsIn(data, locale) && !hasEnded(data, now)))
   .sort((a, b) => {
     const openA = currentStatus(a.data, now) === "call-open" ? 0 : 1;
     const openB = currentStatus(b.data, now) === "call-open" ? 0 : 1;

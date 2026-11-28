@@ -18,6 +18,11 @@ export function currentStatus(d: SessionData, now: Date = new Date()): SessionDa
   return d.status;
 }
 
+/** Whether the session is over as of `now`. endDate is midnight UTC, so its last day (UTC) still counts as running. */
+export function hasEnded(d: SessionData, now: Date = new Date()): boolean {
+  return now.getTime() >= d.endDate.getTime() + DAY;
+}
+
 /** Whether a session is published on `locale`'s pages. `lang: "az"` keeps it off /en/, and vice versa. */
 export function showsIn(d: SessionData, locale: Locale): boolean {
   return d.lang === "both" || d.lang === locale;

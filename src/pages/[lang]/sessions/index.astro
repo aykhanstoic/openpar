@@ -4,7 +4,7 @@ import Base from "../../../layouts/Base.astro";
 import PageHero from "../../../components/PageHero.astro";
 import SessionCard from "../../../components/SessionCard.astro";
 import { useTranslations, type Locale } from "../../../i18n/ui";
-import { currentStatus, showsIn } from "../../../lib/sessions";
+import { currentStatus, hasEnded, showsIn } from "../../../lib/sessions";
 
 export { getStaticPaths } from "../../../i18n/paths";
 
@@ -18,7 +18,7 @@ const all = await getCollection("sessions", ({ data }) => !data.draft && showsIn
 const now = new Date();
 
 const upcoming = all
-  .filter((s) => s.data.endDate >= now)
+  .filter((s) => !hasEnded(s.data, now))
   .sort((a, b) => {
     const openA = currentStatus(a.data, now) === "call-open" ? 0 : 1;
     const openB = currentStatus(b.data, now) === "call-open" ? 0 : 1;
@@ -26,7 +26,7 @@ const upcoming = all
   });
 
 const past = all
-  .filter((s) => s.data.endDate < now)
+  .filter((s) => hasEnded(s.data, now))
   .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
 
 /* The card's date chip shows day and month only, so the archive groups cards under
