@@ -156,8 +156,14 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         return res.json();
       };
 
-      if (expect) {
-        const res = await call(`${api}/${expect.path}?${ref}`);
+      /* Checked at `head`, the commit the new one is built on. The ref update below
+         is fast-forward only, so if the tip moved after this check it fails and the
+         next attempt checks again. A missing sha never matches, so a form that lost
+         its sha fails safe; callers saving a file that did not exist pass mustNotExist. */
+      const check = async (head: string) => {
+        if (!expect) return;
+        const res = await call(`${api}/${expect.path}?ref=${head}`);
+        if (!res.ok && res.status !== 404) throw new StoreError(`GitHub returned ${res.status} reading ${expect.path}`);
         const found = res.status === 404 ? null : ((await res.json()) as { sha: string }).sha;
         if (expect.mustNotExist ? found !== null : found !== expect.sha) {
           throw new ConflictError(
@@ -166,11 +172,12 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
               : "Someone else changed this after you opened it. Go back, open it again, and redo your change.",
           );
         }
-      }
+      };
 
       // Two tries: if someone else committed in between, start again from the new tip.
       for (let attempt = 0; attempt < 2; attempt++) {
         const head = (await json(`${git}/ref/heads/${encodeURIComponent(branch)}`)).object.sha as string;
+        await check(head);
         const baseTree = (await json(`${git}/commits/${head}`)).tree.sha as string;
         const tree = await Promise.all(
           changes.map(async (c) => {

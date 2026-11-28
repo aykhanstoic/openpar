@@ -65,7 +65,7 @@ if (request.method === "POST") {
       const next: PhotosFile = { ...photos, [spot.id]: slots };
       changes.push({ path: PHOTOS_PATH, content: `${JSON.stringify(next, null, 2)}\n` });
       const what = remove ? "Remove" : upload ? "Add" : "Update";
-      await store.commit(changes, `${what} photo ${index + 1} in "${spot.label}" (via /admin, by ${editor})`, { path: PHOTOS_PATH, sha });
+      await store.commit(changes, `${what} photo ${index + 1} in "${spot.label}" (via /admin, by ${editor})`, file ? { path: PHOTOS_PATH, sha } : { path: PHOTOS_PATH, mustNotExist: true });
       rememberEditor(cookies, editor, url.protocol === "https:");
       return Astro.redirect(`/admin/photos?done=1#${key}`, 303);
     }
