@@ -82,13 +82,8 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
   };
   const ref = `ref=${encodeURIComponent(branch)}`;
 
-  /** `conflicts`: for the contents-API PUT/DELETE only, where 409 means the sha is
-      stale and 422 that a create hit an existing file. Elsewhere 422 is bad input. */
-  async function call(url: string, init?: RequestInit, conflicts = false) {
-    const res = await fetch(url, { ...init, headers });
-    if (conflicts && (res.status === 409 || res.status === 422)) {
-      throw new ConflictError("Someone else changed this after you opened it. Go back, open it again, and redo your change.");
-    }
+  async function call(url: string, init?: Omit<RequestInit, "headers"> & { headers?: Record<string, string> }) {
+    const res = await fetch(url, { ...init, headers: { ...headers, ...init?.headers } });
     if (res.status === 401 || res.status === 403) {
       throw new StoreError(
         `GitHub refused (${res.status}). The GITHUB_TOKEN in Vercel is missing, expired, or lacks "Contents: Read and write" on ${repo}.`,
@@ -96,6 +91,20 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     }
     return res;
   }
+
+  const CHANGED = "Someone else changed this after you opened it. Go back, open it again, and redo your change.";
+  const detailOf = async (res: Response) => ((await res.json().catch(() => ({}))) as { message?: string }).message ?? "";
+  /** Editors see a plain sentence; GitHub's own message goes to the function log via `cause`. */
+  const refused = (res: Response, detail: string) =>
+    new StoreError(
+      res.status >= 500
+        ? `GitHub had a problem (error ${res.status}), so the change may or may not have gone through. Reload the page and check before saving again.`
+        : `GitHub refused the change (error ${res.status}). Nothing changed on the website. The details are in the Vercel function log.`,
+      { cause: `${res.status} ${res.url}: ${detail || "no message"}` },
+    );
+  /** A 409/422 from the contents API is a version conflict only when GitHub's message is about the sha. */
+  const isShaConflict = (res: Response, detail: string) =>
+    (res.status === 409 || res.status === 422) && /does not match|\bsha\b/i.test(detail);
 
   async function get(id: string): Promise<StoredFile | null> {
     const res = await call(`${api}/${fileFor(folder, id)}?${ref}`);
@@ -114,8 +123,12 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         branch,
         ...(sha ? { sha } : {}),
       }),
-    }, true);
-    if (!res.ok) throw new StoreError(`GitHub returned ${res.status} saving ${id}`);
+    });
+    if (res.ok) return;
+    const detail = await detailOf(res);
+    // With a sha: it is stale. Without one (a create): the file already exists.
+    if (isShaConflict(res, detail)) throw new ConflictError(sha ? CHANGED : "Something with this name already exists.");
+    throw refused(res, detail);
   }
 
   return {
@@ -140,11 +153,14 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       const res = await call(`${api}/${fileFor(folder, id)}`, {
         method: "DELETE",
         body: JSON.stringify({ message, sha, branch }),
-      }, true);
-      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} deleting ${id}`);
+      });
+      if (res.ok) return;
+      const detail = await detailOf(res);
+      if (isShaConflict(res, detail)) throw new ConflictError(CHANGED);
+      throw refused(res, detail);
     },
     async readRaw(repoPath) {
-      const res = await fetch(`${api}/${repoPath}?${ref}`, { headers: { ...headers, Accept: "application/vnd.github.raw" } });
+      const res = await call(`${api}/${repoPath}?${ref}`, { headers: { Accept: "application/vnd.github.raw" } });
       if (res.status === 404) return null;
       if (!res.ok) throw new StoreError(`GitHub returned ${res.status} reading ${repoPath}`);
       return Buffer.from(await res.arrayBuffer());
@@ -152,11 +168,8 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     async commit(changes, message, expect) {
       const git = `https://api.github.com/repos/${repo}/git`;
       const json = async (url: string, init?: RequestInit) => {
-        const res = await call(url, { ...init, headers });
-        if (!res.ok) {
-          const detail = ((await res.json().catch(() => ({}))) as { message?: string }).message;
-          throw new StoreError(`GitHub returned ${res.status} (${url.replace(git, "git")})${detail ? `: ${detail}` : ""}`);
-        }
+        const res = await call(url, init);
+        if (!res.ok) throw refused(res, await detailOf(res));
         return res.json();
       };
 
@@ -173,7 +186,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
           throw new ConflictError(
             expect.mustNotExist
               ? "Something with this name already exists."
-              : "Someone else changed this after you opened it. Go back, open it again, and redo your change.",
+              : CHANGED,
           );
         }
       };
@@ -198,11 +211,9 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
           body: JSON.stringify({ sha: commit.sha, force: false }),
         });
         if (res.ok) return;
-        const detail = ((await res.json().catch(() => ({}))) as { message?: string }).message ?? "";
+        const detail = await detailOf(res);
         // Only "not a fast forward" means the tip moved; other 422s are branch rules or bad input.
-        if (res.status !== 422 || !/fast.?forward/i.test(detail)) {
-          throw new StoreError(`GitHub returned ${res.status} saving${detail ? `: ${detail}` : ""}`);
-        }
+        if (res.status !== 422 || !/fast.?forward/i.test(detail)) throw refused(res, detail);
         if (attempt === 1) throw new ConflictError("Other changes were being saved at the same moment. Nothing was saved: save again.");
       }
     },
