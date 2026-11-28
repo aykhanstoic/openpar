@@ -7,11 +7,14 @@ const DAY = 24 * 60 * 60 * 1000;
 
 /**
  * Status as of `now`. A call-open session whose deadline has passed reads as
- * call-closed; the deadline day itself (UTC) still counts as open. The site is
+ * call-closed; the deadline day itself (UTC) still counts as open. Once the
+ * session has ended, call-open and call-closed read as completed. "announced"
+ * stays: a past announced session is a postponed one, not a held one. The site is
  * static, so this only changes when the site is rebuilt: a daily rebuild keeps
  * it current.
  */
 export function currentStatus(d: SessionData, now: Date = new Date()): SessionData["status"] {
+  if ((d.status === "call-open" || d.status === "call-closed") && hasEnded(d, now)) return "completed";
   if (d.status === "call-open" && d.applyDeadline && now.getTime() >= d.applyDeadline.getTime() + DAY) {
     return "call-closed";
   }
