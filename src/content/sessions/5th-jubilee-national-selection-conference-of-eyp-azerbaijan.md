@@ -2,6 +2,10 @@
 title: "5th Jubilee National Selection Conference of EYP Azerbaijan"
 theme: "Only Love can do it..."
 summary: "The 5th Jubilee National Selection Conference of EYP Azerbaijan was held in Baku on 25-27 November 2016 under the motto “Only Love can do it...”."
+titleAz: "EYP Azerbaijan-ın 5-ci Yubiley Milli Seçim Konfransı"
+themeAz: "Bunu yalnız Sevgi bacarar..."
+summaryAz: "EYP Azerbaijan-ın 5-ci Yubiley Milli Seçim Konfransı 25–27 noyabr 2016 tarixlərində Bakıda “Bunu yalnız Sevgi bacarar...” devizi altında keçirilmişdir."
+bodyAz: "EYP Azerbaijan-ın 5-ci Yubiley Milli Seçim Konfransı 25–27 noyabr 2016 tarixlərində Bakıda EYPLOVE konsepsiyası və “Bunu yalnız Sevgi bacarar...” devizi altında keçirilmişdir. Konfrans son terror hücumlarına, vətəndaş müharibəsinə və digər mənfi hadisələrə həsr olunmuşdu.\n\nÜç gün ərzində iştirakçılar komitələrində müxtəlif mövzuları müzakirə etmiş, bilik mübadiləsi aparmış və təcrübə bölüşmüşlər."
 venue: "Baku"
 startDate: 2016-11-25
 endDate: 2016-11-27

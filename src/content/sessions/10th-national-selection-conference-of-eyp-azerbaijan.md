@@ -2,6 +2,10 @@
 title: "10th National Selection Conference of EYP Azerbaijan"
 theme: "Handmade in the Digital Age"
 summary: "The 10th National Selection Conference of EYP Azerbaijan was held in Baku on 10-14 July 2024 and focused on human creativity and critical thinking in the age of AI."
+titleAz: "EYP Azerbaijan-ın 10-cu Milli Seçim Konfransı"
+themeAz: "Rəqəmsal əsrdə əl işi"
+summaryAz: "EYP Azerbaijan-ın 10-cu Milli Seçim Konfransı 10–14 iyul 2024-cü ildə Bakıda keçirilib və süni intellekt dövründə insan yaradıcılığına və tənqidi düşüncəyə həsr olunub."
+bodyAz: "EYP Azerbaijan-ın 10-cu Milli Seçim Konfransı 10–14 iyul 2024-cü ildə Bakıda keçirilib, 9 iyul isə CMOJ günü olub. Konfransda Azərbaycandan və bütün Avropadan 150-dən çox iştirakçının toplanması planlaşdırılırdı; konfransda seçilən deleqatlar 2025-ci ilin Beynəlxalq Sessiyalarında EYP Azerbaijan-ı təmsil edəcəkdilər.\n\n“Rəqəmsal əsrdə əl işi” şüarı altında konfrans Süni İntellekt gündəlik həyatın bir hissəsinə çevrildikcə insan yaradıcılığını, empatiyanı və tənqidi düşüncəni yaşatmağa, texnoloji tərəqqi ilə yanaşı insanlığımızı qorumağa dair akademik müzakirələri və debatları təşviq edib."
 venue: "Baku"
 startDate: 2024-07-10
 endDate: 2024-07-14

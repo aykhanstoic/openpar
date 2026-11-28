@@ -2,6 +2,10 @@
 title: "10th School Session of EYP Azerbaijan"
 theme: "Flames of Renewal: Igniting Unity Across Cultures"
 summary: "The 10th School Session of EYP Azerbaijan was held on 27-29 March 2025, during the Novruz holiday, under the motto “Flames of Renewal: Igniting Unity Across Cultures”."
+titleAz: "EYP Azerbaijan-ın 10-cu Məktəb Sessiyası"
+themeAz: "Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandırmaq"
+summaryAz: "EYP Azerbaijan-ın 10-cu Məktəb Sessiyası 27–29 mart 2025-ci ildə, Novruz bayramı günlərində, “Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandırmaq” şüarı ilə keçirilib."
+bodyAz: "EYP Azerbaijan-ın 10-cu Məktəb Sessiyası 27–29 mart 2025-ci ildə, Novruz bayramı günlərində, “Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandırmaq” şüarı ilə keçirilib. Odun və təbiətin simvolikasından ilhamlanan sessiya həvəsi alovlandırmağı və yeni ideyaları bəsləməyi hədəfləyib; o, gəncləri dayanıqlılığı, mədəni irsin qorunmasını və icma tərəfindən idarə olunan tərəqqini araşdırmaq üçün bir araya gətirib.\n\nSessiya həmçinin liderliyi, əməkdaşlığı və dözümlülüyü inkişaf etdirməyi, əməkdaşlıq və innovasiya vasitəsilə birləşmiş gələcəyi formalaşdırarkən ənənələrə hörmətin vacibliyini vurğulamağı hədəfləyib."
 venue: "Azerbaijan"
 startDate: 2025-03-27
 endDate: 2025-03-29

@@ -2,6 +2,10 @@
 title: "Gabala - The 11th Outreach Session of EYP Azerbaijan"
 theme: "Seeing the Unseen, Shaping the Unwritten"
 summary: "The 11th Outreach Session of EYP Azerbaijan was held in Gabala on 26-27 April 2025, in Azerbaijani, for young people from the region."
+titleAz: "Qəbələ - EYP Azerbaijan-ın 11-ci Autriç Sessiyası"
+themeAz: "Görünməyəni görmək, yazılmamışı formalaşdırmaq"
+summaryAz: "EYP Azerbaijan-ın 11-ci Autriç Sessiyası 26–27 aprel 2025-ci ildə Qəbələdə, Azərbaycan dilində, bölgədən olan gənclər üçün keçirilib."
+bodyAz: "EYP Azerbaijan-ın 11-ci Qəbələ Autriç Sessiyası 26–27 aprel 2025-ci ildə Qəbələdə “Görünməyəni görmək, yazılmamışı formalaşdırmaq” şüarı ilə keçirilib. Sessiya tamamilə Azərbaycan dilində aparılıb.\n\nSessiya bölgədən olan gəncləri bir araya gətirib və onlara aktual qlobal məsələləri müzakirə etmək, fikir mübadiləsi aparmaq və vətəndaş fəallığını gücləndirmək üçün platforma verib. İştirakçılar iqlim dəyişikliyi, texnoloji inkişafın cəmiyyətə təsiri və sosial bərabərsizliklər kimi problemləri araşdırıb və birlikdə həllər üzərində işləyiblər."
 venue: "Gabala"
 startDate: 2025-04-26
 endDate: 2025-04-27

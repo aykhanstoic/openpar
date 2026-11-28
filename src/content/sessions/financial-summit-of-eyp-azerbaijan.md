@@ -2,6 +2,10 @@
 title: "Financial Summit of EYP Azerbaijan"
 theme: "Decisions Define Value"
 summary: "The Financial Summit of EYP Azerbaijan was held on 15-18 January 2026 under the theme “Decisions Define Value”, exploring how financial decisions shape value."
+titleAz: "EYP Azerbaijan-ın Maliyyə Sammiti"
+themeAz: "Qərarlar dəyəri müəyyən edir"
+summaryAz: "EYP Azerbaijan-ın Maliyyə Sammiti 15–18 yanvar 2026-cı ildə “Qərarlar dəyəri müəyyən edir” mövzusu ilə keçirilib və maliyyə qərarlarının dəyəri necə formalaşdırdığını araşdırıb."
+bodyAz: "EYP Azerbaijan-ın Maliyyə Sammiti 15–18 yanvar 2026-cı ildə “Qərarlar dəyəri müəyyən edir” mövzusu ilə keçirilib. Sammit iqtisadi və maliyyə qərarlarının müasir cəmiyyətlərdə dəyəri necə formalaşdırdığını, tarixi pul sistemlərindən bugünkü qlobal bazarlara qədər araşdırıb; iqtisadi nəticələrin müəyyənləşməsində seçimin, məsuliyyətin və prioritetlərin roluna diqqət yetirib.\n\nMaliyyə, iqtisadiyyat və biznes məsələlərinə toxunmaqla sammit deleqatları dəyəri kimin müəyyən etdiyi, resursların necə bölüşdürüldüyü və qısamüddətli qərarların uzunmüddətli sabitliyə və dayanıqlılığa necə təsir etdiyi barədə düşünməyə dəvət etməyi hədəfləyib."
 venue: "Azerbaijan"
 startDate: 2026-01-15
 endDate: 2026-01-18

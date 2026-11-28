@@ -2,6 +2,10 @@
 title: "3rd School Session of EYP Azerbaijan"
 theme: "School session of EYP Azerbaijan in Baku"
 summary: "The 3rd School Session of EYP Azerbaijan was held in Baku on 18-19 November 2017."
+titleAz: "EYP Azerbaijan-ın 3-cü Məktəb Sessiyası"
+themeAz: "EYP Azerbaijan-ın Bakıda keçirilən məktəb sessiyası"
+summaryAz: "EYP Azerbaijan-ın 3-cü Məktəb Sessiyası 18–19 noyabr 2017 tarixlərində Bakıda keçirilmişdir."
+bodyAz: "EYP Azerbaijan-ın 3-cü Məktəb Sessiyası 18–19 noyabr 2017 tarixlərində Bakıda keçirilmişdir. Sessiyada bütün Avropadan 100 iştirakçının toplanması, onların komitələrində mövzuları müzakirə etməsi, bilik və təcrübə mübadiləsi aparması planlaşdırılmışdı."
 venue: "Baku"
 startDate: 2017-11-18
 endDate: 2017-11-19

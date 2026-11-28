@@ -2,6 +2,10 @@
 title: "Baku 2023 - 99th International Session of the European Youth Parliament"
 theme: "International session of EYP Azerbaijan in Baku"
 summary: "The 99th International Session of the European Youth Parliament was held in Baku from 2 to 13 August 2023, on the theme of shaping education for a fast-changing world."
+titleAz: "Baku 2023 - Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası"
+themeAz: "EYP Azerbaijan-ın Bakıda keçirilən beynəlxalq sessiyası"
+summaryAz: "Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası 2–13 avqust 2023 tarixində Bakıda sürətlə dəyişən dünya üçün təhsilin formalaşdırılması mövzusunda keçirildi."
+bodyAz: "Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası 2–13 avqust 2023 tarixlərində Azərbaycanın paytaxtı Bakıda keçirildi. Bu, Bakıda keçirilən ilk Beynəlxalq Sessiya idi.\n\nEYP Azerbaijan-ın müxtəlif nəsillərindən olan təşkilatçılar sürətlə dəyişən dünyanın ehtiyac və tələblərinə cavab verən təhsil sisteminin formalaşdırılması mövzusunu seçdilər. Sessiya gənclərə belə bir sistemin qurulmasında daha güclü səs imkanı verməyi hədəfləyirdi."
 venue: "Baku"
 startDate: 2023-08-02
 endDate: 2023-08-13

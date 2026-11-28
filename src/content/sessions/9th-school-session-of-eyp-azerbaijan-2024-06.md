@@ -2,6 +2,10 @@
 title: "9th School Session of EYP Azerbaijan"
 theme: "Igniting Passion, Lighting Excellence"
 summary: "The 9th School Session of EYP Azerbaijan was held in Baku on 20-23 June 2024 under the motto “Igniting Passion, Lighting Excellence”."
+titleAz: "EYP Azerbaijan-ın 9-cu Məktəb Sessiyası"
+themeAz: "Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq"
+summaryAz: "EYP Azerbaijan-ın 9-cu Məktəb Sessiyası 20–23 iyun 2024-cü ildə Bakıda “Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq” şüarı ilə keçirilib."
+bodyAz: "EYP Azerbaijan-ın 9-cu Məktəb Sessiyası 20–23 iyun 2024-cü ildə Bakıda “Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq” mövzusu ilə keçirilib. Sessiya bütün Avropada gəncləri daxili güclərindən faydalanmağa, əhəmiyyətli fərq yaratmağa və etdikləri işdə mükəmməlliyə nail olmağa ruhlandırmağı hədəfləyib; bu zaman etik liderliyə, məqsədlərə dürüstlük və fədakarlıqla çatmağa xüsusi önəm verilib.\n\nProqramda incəsənət və karyera planlaşdırması kimi sahələrdə emalatxanalar, debatlar, həmçinin məzunların karyera yollarını, imkanları və çətinlikləri bölüşməsi nəzərdə tutulmuşdu."
 venue: "Baku"
 startDate: 2024-06-20
 endDate: 2024-06-23

@@ -2,6 +2,10 @@
 title: "8th University Session of EYP Azerbaijan"
 theme: "Youth Involvement: Encouraging Growth, Fostering Collaboration"
 summary: "The 8th University Session of EYP Azerbaijan was held in Baku from 26 to 29 May 2023 under the slogan “Youth Involvement: Encouraging Growth, Fostering Collaboration”."
+titleAz: "EYP Azerbaijan-ın 8-ci Universitet Sessiyası"
+themeAz: "Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın gücləndirilməsi"
+summaryAz: "EYP Azerbaijan-ın 8-ci Universitet Sessiyası 26–29 may 2023 tarixində Bakıda “Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın gücləndirilməsi” şüarı altında keçirildi."
+bodyAz: "EYP Azerbaijan-ın 8-ci Universitet Sessiyası 26–29 may 2023 tarixlərində Bakıda keçirildi, 26 may isə CMO təlim günü idi.\n\n“Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın gücləndirilməsi” şüarı altında təşkilatçılar sessiyanı yeni mənalı əlaqələr və təşkilatda daha fəal iştirak üçün məkana çevirməyi hədəfləyirdi. Sessiyaya 160 iştirakçını bir araya gətirmək planlaşdırılmışdı."
 venue: "Baku"
 startDate: 2023-05-26
 endDate: 2023-05-29

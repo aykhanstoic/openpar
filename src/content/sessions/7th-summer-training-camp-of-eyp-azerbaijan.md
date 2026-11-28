@@ -2,6 +2,10 @@
 title: "7th Summer Training Camp of EYP Azerbaijan"
 theme: "Bloom Through Challenges, Lead with Strength"
 summary: "The 7th Summer Training Camp of EYP Azerbaijan was held in Gobustan on 11-13 July 2025 under the motto “Bloom Through Challenges, Lead with Strength”."
+titleAz: "EYP Azerbaijan-ın 7-ci Yay Təlim Düşərgəsi"
+themeAz: "Çətinliklər vasitəsilə çiçəklən, güclə lider ol"
+summaryAz: "EYP Azerbaijan-ın 7-ci Yay Təlim Düşərgəsi 11–13 iyul 2025-ci ildə Qobustanda “Çətinliklər vasitəsilə çiçəklən, güclə lider ol” şüarı ilə keçirilib."
+bodyAz: "EYP Azerbaijan-ın 7-ci Yay Təlim Düşərgəsi 11–13 iyul 2025-ci ildə Qobustanda “Çətinliklər vasitəsilə çiçəklən, güclə lider ol” şüarı ilə keçirilib. Lotus çiçəyinin simvolikasından ilhamlanan düşərgə həqiqi güc və liderliyin çətinliklərin öhdəsindən gəlməklə ortaya çıxdığı ideyası üzərində qurulub.\n\nTəbiətdə keçirilən və EYP ruhu ilə idarə olunan düşərgə iştirakçılara interaktiv öyrənmə, gücləndirilmiş əsas bacarıqlar və mənalı əlaqələrlə şəxsi və kollektiv inkişaf üçün məkan verməyi hədəfləyib."
 venue: "Gobustan"
 startDate: 2025-07-11
 endDate: 2025-07-13

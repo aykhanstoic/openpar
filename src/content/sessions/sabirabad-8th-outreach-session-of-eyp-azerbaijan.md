@@ -2,7 +2,10 @@
 title: "Sabirabad - 8th Outreach Session of EYP Azerbaijan"
 theme: "Together for the environment"
 summary: "The 8th Outreach Session of EYP Azerbaijan was held in Sabirabad on 20-21 April 2024, in Azerbaijani, and aimed to promote EYP values among local young people."
+titleAz: "Sabirabad - EYP Azerbaijan-ın 8-ci Autriç Sessiyası"
 themeAz: "Ətraf mühit üçün birlikdə"
+summaryAz: "EYP Azerbaijan-ın 8-ci Autriç Sessiyası 20–21 aprel 2024 tarixində Sabirabadda Azərbaycan dilində keçirildi və yerli gənclər arasında EYP dəyərlərini təbliğ etməyi hədəfləyirdi."
+bodyAz: "Sabirabad Autriç Sessiyası 21 aprel 2024 tarixində keçirildi, 20 aprel isə CMO günü idi. Sessiya Azərbaycan dilində idi. O, Azərbaycanın regionlarına uzunmüddətli təsir göstərməklə yanaşı, müxtəliflik, mədəniyyətlərarası öyrənmə və fəal vətəndaşlıq kimi EYP dəyərlərini təbliğ etməyi hədəfləyirdi.\n\nSessiya Sabirabaddan olan yerli gənclər üçün birgünlük tədbir kimi planlaşdırılmışdı."
 venue: "Sabirabad"
 startDate: 2024-04-20
 endDate: 2024-04-21

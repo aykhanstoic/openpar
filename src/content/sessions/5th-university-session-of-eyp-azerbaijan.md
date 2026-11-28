@@ -2,6 +2,10 @@
 title: "5th University Session of EYP Azerbaijan"
 theme: "University session of EYP Azerbaijan in Baku"
 summary: "The 5th University Session of EYP Azerbaijan was held in Baku on 15-17 February 2019."
+titleAz: "EYP Azerbaijan-ın 5-ci Universitet Sessiyası"
+themeAz: "EYP Azerbaijan-ın Bakıda keçirilən universitet sessiyası"
+summaryAz: "EYP Azerbaijan-ın 5-ci Universitet Sessiyası 15–17 fevral 2019 tarixlərində Bakıda keçirildi."
+bodyAz: "EYP Azerbaijan-ın 5-ci Universitet Sessiyası 2019-cu ilin fevral ayında Bakıda keçirildi; CJO günü də daxil olmaqla sessiyanın tarixləri 14–17 fevral idi.\n\nSessiya Avropanın Milli Komitələrindən olan, sayı 120-dən çox planlaşdırılan iştirakçıları bir araya gətirməyi, onların komitələrində müxtəlif mövzuları müzakirə etməsini və problemləşdirməsini, bilik və təcrübə bölüşməsini qarşıya məqsəd qoymuşdu."
 venue: "Baku"
 startDate: 2019-02-15
 endDate: 2019-02-17
