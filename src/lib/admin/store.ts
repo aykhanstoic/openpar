@@ -112,7 +112,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     );
   /** A 409/422 from the contents API is a version conflict only when GitHub's message is about the sha. */
   const isShaConflict = (res: Response, detail: string) =>
-    (res.status === 409 || res.status === 422) && /does not match|\bsha\b/i.test(detail);
+    (res.status === 409 || res.status === 422) && /does not match|but expected|\bsha\b/i.test(detail);
 
   async function get(id: string): Promise<StoredFile | null> {
     const res = await call(`${api}/${fileFor(folder, id)}?${ref}`);
@@ -175,7 +175,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     },
     async commit(changes, message, expect) {
       const git = `https://api.github.com/repos/${repo}/git`;
-      const json = async (url: string, init?: RequestInit) => {
+      const json = async (url: string, init?: Parameters<typeof call>[1]) => {
         const res = await call(url, init);
         if (!res.ok) throw refused(res, await detailOf(res));
         return res.json();
