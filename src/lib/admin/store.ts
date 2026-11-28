@@ -102,6 +102,14 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         : `GitHub refused the change (error ${res.status}). Nothing changed on the website. The details are in the Vercel function log.`,
       { cause: `${res.status} ${res.url}: ${detail || "no message"}` },
     );
+  /** Same for reads: a plain sentence for the editor, GitHub's message in `cause`. */
+  const unreadable = async (res: Response, what: string) =>
+    new StoreError(
+      res.status >= 500
+        ? `GitHub had a problem (error ${res.status}) loading ${what}. Reload the page in a minute.`
+        : `GitHub could not load ${what} (error ${res.status}). The details are in the Vercel function log.`,
+      { cause: `${res.status} ${res.url}: ${(await detailOf(res)) || "no message"}` },
+    );
   /** A 409/422 from the contents API is a version conflict only when GitHub's message is about the sha. */
   const isShaConflict = (res: Response, detail: string) =>
     (res.status === 409 || res.status === 422) && /does not match|\bsha\b/i.test(detail);
@@ -109,7 +117,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
   async function get(id: string): Promise<StoredFile | null> {
     const res = await call(`${api}/${fileFor(folder, id)}?${ref}`);
     if (res.status === 404) return null;
-    if (!res.ok) throw new StoreError(`GitHub returned ${res.status} reading ${id}`);
+    if (!res.ok) throw await unreadable(res, id);
     const j = (await res.json()) as { content: string; sha: string };
     return { id, content: Buffer.from(j.content, "base64").toString("utf8"), sha: j.sha };
   }
@@ -137,7 +145,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     async list() {
       const res = await call(`${api}/${folder.dir}?${ref}`);
       if (res.status === 404) return [];
-      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} listing ${folder.dir}`);
+      if (!res.ok) throw await unreadable(res, folder.dir);
       const entries = (await res.json()) as { name: string; type: string }[];
       const ids = idsFrom(entries.filter((e) => e.type === "file").map((e) => e.name), folder);
       const files = await Promise.all(ids.map(get));
@@ -162,7 +170,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
     async readRaw(repoPath) {
       const res = await call(`${api}/${repoPath}?${ref}`, { headers: { Accept: "application/vnd.github.raw" } });
       if (res.status === 404) return null;
-      if (!res.ok) throw new StoreError(`GitHub returned ${res.status} reading ${repoPath}`);
+      if (!res.ok) throw await unreadable(res, repoPath);
       return Buffer.from(await res.arrayBuffer());
     },
     async commit(changes, message, expect) {
@@ -180,7 +188,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       const check = async (head: string) => {
         if (!expect) return;
         const res = await call(`${api}/${expect.path}?ref=${head}`);
-        if (!res.ok && res.status !== 404) throw new StoreError(`GitHub returned ${res.status} reading ${expect.path}`);
+        if (!res.ok && res.status !== 404) throw await unreadable(res, expect.path);
         const found = res.status === 404 ? null : ((await res.json()) as { sha: string }).sha;
         if (expect.mustNotExist ? found !== null : found !== expect.sha) {
           throw new ConflictError(
