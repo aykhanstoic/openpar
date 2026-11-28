@@ -9,6 +9,7 @@ export const prerender = false;
 import Admin from "../../../layouts/Admin.astro";
 import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../../lib/admin/auth";
 import { getStore } from "../../../lib/admin/store";
+import { unavailable } from "../../../lib/admin/unavailable";
 import { PAGES_FOLDER, getPage } from "../../../lib/admin/pages";
 import {
   LINKS,
@@ -29,7 +30,8 @@ if (!page) return new Response("Not found", { status: 404 });
 const store = getStore(PAGES_FOLDER);
 if (!store) return Astro.redirect("/admin/pages/", 303);
 
-const file = await store.get(page.id);
+const file = await store.get(page.id).catch((e: unknown) => unavailable(Astro, e));
+if (file instanceof Response) return file;
 if (!file) return new Response("Not found", { status: 404 });
 const current = JSON.parse(file.content) as PageText;
 

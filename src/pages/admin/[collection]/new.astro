@@ -7,6 +7,7 @@ import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../
 import { getCollection, readValues, toFile, validate, valuesFrom, type Values } from "../../../lib/admin/collections";
 import { referenceChoices } from "../../../lib/admin/references";
 import { getStore, pathOf } from "../../../lib/admin/store";
+import { unavailable } from "../../../lib/admin/unavailable";
 import { keptPhotos, photoChanges, readPhotos } from "../../../lib/admin/entry-photos";
 
 const { request, url, cookies, params } = Astro;
@@ -16,7 +17,8 @@ if (!c) return new Response("Not found", { status: 404 });
 const store = getStore(c.folder);
 if (!store) return Astro.redirect(`/admin/${c.id}/`, 303);
 
-const refs = await referenceChoices(c);
+const refs = await referenceChoices(c).catch((e: unknown) => unavailable(Astro, e));
+if (refs instanceof Response) return refs;
 let values: Values = { ...valuesFrom(c), editor: rememberedEditor(cookies) };
 let errors: Record<string, string> = {};
 let kept: Record<string, string> = {};

@@ -8,6 +8,7 @@ export const prerender = false;
 import Admin from "../../layouts/Admin.astro";
 import { isLoggedIn, rememberEditor, rememberedEditor, sameOrigin } from "../../lib/admin/auth";
 import { getStore, publishNote, type Change } from "../../lib/admin/store";
+import { unavailable } from "../../lib/admin/unavailable";
 import { ACCEPT, isUploadPath, newUploadPath, processUpload, UploadError } from "../../lib/admin/images";
 import { PHOTO_SPOTS, slotsOf, type PhotosFile } from "../../lib/page-photos";
 
@@ -17,7 +18,8 @@ const store = getStore({ dir: "src/data", ext: "json" });
 if (!store) return Astro.redirect("/admin/", 303);
 
 const PHOTOS_PATH = "src/data/photos.json";
-const file = await store.get("photos");
+const file = await store.get("photos").catch((e: unknown) => unavailable(Astro, e));
+if (file instanceof Response) return file;
 const photos: PhotosFile = file ? JSON.parse(file.content) : {};
 
 /** Errors and typed alt texts for the one slot that was just submitted. */

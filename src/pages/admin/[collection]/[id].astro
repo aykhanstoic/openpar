@@ -8,6 +8,7 @@ import { getCollection, parseEntry, readValues, toFile, validate, valuesFrom, ty
 import { ID_PATTERN } from "../../../lib/admin/frontmatter";
 import { referenceChoices, referencedBy } from "../../../lib/admin/references";
 import { getStore, pathOf } from "../../../lib/admin/store";
+import { unavailable } from "../../../lib/admin/unavailable";
 import { keptPhotos, photoChanges, photoDeletes, readPhotos } from "../../../lib/admin/entry-photos";
 
 const { request, url, cookies, params } = Astro;
@@ -19,12 +20,13 @@ if (!store) return Astro.redirect(`/admin/${c.id}/`, 303);
 
 const id = params.id ?? "";
 if (!ID_PATTERN.test(id)) return new Response("Not found", { status: 404 });
-const file = await store.get(id);
+const loaded = await Promise.all([store.get(id), referenceChoices(c)]).catch((e: unknown) => unavailable(Astro, e));
+if (loaded instanceof Response) return loaded;
+const [file, refs] = loaded;
 if (!file) return new Response("Not found", { status: 404 });
 const current = parseEntry(file.content);
 const name = String(current.data.title ?? current.data.name ?? id);
 
-const refs = await referenceChoices(c);
 let values: Values = { ...valuesFrom(c, current), editor: rememberedEditor(cookies) };
 let errors: Record<string, string> = {};
 let deleteError = "";

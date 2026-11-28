@@ -84,23 +84,30 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
 
   async function call(url: string, init?: Omit<RequestInit, "headers"> & { headers?: Record<string, string> }) {
     const res = await fetch(url, { ...init, headers: { ...headers, ...init?.headers } });
-    if (res.status === 401 || res.status === 403) {
+    if (res.status === 401 || res.status === 403 || res.status === 429) {
+      const detail = await detailOf(res);
+      const limited = res.status === 429 || res.headers.get("x-ratelimit-remaining") === "0" || /rate limit/i.test(detail);
       throw new StoreError(
-        `GitHub refused (${res.status}). The GITHUB_TOKEN in Vercel is missing, expired, or lacks "Contents: Read and write" on ${repo}.`,
+        limited
+          ? "GitHub is limiting requests right now. Wait a minute, then reload the page and try again."
+          : `GitHub refused (${res.status}). The GITHUB_TOKEN in Vercel is missing, expired, or lacks "Contents: Read and write" on ${repo}.`,
+        { cause: causeOf(res, detail) },
       );
     }
     return res;
   }
 
   const CHANGED = "Someone else changed this after you opened it. Go back, open it again, and redo your change.";
+  const GONE = "Someone else deleted this after you opened it. Go back to the list to check.";
   const detailOf = async (res: Response) => ((await res.json().catch(() => ({}))) as { message?: string }).message ?? "";
+  const causeOf = (res: Response, detail: string) => `${res.status} ${res.url}: ${detail || "no message"}`;
   /** Editors see a plain sentence; GitHub's own message goes to the function log via `cause`. */
   const refused = (res: Response, detail: string) =>
     new StoreError(
       res.status >= 500
         ? `GitHub had a problem (error ${res.status}), so the change may or may not have gone through. Reload the page and check before saving again.`
         : `GitHub refused the change (error ${res.status}). Nothing changed on the website. The details are in the Vercel function log.`,
-      { cause: `${res.status} ${res.url}: ${detail || "no message"}` },
+      { cause: causeOf(res, detail) },
     );
   /** Same for reads: a plain sentence for the editor, GitHub's message in `cause`. */
   const unreadable = async (res: Response, what: string) =>
@@ -108,7 +115,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       res.status >= 500
         ? `GitHub had a problem (error ${res.status}) loading ${what}. Reload the page in a minute.`
         : `GitHub could not load ${what} (error ${res.status}). The details are in the Vercel function log.`,
-      { cause: `${res.status} ${res.url}: ${(await detailOf(res)) || "no message"}` },
+      { cause: causeOf(res, await detailOf(res)) },
     );
   /** A 409/422 from the contents API is a version conflict only when GitHub's message is about the sha. */
   const isShaConflict = (res: Response, detail: string) =>
@@ -133,6 +140,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       }),
     });
     if (res.ok) return;
+    if (sha && res.status === 404) throw new ConflictError(GONE);
     const detail = await detailOf(res);
     // With a sha: it is stale. Without one (a create): the file already exists.
     if (isShaConflict(res, detail)) throw new ConflictError(sha ? CHANGED : "Something with this name already exists.");
@@ -163,6 +171,7 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
         body: JSON.stringify({ message, sha, branch }),
       });
       if (res.ok) return;
+      if (res.status === 404) throw new ConflictError(GONE);
       const detail = await detailOf(res);
       if (isShaConflict(res, detail)) throw new ConflictError(CHANGED);
       throw refused(res, detail);
@@ -177,8 +186,13 @@ function githubStore(folder: Folder, token: string, repo: string, branch: string
       const git = `https://api.github.com/repos/${repo}/git`;
       const json = async (url: string, init?: Parameters<typeof call>[1]) => {
         const res = await call(url, init);
-        if (!res.ok) throw refused(res, await detailOf(res));
-        return res.json();
+        if (res.ok) return res.json();
+        const detail = await detailOf(res);
+        // These steps never touch the branch (only the ref update below does), so nothing was saved.
+        if (res.status >= 500) {
+          throw new StoreError(`GitHub had a problem (error ${res.status}). Nothing was saved: try again in a minute.`, { cause: causeOf(res, detail) });
+        }
+        throw refused(res, detail);
       };
 
       /* Checked at `head`, the commit the new one is built on. The ref update below

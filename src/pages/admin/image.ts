@@ -19,7 +19,13 @@ export const GET: APIRoute = async ({ url, cookies }) => {
     return new Response("Not found", { status: 404 });
   }
   const store = getStore({ dir: "src/assets", ext: "json" });
-  const data = store ? await store.readRaw(p) : null;
+  let data: Buffer | null;
+  try {
+    data = store ? await store.readRaw(p) : null;
+  } catch (e) {
+    console.error(e);
+    return new Response("Could not load this photo from GitHub", { status: 502 });
+  }
   if (!data) return new Response("Not found", { status: 404 });
   return new Response(new Uint8Array(data), {
     headers: {
