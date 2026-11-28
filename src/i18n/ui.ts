@@ -101,6 +101,8 @@ export function formatDateRange(start: Date, end: Date, locale: Locale): string 
   const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
   const sameMonth = sameYear && start.getUTCMonth() === end.getUTCMonth();
 
+  if (sameMonth && start.getUTCDate() === end.getUTCDate()) return formatDate(start, locale);
+
   if (sameMonth) {
     const day = fmt(locale, { day: "numeric" });
     const tail = fmt(locale, { month: "long", year: "numeric" });
