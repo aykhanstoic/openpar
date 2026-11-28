@@ -6,6 +6,7 @@ import {
   STATUS_LABELS,
   TYPE_LABELS,
 } from "../session-fields";
+import { DEPARTMENTS, DEPARTMENT_NAMES, type DepartmentKey } from "../department-fields";
 import { parseEntry, serializeEntry, slugify, toIso, type ParsedEntry } from "./frontmatter";
 import type { Folder } from "./store";
 import type { ImageKind } from "./images";
@@ -49,7 +50,7 @@ export interface Field {
   kind?: ImageKind;
 }
 
-export type CollectionId = "sessions" | "news" | "board" | "partners";
+export type CollectionId = "sessions" | "news" | "board" | "departments" | "partners";
 
 export interface Collection {
   id: CollectionId;
@@ -161,11 +162,59 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "The person", name: "order", label: "Position in the list", type: "number", required: true, hint: "1 is shown first." },
       { group: "The person", name: "email", label: "Email", type: "email", hint: "A role address (like president@…), never a personal one." },
       { group: "The person", name: "photo", label: "Photo", type: "image", kind: "photo", hint: "A portrait, cropped to a square on the site. Only with the person's consent. Without a photo, their initials are shown." },
+      { group: "The person", name: "linkedin", label: "LinkedIn", type: "url", hint: "Their LinkedIn profile, e.g. https://www.linkedin.com/in/name. Only with their consent." },
+      { group: "The person", name: "year", label: "Board year", type: "number", required: true, hint: "The year this board's term began: 2026 for a 2026–2027 board. The newest year is shown as the current board; older years appear in the board's history, back to 2020." },
       { group: "The person", name: "term", label: "Term", type: "text", max: 40, hint: "For example: 2026–2027." },
     ],
-    slug: (v) => slugify(`${v.role} ${v.name}`),
-    summary: (d) => [String(d.role ?? ""), d.group === "supervisory" ? "Supervisory Board" : "Executive Board"],
-    sortKey: (d) => `${d.group === "supervisory" ? "b" : "a"}${String(d.order ?? 0).padStart(4, "0")}`,
+    /* The year is in the file name, so someone who served on two boards gets two entries. */
+    slug: (v) => slugify(`${v.role} ${v.name}`, v.year),
+    summary: (d) => [String(d.role ?? ""), d.group === "supervisory" ? "Supervisory Board" : "Executive Board", d.year ? String(d.year) : "Year not set"],
+    /* Newest board first, then by board and position. */
+    sortKey: (d) => `${String(9999 - (Number(d.year) || 9999)).padStart(4, "0")}${d.group === "supervisory" ? "b" : "a"}${String(d.order ?? 0).padStart(4, "0")}`,
+    check(v) {
+      const e: Record<string, string> = {};
+      const y = Number(v.year);
+      if (v.year && (!Number.isInteger(y) || y < 2000 || y > 2100)) e.year = "A year between 2000 and 2100";
+      if (v.linkedin) {
+        let host = "";
+        try { host = new URL(v.linkedin).hostname; } catch { /* the url check reports it */ }
+        if (host && !/(^|\.)linkedin\.com$/.test(host)) e.linkedin = "Must be a linkedin.com link";
+      }
+      return e;
+    },
+  },
+
+  /* ----------------------------------------------------------- departments */
+  departments: {
+    id: "departments",
+    folder: { dir: "src/content/departments", ext: "md" },
+    label: "Department members",
+    singular: "department member",
+    description: "The people in each department, shown under Departments on the About page.",
+    fields: [
+      { group: "The person", name: "name", label: "Full name", type: "text", required: true, max: 80, hint: "Only publish someone's name with their consent." },
+      { group: "The person", name: "role", label: "Role (English)", type: "text", required: true, max: 80, hint: "For example: Head of Department, Member." },
+      { group: "The person", name: "roleAz", label: "Role (Azerbaijani)", type: "text", max: 80, hint: "If empty, the English role is shown on the Azerbaijani page." },
+      { group: "The person", name: "department", label: "Department", type: "select", required: true, options: DEPARTMENTS.map((d) => ({ value: d, label: DEPARTMENT_NAMES[d].en })), hint: "The site shows the name in English or Azerbaijani to match the page." },
+      { group: "The person", name: "order", label: "Position in the department", type: "number", required: true, hint: "1 is shown first, so give the head of the department 1." },
+      { group: "The person", name: "email", label: "Email", type: "email", hint: "A role address (like communications@…), never a personal one." },
+      { group: "The person", name: "photo", label: "Photo", type: "image", kind: "photo", hint: "A portrait, cropped to a square on the site. Only with the person's consent. Without a photo, their initials are shown." },
+      { group: "The person", name: "linkedin", label: "LinkedIn", type: "url", hint: "Their LinkedIn profile, e.g. https://www.linkedin.com/in/name. Only with their consent." },
+    ],
+    slug: (v) => slugify(`${v.department} ${v.name}`),
+    summary: (d) => [DEPARTMENT_NAMES[d.department as DepartmentKey]?.en ?? String(d.department ?? ""), String(d.role ?? "")],
+    /* By department in the site's order, then by position. */
+    sortKey: (d) => `${String(DEPARTMENTS.indexOf(d.department as DepartmentKey) + 1).padStart(2, "0")}|${String(d.order ?? 0).padStart(4, "0")}`,
+    check(v) {
+      const e: Record<string, string> = {};
+      if (v.linkedin) {
+        let host = "";
+        try { host = new URL(v.linkedin).hostname; } catch { /* the url check reports it */ }
+        if (host && !/(^|\.)linkedin\.com$/.test(host)) e.linkedin = "Must be a linkedin.com link";
+      }
+      return e;
+    },
+    publicPath: () => "about/#departments",
   },
 
   /* -------------------------------------------------------------- partners */

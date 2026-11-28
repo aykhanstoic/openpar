@@ -1,6 +1,7 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { SESSION_LANGS, SESSION_STATUSES, SESSION_TYPES } from "./lib/session-fields";
+import { DEPARTMENTS } from "./lib/department-fields";
 
 /** z.string().url() also accepts javascript: and data: URLs; links here are rendered as hrefs. */
 const httpsUrl = z
@@ -100,6 +101,34 @@ const board = defineCollection({
       email: z.string().email().optional(),
       photo: image().optional(),
       term: z.string().optional(),
+      /** Year the board's term began. The newest year is the current board; older years are its history. */
+      year: z.number().int().min(2000).max(2100).optional(),
+      linkedin: httpsUrl
+        .refine((u) => /(^|\.)linkedin\.com$/.test(new URL(u).hostname), { message: "Must be a linkedin.com link" })
+        .optional(),
+    }),
+});
+
+/* ------------------------------------------------------------ departments */
+/* The volunteers who run each department (communications, academics, ...).
+   Like the board, but grouped by department and with no yearly history:
+   when someone steps down, their entry is removed. */
+const departments = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/departments" }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      role: z.string(),
+      roleAz: z.string().optional(),
+      /** One of the fixed departments in src/lib/department-fields.ts. */
+      department: z.enum(DEPARTMENTS),
+      order: z.number(),
+      /** Role-based addresses only — never a volunteer's personal address. */
+      email: z.string().email().optional(),
+      photo: image().optional(),
+      linkedin: httpsUrl
+        .refine((u) => /(^|\.)linkedin\.com$/.test(new URL(u).hostname), { message: "Must be a linkedin.com link" })
+        .optional(),
     }),
 });
 
@@ -116,4 +145,4 @@ const partners = defineCollection({
     }),
 });
 
-export const collections = { sessions, news, board, partners };
+export const collections = { sessions, news, board, departments, partners };

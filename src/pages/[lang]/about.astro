@@ -6,6 +6,7 @@ import BoardGrid from "../../components/BoardGrid.astro";
 import Buta from "../../components/Buta.astro";
 import { useTranslations, localePath, type Locale } from "../../i18n/ui";
 import sitePage from "../../data/pages/site.json";
+import { departmentGroups } from "../../lib/departments";
 
 export { getStaticPaths } from "../../i18n/paths";
 
@@ -16,6 +17,8 @@ const a = t.about;
 const glance = a.glance;
 
 const values = a.values;
+
+const departments = await departmentGroups(locale);
 
 const boards = [
   {
@@ -53,7 +56,7 @@ const boards = [
   </section>
 
   <!-- =========================================================== mission -->
-  <section class="section">
+  <section id="mission" class="section">
     <div class="wrap grid gap-12 lg:grid-cols-2 lg:items-center">
       <div>
         <p class="eyebrow">{a.missionEyebrow}</p>
@@ -70,7 +73,7 @@ const boards = [
   </section>
 
   <!-- ============================================================ values -->
-  <section class="section relative isolate overflow-hidden bg-deep text-white">
+  <section id="values" class="section relative isolate overflow-hidden bg-deep text-white">
     <Buta
       class="pointer-events-none absolute -top-20 -left-16 -z-10 h-[380px] w-auto rotate-[14deg] text-white/[0.07]"
       stroke={1.8}
@@ -98,7 +101,7 @@ const boards = [
   </section>
 
   <!-- ============================================================= board -->
-  <section class="section">
+  <section id="board" class="section">
     <div class="wrap">
       <div class="max-w-[56ch]">
         <p class="eyebrow">{a.boardEyebrow}</p>
@@ -125,10 +128,34 @@ const boards = [
     </div>
   </section>
 
+  <!-- ====================================================== departments -->
+  <!-- Shown once department members are added in /admin. One block per
+       department, with the same cards as the boards. -->
+  {
+    departments.length > 0 && (
+      <section id="departments" class="section border-t border-line">
+        <div class="wrap">
+          <div class="max-w-[56ch]">
+            <p class="eyebrow">{a.boardEyebrow}</p>
+            <h2 class="mt-4 text-h2">{a.departmentsTitle}</h2>
+            <p class="mt-5 text-[1.02rem] leading-relaxed text-ink-muted">{a.departmentsBody}</p>
+          </div>
+
+          {departments.map((d) => (
+            <div id={d.id} class="mt-12">
+              <h3 class="mb-7 border-b border-line pb-5 font-display text-[1.35rem] font-bold">{d.name}</h3>
+              <BoardGrid locale={locale} members={d.members} emptyMessage="" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   <!-- ========================================================== history -->
   {
     a.milestones.length > 0 && (
-      <section class="section border-t border-line">
+      <section id="history" class="section border-t border-line">
         <div class="wrap">
           <p class="eyebrow">{a.historyEyebrow}</p>
           <h2 class="mt-4 text-h2">{a.historyTitle}</h2>

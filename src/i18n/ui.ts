@@ -54,16 +54,55 @@ export function localePath(locale: Locale, path = ""): string {
 
 export interface NavItem {
   key: keyof Dict["nav"];
+  /** Page path without the locale, optionally with a #section on that page. */
   path: string;
+  /** Shown under the item: a dropdown in the desktop header, a fold-out on phones. */
+  children?: NavItem[];
 }
 
 /** Main header navigation. Deliberately short — seven items is already a lot. */
 export const primaryNav: NavItem[] = [
-  { key: "whatIsEyp", path: "what-is-eyp" },
-  { key: "participate", path: "participate" },
-  { key: "sessions", path: "sessions" },
+  {
+    key: "whatIsEyp",
+    path: "what-is-eyp",
+    children: [
+      { key: "format", path: "what-is-eyp#format" },
+      { key: "roles", path: "what-is-eyp#roles" },
+      { key: "eligibility", path: "what-is-eyp#eligibility" },
+    ],
+  },
+  {
+    key: "participate",
+    path: "participate",
+    children: [
+      { key: "steps", path: "participate#steps" },
+      { key: "routes", path: "participate#routes" },
+      { key: "faq", path: "participate#faq" },
+      { key: "alumni", path: "alumni" },
+    ],
+  },
+  {
+    key: "sessions",
+    path: "sessions",
+    children: [
+      { key: "upcoming", path: "sessions#upcoming" },
+      { key: "past", path: "sessions#past" },
+    ],
+  },
   { key: "news", path: "news" },
-  { key: "about", path: "about" },
+  {
+    key: "about",
+    path: "about",
+    children: [
+      { key: "mission", path: "about#mission" },
+      { key: "values", path: "about#values" },
+      { key: "executiveBoard", path: "boards/executive" },
+      { key: "supervisoryBoard", path: "boards/supervisory" },
+      { key: "departments", path: "about#departments" },
+      { key: "history", path: "about#history" },
+      { key: "partners", path: "partners" },
+    ],
+  },
   { key: "contact", path: "contact" },
 ];
 

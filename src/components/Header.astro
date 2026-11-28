@@ -1,6 +1,7 @@
 ---
 import { useTranslations, primaryNav, localePath, stripLocale, type Locale } from "../i18n/ui";
-import Buta from "./Buta.astro";
+import contactPage from "../data/pages/contact.json";
+import { getCollection } from "astro:content";
 
 interface Props {
   locale: Locale;
@@ -19,59 +20,133 @@ const current = restOfPath.replace(/^\/|\/$/g, "");
 const isActive = (path: string) =>
   path === "" ? current === "" : current === path || current.startsWith(`${path}/`);
 
-/* One row: wordmark left; nav links, a divider and the language switch
-   right, all centred on the same line. The logo is the Home link on
-   desktop; Partners lives in the footer and the mobile panel. */
-const mainNav = primaryNav.map((item) => ({ label: t.nav[item.key], path: item.path }));
-const mobileNav = [
-  { label: t.nav.home, path: "" },
-  ...primaryNav.map((item) => ({ label: t.nav[item.key], path: item.path })),
-  { label: t.nav.partners, path: "partners" },
-];
+/* Laid out after eyp.org: logo left; on the right a small utility row
+   (Contact, social links, language) above the big section links. The bar
+   sits on the hero's pale blue with no border and shrinks once you scroll.
+   The logo is the Home link on desktop. */
+type Link = { key: string; label: string; path: string; active: boolean; children: { label: string; path: string }[] };
+/* Some sections only render when they have content: the About history
+   appears once milestones are added in /admin. No link to a missing section. */
+const hasDepartments = (await getCollection("departments")).length > 0;
+const exists = (c: { path: string }) =>
+  c.path === "about#history" ? t.about.milestones.length > 0 : c.path === "about#departments" ? hasDepartments : true;
+const toLink = (item: (typeof primaryNav)[number]): Link => ({
+  key: item.key,
+  label: t.nav[item.key],
+  path: item.path,
+  /* About stays marked while you are on one of its own pages (a board, Partners). */
+  active: isActive(item.path) || (item.children ?? []).some((c) => !c.path.includes("#") && isActive(c.path)),
+  children: (item.children ?? []).filter(exists).map((c) => ({ label: t.nav[c.key], path: c.path })),
+});
+/* Desktop: Contact moves up into the small utility row, as on eyp.org;
+   the big row keeps the sections. Phones list everything in one panel. */
+const mainNav = primaryNav.filter((item) => item.key !== "contact").map(toLink);
+const contactActive = isActive("contact");
+
+/* Social links are edited in /admin (Contact page); empty ones are skipped. */
+const l = contactPage.links;
+const social = [
+  { name: "Instagram", url: l.instagram, icon: "instagram" },
+  { name: "Facebook", url: l.facebook, icon: "facebook" },
+  { name: "LinkedIn", url: l.linkedin, icon: "linkedin" },
+  { name: "TikTok", url: l.tiktok, icon: "tiktok" },
+  { name: "YouTube", url: l.youtube, icon: "youtube" },
+].filter((s) => s.url);
+/* Partners sits under About now, so the phone menu needs no separate entry. */
+const mobileNav: Link[] = [{ key: "home", label: t.nav.home, path: "", children: [] }, ...primaryNav.map(toLink)];
+/* A sub-link is "current" only when it is a page of its own, not a #section. */
+const subCurrent = (path: string) => (!path.includes("#") && isActive(path) ? "page" : undefined);
 ---
 
-<header class="sticky top-0 z-50 border-b border-line-soft bg-white/95 backdrop-blur-md">
-  <div class="wrap flex min-h-[76px] items-center gap-6 xl:min-h-[88px]">
-    <!-- Typographic wordmark -->
-    <a href={localePath(locale)} class="group shrink-0 leading-none" aria-label={t.site.name}>
-      <span class="block font-display text-[1.02rem] font-bold tracking-[0.01em] text-deep lg:text-[1.15rem]">
-        European Youth Parliament
-      </span>
-      <span class="mt-1.5 flex items-center gap-2 font-display text-[0.9rem] font-semibold text-ink lg:text-[0.98rem]">
-        <Buta class="h-[18px] w-auto fill-sun text-deep" stroke={9} simple />
-        Azerbaijan <span class="text-ink-muted">&middot;</span> <span lang="az">Az&#601;rbaycan</span>
-      </span>
+<!-- The header is fixed, so it can shrink on scroll without moving the page.
+     This spacer holds its full height in the flow, in the same pale blue as
+     the hero band every page opens with, so header and hero read as one. -->
+<div class="header-spacer" aria-hidden="true"></div>
+
+<header id="site-header" class="site-header">
+  <div class="wrap header-bar flex items-center gap-6">
+    <!-- Logo: the EYP Azerbaijan mark. The name stays in the link for screen readers. -->
+    <a href={localePath(locale)} class="shrink-0 leading-none" aria-label={t.site.name}>
+      <img src="/logo.png" alt="" width="542" height="412" class="header-logo w-auto" />
     </a>
 
-    <!-- Desktop: single row -->
-    <div class="ms-auto hidden items-center gap-8 xl:flex">
-      <nav class="flex items-center gap-8" aria-label="Primary">
+    <!-- Desktop: a small utility row above the main sections, both right-aligned -->
+    <div class="ms-auto hidden flex-col items-end xl:flex">
+      <div class="header-utility">
+        <div class="flex items-center gap-6 pb-2.5">
+          <a
+            href={localePath(locale, "contact")}
+            aria-current={contactActive ? "page" : undefined}
+            class="utility-link"
+          >
+            {t.nav.contact}
+          </a>
+          {
+            social.length > 0 && (
+              <ul class="flex items-center gap-4">
+                {social.map((s) => (
+                  <li>
+                    <a href={s.url} target="_blank" rel="noopener" class="utility-link block" aria-label={s.name}>
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        {s.icon === "instagram" && (<><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" /></>)}
+                        {s.icon === "facebook" && <path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V21M6 10.5h8" />}
+                        {s.icon === "linkedin" && (<><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M8 10.5V17M8 7.5v.01M12 17v-6.5M12 13.5a3 3 0 0 1 6 0V17" /></>)}
+                        {s.icon === "tiktok" && <path d="M10 11a4.5 4.5 0 1 0 4 4.47V3c.4 2.6 2.3 4.4 5 4.6" />}
+                        {s.icon === "youtube" && (<><rect x="2.5" y="5" width="19" height="14" rx="4" /><path d="m10 9 5 3-5 3z" fill="currentColor" /></>)}
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+          <span class="h-4 w-px bg-ink/25" aria-hidden="true"></span>
+          <a href={switcherHref} hreflang={other} lang={other} class="utility-link inline-flex items-center gap-1.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
+            </svg>
+            {t.nav.switchLang}
+          </a>
+        </div>
+      </div>
+
+      <nav class="flex items-center gap-10" aria-label="Primary">
         {
-          mainNav.map((item) => (
-            <a
-              href={localePath(locale, item.path)}
-              aria-current={isActive(item.path) ? "page" : undefined}
-              class="nav-link whitespace-nowrap font-display text-[1.05rem] font-semibold text-ink transition-colors hover:text-deep"
-            >
-              {item.label}
-            </a>
-          ))
+          mainNav.map((item) =>
+            item.children.length ? (
+              <div class="nav-group relative" data-nav-group>
+                <a
+                  href={localePath(locale, item.path)}
+                  aria-current={item.active ? "page" : undefined}
+                  class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap font-display text-[1.3rem] font-semibold text-ink transition-colors hover:text-deep"
+                >
+                  {item.label}
+                  <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>
+                </a>
+                <div class="nav-menu">
+                  <ul class="nav-menu-panel">
+                    {item.children.map((c) => (
+                      <li>
+                        <a href={localePath(locale, c.path)} aria-current={subCurrent(c.path)} class="nav-menu-link">
+                          {c.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <a
+                href={localePath(locale, item.path)}
+                aria-current={item.active ? "page" : undefined}
+                class="nav-link whitespace-nowrap font-display text-[1.3rem] font-semibold text-ink transition-colors hover:text-deep"
+              >
+                {item.label}
+              </a>
+            ),
+          )
         }
       </nav>
-
-      <span class="h-6 w-px bg-line" aria-hidden="true"></span>
-
-      <a
-        href={switcherHref}
-        hreflang={other}
-        lang={other}
-        class="inline-flex items-center gap-1.5 whitespace-nowrap font-display text-[0.98rem] font-semibold text-deep transition-colors hover:text-deep-700"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
-        </svg>
-        {t.nav.switchLang}
-      </a>
     </div>
 
     <!-- Mobile: language + burger -->
@@ -105,23 +180,60 @@ const mobileNav = [
   <nav
     id="mobile-nav"
     hidden
-    class="border-t border-line bg-white xl:hidden"
+    class="max-h-[calc(100dvh-76px)] overflow-y-auto overscroll-contain border-t border-line bg-white xl:hidden"
     aria-label={t.nav.menu}
   >
     <div class="wrap flex flex-col py-2">
       {
-        mobileNav.map((item) => (
-          <a
-            href={localePath(locale, item.path)}
-            aria-current={isActive(item.path) ? "page" : undefined}
-            class:list={[
-              "border-b border-line-soft py-3.5 font-display text-[1.15rem] font-semibold",
-              isActive(item.path) ? "text-deep" : "text-ink",
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
+        mobileNav.map((item) =>
+          item.children.length ? (
+            <div class="border-b border-line-soft">
+              <div class="flex items-center justify-between gap-4">
+                <a
+                  href={localePath(locale, item.path)}
+                  aria-current={item.active ? "page" : undefined}
+                  class:list={["py-3.5 font-display text-[1.15rem] font-semibold", item.active ? "text-deep" : "text-ink"]}
+                >
+                  {item.label}
+                </a>
+                <button
+                  type="button"
+                  class="sub-toggle grid h-11 w-11 shrink-0 place-items-center text-deep transition-colors hover:bg-deep-050"
+                  aria-expanded="false"
+                  aria-controls={`sub-${item.key}`}
+                  aria-label={item.label}
+                  data-sub-toggle
+                >
+                  <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>
+                </button>
+              </div>
+              <ul id={`sub-${item.key}`} hidden class="grid pb-3 ps-4">
+                {item.children.map((c) => (
+                  <li>
+                    <a
+                      href={localePath(locale, c.path)}
+                      aria-current={subCurrent(c.path)}
+                      class="block py-2 font-display text-[1.05rem] font-semibold text-ink-muted transition-colors hover:text-deep aria-[current=page]:text-deep"
+                    >
+                      {c.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <a
+              href={localePath(locale, item.path)}
+              aria-current={item.active ? "page" : undefined}
+              class:list={[
+                "border-b border-line-soft py-3.5 font-display text-[1.15rem] font-semibold",
+                item.active ? "text-deep" : "text-ink",
+              ]}
+            >
+              {item.label}
+            </a>
+          ),
+        )
       }
       <a href={localePath(locale, "participate")} class="btn btn-primary my-5 self-start">
         {t.nav.participate}
@@ -131,6 +243,48 @@ const mobileNav = [
 </header>
 
 <style>
+  /* --- Bar: pale blue like the hero, fixed, and it eases smaller once the
+     page scrolls (script below sets .is-scrolled). Heights are explicit so
+     the spacer always matches the unscrolled bar exactly. */
+  .header-spacer { height: 76px; background: var(--color-sky); }
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: var(--color-sky);
+    transition: box-shadow 0.35s ease;
+  }
+  .header-bar { height: 76px; }
+  /* logo.png has a solid white background; multiply lets the blue show
+     through it. A transparent PNG or an SVG would make this unnecessary. */
+  .header-logo { height: 58px; mix-blend-mode: multiply; }
+  .header-bar,
+  .header-logo { transition: height 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .site-header.is-scrolled { box-shadow: 0 10px 28px -18px rgb(58 67 144 / 0.45); }
+  .site-header.is-scrolled .header-bar { height: 64px; }
+  .site-header.is-scrolled .header-logo { height: 46px; }
+
+  @media (min-width: 1280px) {
+    .header-spacer { height: 136px; }
+    .header-bar { height: 136px; }
+    .header-logo { height: 96px; }
+    .site-header.is-scrolled .header-bar { height: 100px; }
+    .site-header.is-scrolled .header-logo { height: 62px; }
+  }
+
+  /* Utility row: small, quiet links, as on eyp.org. */
+  .utility-link {
+    position: relative;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    text-decoration: underline 1.5px transparent;
+    text-underline-offset: 0.3em;
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .utility-link:hover { color: var(--color-deep); text-decoration-color: currentColor; }
+  .utility-link[aria-current="page"] { color: var(--color-deep); font-weight: 600; }
+
   /* Active page: the yellow skewed stroke from the rest of the system. */
   .nav-link {
     position: relative;
@@ -147,9 +301,109 @@ const mobileNav = [
     background: var(--color-sun);
     clip-path: polygon(0 20%, 100% 0, 98% 100%, 1% 85%);
   }
+
+  /* --- Dropdowns: open on hover and on keyboard focus, no script needed.
+     The panel's top padding bridges the gap to the header's bottom edge, so
+     the pointer can travel down to it without the menu closing. A short
+     delay before hiding forgives a pointer that slips off for a moment. */
+  .nav-chevron { transition: transform 0.15s; }
+  .nav-menu {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    z-index: 60;
+    padding-top: 1.55rem;
+    min-width: 15rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 6px);
+    transition: opacity 0.15s, transform 0.15s, visibility 0s linear 0.2s;
+    transition-delay: 0.12s;
+  }
+  .nav-group:hover .nav-menu,
+  .nav-group:focus-within .nav-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition-delay: 0s;
+  }
+  .nav-group:hover .nav-chevron,
+  .nav-group:focus-within .nav-chevron { transform: rotate(180deg); }
+  /* Escape, or a click on a link to a section of the open page, shuts it
+     until the pointer leaves (set by the script below). */
+  .nav-group.is-closed .nav-menu { opacity: 0; visibility: hidden; transition: none; }
+  .nav-group.is-closed .nav-chevron { transform: none; }
+
+  /* The open menu is hand-cut yellow paper, with slightly uneven edges like
+     the yellow strokes elsewhere on the site: a tab behind the header item,
+     running down into the sheet that holds the links. The tab is only as
+     wide as the item, so the neighbouring items stay readable. */
+  .nav-menu::before {
+    content: "";
+    position: absolute;
+    inset: 1.5rem -0.4rem 0;
+    z-index: -1;
+    background: var(--color-sun);
+    clip-path: polygon(1.5% 1%, 100% 0, 98.5% 100%, 0 98%);
+  }
+  [data-nav-group] > .nav-link { z-index: 61; }
+  [data-nav-group] > .nav-link::before {
+    content: "";
+    position: absolute;
+    inset: -0.7rem -0.9rem -1.65rem;
+    z-index: -1;
+    background: var(--color-sun);
+    clip-path: polygon(4% 4%, 97% 0, 100% 100%, 0 100%);
+    opacity: 0;
+    transition: opacity 0.15s;
+    transition-delay: 0.12s;
+  }
+  [data-nav-group]:is(:hover, :focus-within):not(.is-closed) > .nav-link::before { opacity: 1; transition-delay: 0s; }
+  [data-nav-group]:is(:hover, :focus-within):not(.is-closed) > .nav-link[aria-current="page"]::after { opacity: 0; }
+
+  .nav-menu-panel {
+    display: grid;
+    padding-block: 0.25rem 0.9rem;
+  }
+  .nav-menu-link {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: underline 2px transparent;
+    text-underline-offset: 0.3em;
+    transition: color 0.12s, text-decoration-color 0.12s;
+  }
+  .nav-menu-link:hover,
+  .nav-menu-link:focus-visible { color: var(--color-deep); text-decoration-color: currentColor; }
+  .nav-menu-link[aria-current="page"] { color: var(--color-deep); text-decoration-color: currentColor; }
+  .nav-menu-link:focus-visible { outline-offset: -3px; }
+
+  [data-sub-toggle][aria-expanded="true"] .nav-chevron { transform: rotate(180deg); }
 </style>
 
 <script>
+  /* Shrink the bar once the page has scrolled. The header is fixed, so its
+     height change never moves the content under it. */
+  const header = document.getElementById("site-header");
+  let ticking = false;
+  const syncScrolled = () => {
+    header?.classList.toggle("is-scrolled", window.scrollY > 16);
+    ticking = false;
+  };
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) requestAnimationFrame(syncScrolled);
+      ticking = true;
+    },
+    { passive: true },
+  );
+  syncScrolled();
+
   const toggle = document.getElementById("nav-toggle");
   const panel = document.getElementById("mobile-nav");
   const iconOpen = document.querySelector<SVGPathElement>(".nav-icon-open");
@@ -179,5 +433,39 @@ const mobileNav = [
      stays invisible after the mobile panel was closed. */
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 1280) setOpen(false);
+  });
+  /* Phone menu: each section's arrow folds its sub-links in and out. */
+  document.querySelectorAll<HTMLButtonElement>("[data-sub-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const list = document.getElementById(btn.getAttribute("aria-controls") ?? "");
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(open));
+      if (list) list.hidden = !open;
+    });
+  });
+
+  /* A link in the phone menu (often to a #section of the page already open)
+     closes the menu, or it would stay over the content. */
+  panel?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) setOpen(false);
+  });
+
+  /* Desktop dropdowns open by CSS. Escape and a click on one of their links
+     close them until the pointer or focus leaves the group. */
+  document.querySelectorAll<HTMLElement>("[data-nav-group]").forEach((group) => {
+    const shut = () => group.classList.add("is-closed");
+    const reopen = () => group.classList.remove("is-closed");
+    group.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      shut();
+      group.querySelector<HTMLAnchorElement>(".nav-link")?.focus();
+    });
+    group.querySelectorAll(".nav-menu a").forEach((a) => a.addEventListener("click", shut));
+    group.addEventListener("mouseleave", reopen);
+    /* Following a #section link moves focus out of the menu while the
+       pointer is still on it; reopening then would undo the click. */
+    group.addEventListener("focusout", (e) => {
+      if (!group.contains(e.relatedTarget as Node | null) && !group.matches(":hover")) reopen();
+    });
   });
 </script>
