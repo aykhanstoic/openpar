@@ -29,6 +29,14 @@ const past = all
   .filter((s) => s.data.endDate < now)
   .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
 
+/* The card's date chip shows day and month only, so the archive groups cards under
+   one heading per year to keep thirteen years of sessions scannable. */
+const pastByYear = new Map<number, typeof past>();
+for (const s of past) {
+  const year = s.data.startDate.getUTCFullYear();
+  pastByYear.set(year, [...(pastByYear.get(year) ?? []), s]);
+}
+
 const hasOutreach = all.some((s) => s.data.outreach);
 ---
 
@@ -80,11 +88,16 @@ const hasOutreach = all.some((s) => s.data.outreach);
 
       {
         past.length > 0 ? (
-          <div class="mt-9 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {past.map((session) => (
-              <SessionCard session={session} locale={locale} />
-            ))}
-          </div>
+          [...pastByYear].map(([year, sessions]) => (
+            <>
+              <h3 class="mt-12 font-display text-[1.6rem] font-bold">{year}</h3>
+              <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {sessions.map((session) => (
+                  <SessionCard session={session} locale={locale} />
+                ))}
+              </div>
+            </>
+          ))
         ) : (
           <p class="mt-6 max-w-[52ch] text-[1rem] text-ink-muted">{t.sessions.emptyPast}</p>
         )

@@ -47,7 +47,33 @@
     "boardFullPage": "Full page",
     "historyEyebrow": "History",
     "historyTitle": "EYP Azerbaijan so far",
-    "milestones": [],
+    "milestones": [
+      {
+        "year": "2011",
+        "title": "Recognised National Committee",
+        "body": "EYP Azerbaijan became a fully recognised National Committee of the European Youth Parliament network. Since then it has organised around 80 events: sessions, forums, training camps and outreach events across the country."
+      },
+      {
+        "year": "2014",
+        "title": "First international youth forum",
+        "body": "Ganja'14, the 1st International Youth Forum of EYP Azerbaijan, was held in Ganja."
+      },
+      {
+        "year": "2018",
+        "title": "Garabagh International Forum",
+        "body": "GARABAGH'18, the 3rd International Forum of EYP Azerbaijan, took place in Barda."
+      },
+      {
+        "year": "2020",
+        "title": "First digital session",
+        "body": "RESTART, the 1st Digital Session of EYP Azerbaijan, was held online."
+      },
+      {
+        "year": "2023",
+        "title": "99th International Session",
+        "body": "Baku hosted Baku 2023, the 99th International Session of the European Youth Parliament."
+      }
+    ],
     "networkEyebrow": "The wider network",
     "networkTitle": "Where we sit",
     "networkBody1": "The European Youth Parliament is active in around 40 countries. Each National Committee is an independent organisation responsible for its own finances, programme and volunteers, operating under shared network standards.",
@@ -107,7 +133,33 @@
     "boardFullPage": "Tam səhifə",
     "historyEyebrow": "Tarixçə",
     "historyTitle": "EYP Azerbaijan bu günə qədər",
-    "milestones": [],
+    "milestones": [
+      {
+        "year": "2011",
+        "title": "Tanınmış Milli Komitə",
+        "body": "EYP Azerbaijan Avropa Gənclər Parlamenti şəbəkəsinin tam tanınmış Milli Komitəsi oldu. O vaxtdan bəri ölkə üzrə sessiyalar, forumlar, təlim düşərgələri və autriç tədbirləri daxil olmaqla təxminən 80 tədbir təşkil edib."
+      },
+      {
+        "year": "2014",
+        "title": "İlk beynəlxalq gənclər forumu",
+        "body": "EYP Azerbaijan-ın 1-ci Beynəlxalq Gənclər Forumu olan Ganja'14 Gəncədə keçirildi."
+      },
+      {
+        "year": "2018",
+        "title": "Qarabağ Beynəlxalq Forumu",
+        "body": "EYP Azerbaijan-ın 3-cü Beynəlxalq Forumu olan GARABAGH'18 Bərdədə keçirildi."
+      },
+      {
+        "year": "2020",
+        "title": "İlk rəqəmsal sessiya",
+        "body": "EYP Azerbaijan-ın 1-ci Rəqəmsal Sessiyası olan RESTART onlayn formatda keçirildi."
+      },
+      {
+        "year": "2023",
+        "title": "99-cu Beynəlxalq Sessiya",
+        "body": "Bakı Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası olan Baku 2023-ə ev sahibliyi etdi."
+      }
+    ],
     "networkEyebrow": "Geniş şəbəkə",
     "networkTitle": "Şəbəkədəki yerimiz",
     "networkBody1": "Avropa Gənclər Parlamenti təxminən 40 ölkədə fəaliyyət göstərir. Hər Milli Komitə öz maliyyəsinə, proqramına və könüllülərinə cavabdeh olan müstəqil təşkilatdır və ümumi şəbəkə standartları çərçivəsində işləyir.",
