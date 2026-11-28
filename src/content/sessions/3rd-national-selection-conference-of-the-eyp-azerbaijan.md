@@ -7,6 +7,7 @@ themeAz: "Beynəlxalq münasibətlərə yenidən baxış; mövcud üfüqlərə y
 summaryAz: "EYP Azerbaijan-ın 3-cü Milli Seçim Konfransı 28–30 noyabr 2014 tarixlərində Bakıda “Beynəlxalq münasibətlərə yenidən baxış; mövcud üfüqlərə yeni nəzər” devizi altında keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 3-cü Milli Seçim Konfransı 2014-cü ilin noyabr ayının sonunda Bakıda keçirilmişdir. Konfransda Azərbaycanın müxtəlif məktəb və universitetlərindən 80-dən çox nəfərin toplanması planlaşdırılmışdı.\n\nSessiyanın devizi “Beynəlxalq münasibətlərə yenidən baxış; mövcud üfüqlərə yeni nəzər” idi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2014-11-28
 endDate: 2014-11-30
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Qəbələdə keçirilən yay təlim düşərgəsi"
 summaryAz: "EYP Azerbaijan-ın 3-cü Yay Təlim Düşərgəsi 15–18 avqust 2019 tarixlərində Qəbələdə, məzunların inkişafı və potensialın gücləndirilməsi tədbiri kimi keçirildi."
 bodyAz: "EYP Azerbaijan-ın 3-cü Yay Təlim Düşərgəsi 15–18 avqust 2019 tarixlərində Azərbaycanın şimalında yerləşən Qəbələdə keçirildi. Düşərgədə EYP Azerbaijan-ın fəal məzunları və Avropanın hər yerindən EYP üzvləri də daxil olmaqla 120-yə qədər iştirakçının bir araya gəlməsi planlaşdırılmışdı.\n\nƏsas məqsəd gənc EYP üzvlərinin Sədrlik, Təşkilatçılıq, Media və Beynəlxalq İdarəçilik kimi sahələrdəki bacarıqlarını gücləndirmək idi. Düşərgə məzunların inkişafı və potensialın gücləndirilməsi tədbiri kimi, həmçinin həm təcrübəli iştirakçılar, həm də EYP təcrübəsi az olanlar üçün öyrənmə təcrübəsi kimi nəzərdə tutulmuşdu."
 venue: "Gabala"
+venueAz: "Qəbələ"
 startDate: 2019-08-15
 endDate: 2019-08-18
 status: "completed"

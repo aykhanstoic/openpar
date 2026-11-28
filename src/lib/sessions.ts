@@ -24,7 +24,7 @@ export function showsIn(d: SessionData, locale: Locale): boolean {
 }
 
 /**
- * Title, theme and summary in `locale`. On the AZ pages each Azerbaijani field
+ * Title, theme, summary and venue in `locale`. On the AZ pages each Azerbaijani field
  * is used when filled in, otherwise the English one.
  */
 export function sessionText(d: SessionData, locale: Locale) {
@@ -34,6 +34,7 @@ export function sessionText(d: SessionData, locale: Locale) {
     title: pick(d.titleAz, d.title)!,
     theme: pick(d.themeAz, d.theme)!,
     summary: pick(d.summaryAz, d.summary),
+    venue: pick(d.venueAz, d.venue)!,
   };
 }
 

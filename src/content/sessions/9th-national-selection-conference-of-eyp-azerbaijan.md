@@ -7,6 +7,7 @@ themeAz: "Müxtəliflikdə birlik: qucaqla, bölüş, qeyd et"
 summaryAz: "EYP Azerbaijan-ın 9-cu Milli Seçim Konfransı 21–26 mart 2023 tarixində Bakıda keçirildi və insanları birləşdirmə vasitəsi kimi incəsənət və mədəniyyətə diqqət yetirildi."
 bodyAz: "EYP Azerbaijan-ın 9-cu Milli Seçim Konfransı 21–26 mart 2023 tarixlərində Bakıda keçirildi; sessiyalar 22–26 mart tarixlərində, 21 mart isə CMOJ günü idi. Konfransa Azərbaycandan və bütün Avropadan 200-dən çox iştirakçını bir araya gətirmək planlaşdırılmışdı, Münsiflər Heyəti tərəfindən seçilən deleqatlar isə Baku 2023 və Istanbul 2024 Beynəlxalq Sessiyalarında EYP Azerbaijan-ı təmsil edəcəkdilər.\n\n“Müxtəliflikdə birlik: qucaqla, bölüş, qeyd et” mövzusu altında konfrans incəsənət və mədəniyyət barədə akademik müzakirə və debatları insanları birləşdirən vasitə kimi, müxtəliflik vasitəsilə harmoniyanı gücləndirən və insanları maariflənməyə yönəldən vasitə kimi təşviq edirdi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2023-03-21
 endDate: 2023-03-26
 status: "completed"

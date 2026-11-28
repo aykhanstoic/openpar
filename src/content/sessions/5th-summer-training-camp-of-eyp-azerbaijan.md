@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın yay təlim düşərgəsi"
 summaryAz: "EYP Azerbaijan-ın 5-ci Yay Təlim Düşərgəsi 10–13 avqust 2022 tarixində keçirildi və təlim iştirakçılarını rəsmi şəxslərin gələcək nəslinə çevrilməyə hazırlamağı hədəfləyirdi."
 bodyAz: "EYP Azerbaijan-ın 5-ci Yay Təlim Düşərgəsi 10–13 avqust 2022 tarixlərində keçirildi, 9 avqust isə CMO günü idi. O, Azərbaycanın regionlarından birində keçirilməsi planlaşdırılmışdı.\n\nDüşərgə Azərbaycandan və bütün Avropadan təlim iştirakçılarını EYP-nin necə işlədiyini daha yaxşı öyrənmək və rəsmi şəxslərin növbəti nəslinə çevrilməyə hazırlaşmaq üçün bir araya gətirməyi hədəfləyirdi."
 venue: "Azerbaijan"
+venueAz: "Azərbaycan"
 startDate: 2022-08-10
 endDate: 2022-08-13
 status: "completed"

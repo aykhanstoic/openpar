@@ -7,6 +7,7 @@ themeAz: "Yaşıl üfüqlər: gənclər və təbiət harmoniyada"
 summaryAz: "EYP Azerbaijan-ın Gəncə Regional Sessiyası 6–8 dekabr 2024-cü ildə keçirilib və gənclər arasında ekoloji liderliyə yönəlib."
 bodyAz: "EYP Azerbaijan-ın Gəncə Regional Sessiyası 6–8 dekabr 2024-cü ildə Gəncədə keçirilib; bu şəhər təbii mənzərələri, yaxınlıqdakı Göygöl Milli Parkı və Azərbaycanın mədəni irsi ilə əlaqəsi ilə tanınır. “Yaşıl üfüqlər: gənclər və təbiət harmoniyada” mövzusu altında sessiya Azərbaycan gənclərini ekoloji liderlikdə və təbii mühitin qorunmasında fəal rol almağa çağırıb.\n\nSessiyada ekoloji təmiz innovasiya və dayanıqlı kənd təsərrüfatı ilə bağlı müzakirələr, bərpa olunan enerji həlləri üzrə debatlar nəzərdə tutulurdu; bunlar Gəncənin kənd təsərrüfatı köklərinə uyğun sahələrdir. Sessiya yerli gənclərə təbiətin həm şəxsi inkişafı, həm də dayanıqlı icma inkişafını necə irəli apara biləcəyini göstərməyi hədəfləyib."
 venue: "Ganja"
+venueAz: "Gəncə"
 startDate: 2024-12-06
 endDate: 2024-12-08
 status: "completed"

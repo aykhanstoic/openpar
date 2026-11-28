@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən məktəb sessiyası"
 summaryAz: "EYP Azerbaijan-ın 2-ci Məktəb Sessiyası 27–29 yanvar 2017 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 2-ci Məktəb Sessiyası 27–29 yanvar 2017 tarixlərində Bakıda keçirilmişdir.\n\nSessiyada bütün Avropadan 110-dan çox iştirakçının toplanması, onların üç gün ərzində komitələrində müxtəlif mövzuları müzakirə etməsi, bilik və təcrübə mübadiləsi aparması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2017-01-27
 endDate: 2017-01-29
 status: "completed"

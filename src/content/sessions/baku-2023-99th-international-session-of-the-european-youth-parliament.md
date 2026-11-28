@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən beynəlxalq sessiyası"
 summaryAz: "Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası 2–13 avqust 2023 tarixində Bakıda sürətlə dəyişən dünya üçün təhsilin formalaşdırılması mövzusunda keçirildi."
 bodyAz: "Avropa Gənclər Parlamentinin 99-cu Beynəlxalq Sessiyası 2–13 avqust 2023 tarixlərində Azərbaycanın paytaxtı Bakıda keçirildi. Bu, Bakıda keçirilən ilk Beynəlxalq Sessiya idi.\n\nEYP Azerbaijan-ın müxtəlif nəsillərindən olan təşkilatçılar sürətlə dəyişən dünyanın ehtiyac və tələblərinə cavab verən təhsil sisteminin formalaşdırılması mövzusunu seçdilər. Sessiya gənclərə belə bir sistemin qurulmasında daha güclü səs imkanı verməyi hədəfləyirdi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2023-08-02
 endDate: 2023-08-13
 status: "completed"

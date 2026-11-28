@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən regional sessiyası"
 summaryAz: "EYP Azerbaijan-ın Yaşıl Regional Sessiyası 27–30 aprel 2017 tarixlərində Bakıda ətraf mühitin mühafizəsi konsepsiyası ilə keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın Yaşıl Regional Sessiyası 27–30 aprel 2017 tarixlərində Bakıda ətraf mühitin mühafizəsi konsepsiyası ilə keçirilmişdir.\n\nSessiyada bütün Avropadan təxminən 200 iştirakçının toplanması, onların dörd gün ərzində komitələrində müxtəlif mövzuları müzakirə etməsi, bilik və təcrübə mübadiləsi aparması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2017-04-27
 endDate: 2017-04-30
 status: "completed"

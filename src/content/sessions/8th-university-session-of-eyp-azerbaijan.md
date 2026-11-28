@@ -7,6 +7,7 @@ themeAz: "Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın g�
 summaryAz: "EYP Azerbaijan-ın 8-ci Universitet Sessiyası 26–29 may 2023 tarixində Bakıda “Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın gücləndirilməsi” şüarı altında keçirildi."
 bodyAz: "EYP Azerbaijan-ın 8-ci Universitet Sessiyası 26–29 may 2023 tarixlərində Bakıda keçirildi, 26 may isə CMO təlim günü idi.\n\n“Gənclərin cəlb olunması: inkişafa təşviq, əməkdaşlığın gücləndirilməsi” şüarı altında təşkilatçılar sessiyanı yeni mənalı əlaqələr və təşkilatda daha fəal iştirak üçün məkana çevirməyi hədəfləyirdi. Sessiyaya 160 iştirakçını bir araya gətirmək planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2023-05-26
 endDate: 2023-05-29
 status: "completed"

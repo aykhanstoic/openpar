@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın onlayn keçirilən rəqəmsal sessiyası"
 summaryAz: "EYP Azerbaijan-ın 2-ci Rəqəmsal Sessiyası olan Crescendo 13–16 may 2021 tarixində bütün Avropadan gənclər üçün onlayn keçirildi."
 bodyAz: "Crescendo, EYP Azerbaijan-ın 2-ci Rəqəmsal Sessiyası, 13–16 may 2021 tarixlərində rəqəmsal formatda keçirildi, rəsmi şəxslər üçün təlim isə 12 mayda baş tutdu. Ad musiqi parçasında səs həcminin tədricən artmasının zirvəsinə işarə edir.\n\nSessiya bütün Avropadan gəncləri gənclərə təsir edən və gənclərdən təsirlənən son mövzuları müzakirə etmək üçün bir araya gətirməyi və iştirakçılara öz fikirlərini bildirmək üçün məkan yaratmağı hədəfləyirdi."
 venue: "Online"
+venueAz: "Onlayn"
 startDate: 2021-05-13
 endDate: 2021-05-16
 status: "completed"

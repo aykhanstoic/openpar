@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən regional sessiyası"
 summaryAz: "EYP Azerbaijan-ın Multikulturalizm üzrə Regional Sessiyası 25–27 mart 2016 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın Multikulturalizm üzrə Regional Sessiyası 25–27 mart 2016 tarixlərində Bakıda keçirilmişdir. Sessiya multikulturalizmə həsr olunmuşdu, çünki 2016-cı il Azərbaycanda Multikulturalizm İli idi.\n\nDeleqatların altı komitə üzrə bölünməsi, multikulturalizm çərçivəsində verilmiş mövzuları müzakirə etməsi, fikir və təcrübə mübadiləsi aparması və müxtəlif baxışlarla tanış olması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2016-03-25
 endDate: 2016-03-27
 status: "completed"

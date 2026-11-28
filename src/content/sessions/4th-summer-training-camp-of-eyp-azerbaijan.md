@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən yay təlim düşərgəsi"
 summaryAz: "EYP Azerbaijan-ın 4-cü Yay Təlim Düşərgəsi 26–29 avqust 2021 tarixində məzunların inkişafı və potensialın artırılması tədbiri kimi keçirildi."
 bodyAz: "EYP Azerbaijan-ın 4-cü Yay Təlim Düşərgəsi 26–29 avqust 2021 tarixlərində keçirildi. O, EYP Azerbaijan-ın aktiv məzunları və bütün Avropadan EYP-çilər də daxil olmaqla iştirakçıları bir araya gətirməyi və onların sədrlik, təşkilatçılıq, media və beynəlxalq idarəetmə kimi sahələrdəki bacarıqlarını artırmağı hədəfləyirdi.\n\nDüşərgə EYP Azerbaijan-ın məzunların inkişafı və potensialın artırılması tədbiri, həm təcrübəli iştirakçılar, həm də EYP təcrübəsi məhdud olan insanlar üçün öyrənmə təcrübəsi olmaq üçün nəzərdə tutulmuşdu."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2021-08-26
 endDate: 2021-08-29
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən birgünlük sessiyası"
 summaryAz: "EYP Azerbaijan-ın Güc mövzusunda 3-cü Birgünlük EYP Sessiyası 4 fevral 2018 tarixində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın Güc mövzusunda 3-cü Birgünlük EYP Sessiyası (ODES) 4 fevral 2018 tarixində Bakıda keçirilmişdir. Bir günlük tədbir ərzində iştirakçılar komitələrində müxtəlif mövzuları müzakirə etmiş, bilik mübadiləsi aparmış və təcrübə bölüşmüşlər."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2018-02-04
 endDate: 2018-02-04
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən Understanding Europe Aİ üzrə
 summaryAz: "Aİ, onun strukturu, institutları və siyasətləri haqqında dörd saatlıq seminar 18 dekabr 2016 tarixində Bakıda ingilis dilində keçirilmişdir."
 bodyAz: "Understanding Europe Aİ üzrə Sürətləndirilmiş Kurs Aİ, onun strukturu, institutları və siyasətləri haqqında dörd saatlıq seminar idi və 18 dekabr 2016 tarixində Bakıda keçirilmişdir. İş dili ingilis dili idi.\n\nUnderstanding Europe 2009-cu ildən Schwarzkopf Foundation tərəfindən həyata keçirilən layihədir; EYP Azerbaijan-a 2015-ci ilin əvvəlində qoşulmuşdur. Bu, Azərbaycanda keçirilən 7-ci Aİ üzrə sürətləndirilmiş kurs olacaqdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2016-12-18
 endDate: 2016-12-18
 status: "completed"

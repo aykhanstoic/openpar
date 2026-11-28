@@ -6,6 +6,7 @@ titleAz: "Şəmkir - EYP Azerbaijan-ın 6-cı Autriç Həftəsonu"
 themeAz: "EYP Azerbaijan-ın Şəmkirdə keçirilən autriç həftəsonu"
 summaryAz: "EYP Azerbaijan-ın 6-cı Autriç Həftəsonu 17–18 dekabr 2022 tarixində Şəmkirdə keçirildi."
 venue: "Shamkir"
+venueAz: "Şəmkir"
 startDate: 2022-12-17
 endDate: 2022-12-18
 status: "completed"

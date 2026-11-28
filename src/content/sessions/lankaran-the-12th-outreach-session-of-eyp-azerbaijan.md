@@ -7,6 +7,7 @@ themeAz: "Köklərə hörmət: mədəniyyəti aşılamaq, gəncləri istiqamətl
 summaryAz: "EYP Azerbaijan-ın 12-ci Autriç Sessiyası 23–24 avqust 2025-ci ildə Lənkəranda keçirilib və şəhərin gəncləri üçün mehriban mühit yaratmağı hədəfləyib."
 bodyAz: "EYP Azerbaijan-ın 12-ci Autriç Sessiyası 23–24 avqust 2025-ci ildə Lənkəranda keçirilib, 22 avqust isə CMO günü olub. Sessiya “Köklərə hörmət: mədəniyyəti aşılamaq, gəncləri istiqamətləndirmək” şüarı ilə keçirilib.\n\nƏsas məqsəd şəhərin təbiətinə və tarixi mədəniyyətinə əsaslanaraq Lənkəranın gəncləri üçün təhlükəsiz və xoş mühit yaratmaq olub. Sessiyanın baxışı ənənəvi görkəmə, tarixə və mədəniyyətə hörmət göstərmək və onları bugünkü nəslə bağlamaq idi."
 venue: "Lankaran"
+venueAz: "Lənkəran"
 startDate: 2025-08-23
 endDate: 2025-08-24
 status: "completed"

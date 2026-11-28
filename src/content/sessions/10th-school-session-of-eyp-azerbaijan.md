@@ -7,6 +7,7 @@ themeAz: "Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandır
 summaryAz: "EYP Azerbaijan-ın 10-cu Məktəb Sessiyası 27–29 mart 2025-ci ildə, Novruz bayramı günlərində, “Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandırmaq” şüarı ilə keçirilib."
 bodyAz: "EYP Azerbaijan-ın 10-cu Məktəb Sessiyası 27–29 mart 2025-ci ildə, Novruz bayramı günlərində, “Yenilənmə alovları: mədəniyyətlər arasında birliyi alovlandırmaq” şüarı ilə keçirilib. Odun və təbiətin simvolikasından ilhamlanan sessiya həvəsi alovlandırmağı və yeni ideyaları bəsləməyi hədəfləyib; o, gəncləri dayanıqlılığı, mədəni irsin qorunmasını və icma tərəfindən idarə olunan tərəqqini araşdırmaq üçün bir araya gətirib.\n\nSessiya həmçinin liderliyi, əməkdaşlığı və dözümlülüyü inkişaf etdirməyi, əməkdaşlıq və innovasiya vasitəsilə birləşmiş gələcəyi formalaşdırarkən ənənələrə hörmətin vacibliyini vurğulamağı hədəfləyib."
 venue: "Azerbaijan"
+venueAz: "Azərbaycan"
 startDate: 2025-03-27
 endDate: 2025-03-29
 status: "completed"

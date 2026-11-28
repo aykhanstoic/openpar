@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən məktəb sessiyası"
 summaryAz: "EYP Azerbaijan-ın 7-ci Məktəb Sessiyası 28–31 may 2022 tarixində Bakıda keçirildi, iştirakçıların komitələrində mövzuları müzakirə etməsi planlaşdırılmışdı."
 bodyAz: "EYP Azerbaijan-ın 7-ci Məktəb Sessiyası 28–31 may 2022 tarixlərində Bakıda keçirildi, 27 may isə CJO günü idi. Sessiyada bütün Avropadan təxminən 120 iştirakçını bir araya gətirmək planlaşdırılmışdı; onlar komitələrində müxtəlif mövzuları müzakirə edəcək, bilik və təcrübə mübadiləsi aparacaqdılar."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2022-05-28
 endDate: 2022-05-31
 status: "completed"

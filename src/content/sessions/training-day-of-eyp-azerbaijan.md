@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın təlim günü"
 summaryAz: "EYP Azerbaijan-ın Təlim Günü 11 aprel 2026-cı ildə təcrübəli deleqatlar üçün rəsmi vəzifələr üzrə sürətləndirilmiş kurs kimi keçirilib."
 bodyAz: "EYP Azerbaijan-ın Təlim Günü 11 aprel 2026-cı ildə Globus Center-də keçirilib. O, artıq sessiyalarda iştirak etmiş və daha çox məsuliyyət götürməyə hazır olan EYP-çilər üçün rəsmi vəzifələr üzrə sürətləndirilmiş kurs kimi nəzərdə tutulmuşdu.\n\nGün ərzində müxtəlif rəsmi rollar, onların məsuliyyətləri və gözləntiləri, seçim prosesləri, həmçinin komandalarda birgə işin və ünsiyyətin praktik məqamları əhatə olunub. Məqsəd motivasiyalı deleqatları rəsmi vəzifələri inamla öz üzərinə götürməyə hazırlamaq, eyni zamanda EYP Azerbaijan-da şəffaf, dəyərlərə əsaslanan və dayanıqlı iş mədəniyyətini təşviq etmək idi."
 venue: "Azerbaijan"
+venueAz: "Azərbaycan"
 startDate: 2026-04-11
 endDate: 2026-04-11
 status: "completed"

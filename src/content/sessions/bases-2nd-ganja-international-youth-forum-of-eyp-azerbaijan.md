@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Gəncədə keçirilən beynəlxalq gənclər forumu
 summaryAz: "EYP Azerbaijan-ın 2-ci Beynəlxalq Gənclər Forumu 18–22 avqust 2016 tarixlərində 2016-cı il Avropa Gənclər Paytaxtı olan Gəncədə keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 2-ci Beynəlxalq Gənclər Forumu 18–22 avqust 2016 tarixlərində Gəncədə keçirilmişdir; rəsmi şəxslər 17 avqustdan gəlməyə başlamışdılar. Sessiyada bütün Avropadan 120-dən çox iştirakçının toplanması planlaşdırılmışdı.\n\nAzərbaycanın ikinci ən böyük şəhəri olan Gəncə 2016-cı il Avropa Gənclər Paytaxtı adını daşıyırdı; bu adı şəhərə 2013-cü ildə Avropa Gənclər Forumu vermişdi."
 venue: "Ganja"
+venueAz: "Gəncə"
 startDate: 2016-08-18
 endDate: 2016-08-22
 status: "completed"

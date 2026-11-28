@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən şəhər sessiyası"
 summaryAz: "EYP Azerbaijan-ın 2-ci Bakı Şəhər Sessiyası 7–9 mart 2020 tarixlərində Azərbaycan dilində, autriç və inklüzivlik üzrə milli strategiyanın tərkib hissəsi kimi keçirildi."
 bodyAz: "EYP Azerbaijan-ın Bakı Şəhər Sessiyası 2-ci dəfə olaraq 7–9 mart 2020 tarixlərində Bakıda keçirildi. O, EYP Azerbaijan-ın Autriç və İnklüzivlik üzrə milli strategiyasının məqsədlərinə xidmət edirdi və iştirak etmək istəyən hər kəsə bərabər imkanlar yaratmağı qarşıya məqsəd qoymuşdu.\n\nSessiyada Azərbaycanın rayonlarından və Bakının qəsəbələrindən 70-dən çox yerli tələbənin bir araya gəlməsi planlaşdırılmışdı. Sessiyanın rəsmi dili Azərbaycan dili idi ki, ingilis dili biliyi az olan və ya ümumiyyətlə bilməyən tələbələr də iştirak edə bilsin."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2020-03-07
 endDate: 2020-03-09
 status: "completed"

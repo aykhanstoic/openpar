@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın İlisuda keçirilən yay təlim düşərgəsi"
 summaryAz: "EYP Azerbaijan-ın 1-ci Yay Təlim Düşərgəsi BASES 22–25 avqust 2017 tarixlərində İlisuda sədrlik, təşkilatçılıq və media sahələrində bacarıqların inkişafı məqsədilə keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 1-ci Yay Təlim Düşərgəsi BASES 22–25 avqust 2017 tarixlərində İlisuda keçirilmişdir. Bu, EYP Azerbaijan-da təlim mədəniyyətini formalaşdırmaq təşəbbüsü idi və Məzunların İnkişafı və Potensialın Gücləndirilməsi tədbiri kimi nəzərdə tutulmuşdu.\n\nDüşərgənin məqsədi EYP Azerbaijan-ın aktiv məzunlarını və bütün Avropadan olan EYP-çiləri bir araya gətirmək və onların bacarıqlarını üç istiqamətdə artırmaq idi: sədrlik, təşkilatçılıq və media. Məqsəd Azərbaycanda və xaricdə keçirilən EYP tədbirləri üçün daha ixtisaslı rəsmi şəxslər hazırlamaq idi. Düşərgə həm təcrübəli iştirakçılar, həm də EYP təcrübəsi az olan şəxslər üçün açıq idi."
 venue: "Ilisu"
+venueAz: "İlisu"
 startDate: 2017-08-22
 endDate: 2017-08-25
 status: "completed"

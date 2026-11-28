@@ -3,6 +3,7 @@ title: "Baku 2026 - 12th National Selection Conference of EYP Azerbaijan"
 theme: "All Roads Lead Home: The Politics of Passage"
 summary: "The 12th National Selection Conference of EYP Azerbaijan will bring together young people from Azerbaijan and other European countries in Baku from 12 to 16 August 2026."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2026-08-12
 endDate: 2026-08-16
 status: "announced"

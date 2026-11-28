@@ -7,6 +7,7 @@ themeAz: "Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq"
 summaryAz: "EYP Azerbaijan-ın 9-cu Məktəb Sessiyası 20–23 iyun 2024-cü ildə Bakıda “Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq” şüarı ilə keçirilib."
 bodyAz: "EYP Azerbaijan-ın 9-cu Məktəb Sessiyası 20–23 iyun 2024-cü ildə Bakıda “Həvəsi alovlandırmaq, mükəmməlliyi işıqlandırmaq” mövzusu ilə keçirilib. Sessiya bütün Avropada gəncləri daxili güclərindən faydalanmağa, əhəmiyyətli fərq yaratmağa və etdikləri işdə mükəmməlliyə nail olmağa ruhlandırmağı hədəfləyib; bu zaman etik liderliyə, məqsədlərə dürüstlük və fədakarlıqla çatmağa xüsusi önəm verilib.\n\nProqramda incəsənət və karyera planlaşdırması kimi sahələrdə emalatxanalar, debatlar, həmçinin məzunların karyera yollarını, imkanları və çətinlikləri bölüşməsi nəzərdə tutulmuşdu."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2024-06-20
 endDate: 2024-06-23
 status: "completed"

@@ -40,6 +40,8 @@ const sessions = defineCollection({
         /** Markdown, like the entry body. */
         bodyAz: z.string().optional(),
         venue: z.string(),
+        /** Venue in Azerbaijani. Falls back to `venue`. */
+        venueAz: z.string().optional(),
         city: z.string().optional(),
         startDate: z.coerce.date(),
         endDate: z.coerce.date(),

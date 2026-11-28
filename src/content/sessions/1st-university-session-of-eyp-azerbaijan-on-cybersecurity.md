@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən universitet sessiyası"
 summaryAz: "EYP Azerbaijan-ın Kibertəhlükəsizlik üzrə 1-ci Universitet Sessiyası 27–29 may 2016 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın Kibertəhlükəsizlik üzrə 1-ci Universitet Sessiyası 27–29 may 2016 tarixlərində paytaxt Bakıda keçirilmişdir. Bir neçə Avropa ölkəsindən deleqatların iştirak etməsi, komitələrində müxtəlif mövzuları müzakirə etməsi, fikir və təcrübə mübadiləsi aparması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2016-05-27
 endDate: 2016-05-29
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən məktəb sessiyası"
 summaryAz: "EYP Azerbaijan-ın 3-cü Məktəb Sessiyası 18–19 noyabr 2017 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 3-cü Məktəb Sessiyası 18–19 noyabr 2017 tarixlərində Bakıda keçirilmişdir. Sessiyada bütün Avropadan 100 iştirakçının toplanması, onların komitələrində mövzuları müzakirə etməsi, bilik və təcrübə mübadiləsi aparması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2017-11-18
 endDate: 2017-11-19
 status: "completed"

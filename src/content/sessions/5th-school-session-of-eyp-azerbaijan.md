@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən məktəb sessiyası"
 summaryAz: "EYP Azerbaijan-ın 5-ci Məktəb Sessiyası, yeni dövrün ilk sessiyası, 17–18 noyabr 2018 tarixlərində Bakıda keçirildi."
 bodyAz: "Avropa Gənclər Parlamenti (EYP) Azerbaijan-ın 5-ci Məktəb Sessiyası, yeni dövrün ilk sessiyası, 17–18 noyabr 2018 tarixlərində Bakıda keçirildi. Rəsmi şəxslər üçün CJO təlimi 16 noyabra nəzərdə tutulmuşdu.\n\nSessiyada Avropanın hər yerindən 100-dən çox gəncin bir araya gəlməsi və bugünkü gənclər üçün aktual olan mövzuları müzakirə etməsi planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2018-11-17
 endDate: 2018-11-18
 status: "completed"

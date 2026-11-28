@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən regional sessiyası"
 summaryAz: "EYP Azerbaijan-ın Dayanıqlı İnkişaf üzrə 4-cü Regional Sessiyası 4–7 yanvar 2018 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın Dayanıqlı İnkişaf üzrə 4-cü Regional Sessiyası 4–7 yanvar 2018 tarixlərində Bakıda keçirilmişdir. Müxtəlif ölkələrdən olan deleqatların komitələrində dayanıqlı inkişafla bağlı mövzuları beyin həmləsi və müzakirə etməsi, əlaqəli problemləri və mümkün həll yollarını araşdırması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2018-01-04
 endDate: 2018-01-07
 status: "completed"

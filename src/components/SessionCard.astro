@@ -82,7 +82,7 @@ const canApply = status === "call-open" && Boolean(d.applyUrl);
       </div>
       <div class="flex gap-2">
         <dt class="w-20 shrink-0 font-semibold text-ink-muted">{t.common.venue}</dt>
-        <dd>{d.city ? `${d.venue}, ${d.city}` : d.venue}</dd>
+        <dd>{d.city ? `${text.venue}, ${d.city}` : text.venue}</dd>
       </div>
       {
         d.applyDeadline && status === "call-open" && (

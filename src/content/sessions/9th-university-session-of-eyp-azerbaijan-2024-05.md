@@ -6,6 +6,7 @@ titleAz: "EYP Azerbaijan-ın 9-cu Universitet Sessiyası"
 themeAz: "Həyatda harmoniya: davamlı xoşbəxtlik üçün iş-həyat balansına nail olmaq"
 summaryAz: "EYP Azerbaijan-ın 9-cu Universitet Sessiyası 24–26 may 2024 tarixində Bakıda “Həyatda harmoniya: davamlı xoşbəxtlik üçün iş-həyat balansına nail olmaq” mövzusu altında keçirildi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2024-05-24
 endDate: 2024-05-26
 status: "completed"

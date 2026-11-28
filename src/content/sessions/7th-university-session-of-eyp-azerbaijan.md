@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən universitet sessiyası"
 summaryAz: "EYP Azerbaijan-ın 7-ci Universitet Sessiyası 2020-ci ilin aprelində Bakıda keçirildi; vətəndaş fəallığı, altruizm və könüllülük ətrafında debatlar planlaşdırılmışdı."
 bodyAz: "EYP Azerbaijan-ın 7-ci Universitet Sessiyası 15–19 aprel 2020 tarixlərində Bakıda keçirildi; 15 aprel CJO günü idi. Sessiyaya Avropanın hər yerindən iştirakçıların qəbul edilməsi planlaşdırılmışdı; onlar Vətəndaş Fəallığı, Altruizm və Könüllülük ümumi mövzusu ilə bağlı bir sıra mövzuları debat edəcəkdilər.\n\nƏn uğurlu nümayəndə heyətləri və bəzi fərdi deleqatlar 2020-ci ilin yayı üçün planlaşdırılan EYP Azerbaijan-ın 8-ci Milli Seçim Konfransında iştirak etmək üçün seçiləcəkdi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2020-04-16
 endDate: 2020-04-19
 status: "completed"

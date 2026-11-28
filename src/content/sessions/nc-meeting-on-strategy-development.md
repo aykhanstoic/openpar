@@ -3,6 +3,7 @@ title: "NC Meeting on Strategy Development"
 theme: "Strategic Minds, Unified Goals: Building Our Community's Future Together!"
 summary: "The NC Meeting on Strategy Development was held in a hybrid format on 4 August 2024 to discuss the strategic development of EYP Azerbaijan."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2024-08-04
 endDate: 2024-08-04
 status: "completed"

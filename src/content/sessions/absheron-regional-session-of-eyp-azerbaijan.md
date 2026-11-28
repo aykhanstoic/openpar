@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən regional sessiyası"
 summaryAz: "EYP Azerbaijan-ın ilk regional sessiyası olan Abşeron Regional Sessiyası 2015-ci ilin aprel ayında Bakıda, Abşeron regionundan olan iştirakçılar üçün keçirilmişdir."
 bodyAz: "Abşeron Regional Sessiyası EYP Azerbaijan-ın ilk regional sessiyası idi. O, 10–12 aprel 2015 tarixlərində Bakıda keçirilmişdir.\n\nSessiyada Abşeron regionunun müxtəlif yaşayış məntəqələrindən 80-dən çox iştirakçının toplanması planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2015-04-10
 endDate: 2015-04-13
 status: "completed"

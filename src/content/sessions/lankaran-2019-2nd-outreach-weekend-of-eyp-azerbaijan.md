@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Lənkəranda keçirilən autriç həftəsonu"
 summaryAz: "EYP Azerbaijan-ın 2-ci Autriç Həftəsonu 13–14 aprel 2019 tarixlərində Lənkəranda, Lənkəran və Lerikdən olan gənclər üçün keçirildi."
 bodyAz: "EYP Azerbaijan-ın 2-ci Autriç Tədbiri 13–14 aprel 2019 tarixlərində Lənkəranda keçirildi. Tədbir Azərbaycanın iki regionu olan Lənkəran və Lerikdən olan gəncləri bir araya gətirərək EYP-nin əhatə dairəsini genişləndirmək və Avropa İttifaqının ideyalarını bölüşmək məqsədi daşıyırdı. Hər regiondan 40 iştirakçı üçün planlaşdırılmışdı; Azərbaycandakı və Avropa İttifaqındakı məsələlər üzrə debatlar və seminarlar nəzərdə tutulmuşdu.\n\nTədbir daha az inkişaf etmiş regionlardakı gənclərə Avropa Gənclər Parlamentini yaşamaq və özlərini inkişaf etdirmək imkanı verməyi, maraqlananlara isə EYP-nin nəyi təmsil etdiyini tanıtmağı qarşıya məqsəd qoymuşdu ki, onlar sonradan fəal üzv kimi qoşula bilsinlər."
 venue: "Lankaran"
+venueAz: "Lənkəran"
 startDate: 2019-04-13
 endDate: 2019-04-14
 status: "completed"

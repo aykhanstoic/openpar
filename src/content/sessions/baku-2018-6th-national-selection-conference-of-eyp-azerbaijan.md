@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən milli seçim konfransı"
 summaryAz: "EYP Azerbaijan-ın 6-cı Milli Seçim Konfransı 17–20 mart 2018 tarixlərində, Novruz bayramı günlərində Bakıda keçirildi; konfransda inklüzivlik və qəbuletmə mövzuları müzakirə olundu."
 bodyAz: "EYP Azerbaijan-ın 6-cı Milli Seçim Konfransı 17–20 mart 2018 tarixlərində, milli bayram olan Novruz günlərində Bakıda keçirildi.\n\nSessiyada Avropanın hər yerindən və Azərbaycanın rayonlarından 120-dən çox deleqatın bir araya gəlməsi və inklüzivlik və qəbuletmə mövzusunun, o cümlədən mədəni müxtəlifliyin və özünəməxsusluğun tanınmasının müzakirə edilməsi planlaşdırılmışdı. Beş günlük proqrama rəsmi şəxslər üçün bir gün təlim, bir gün komanda quruculuğu, iki gün komitə işi və bir gün Baş Assambleyanın daxil edilməsi planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2018-03-17
 endDate: 2018-03-20
 status: "completed"

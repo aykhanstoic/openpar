@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən özünüinkişaf həftəsonu"
 summaryAz: "EYP Azerbaijan-ın Özünüinkişaf üzrə 1-ci Həftəsonu 1–2 iyun 2019 tarixlərində Bakıda keçirildi və özünüreallaşdırma və şəxsi inkişafa yönəlmişdi."
 bodyAz: "EYP Azerbaijan-ın Özünüreallaşdırma və Şəxsi İnkişaf üzrə 1-ci Həftəsonu 1–2 iyun 2019 tarixlərində Bakıda keçirildi.\n\nSessiya özünə hörmətə və insanın öz imkanlarına güvənməsinə yönəlmişdi və iştirakçılara düşündüklərindən daha çox şeyə qadir olduqlarını dərk etməyə kömək etməyi qarşıya məqsəd qoymuşdu."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2019-06-01
 endDate: 2019-06-02
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Gəncədə keçirilən şəhər sessiyası"
 summaryAz: "Renaissance'21 adlı Gəncə Şəhər Sessiyası 26–28 noyabr 2021 tarixində Gəncədə keçirildi və şəhərdən olan gənclərə tam EYP təcrübəsi yaşatdı."
 bodyAz: "Gəncə Şəhər Sessiyası 26–28 noyabr 2021 tarixlərində, Azərbaycanın üçüncü böyük şəhəri olan və Bakıdan təxminən 300 km məsafədə yerləşən Gəncədən olan iştirakçılar üçün tam EYP təcrübəsi təqdim edən tədbir kimi keçirildi. O, Gəncədən olan 60 deleqat üçün planlaşdırılmışdı və onlar komanda quruculuğu, komitə işi və Baş Assambleya vasitəsilə EYP-nin əsas anlayışları ilə tanış olacaqdılar.\n\nTədbir həmçinin EYP Azerbaijan-ın Gəncədə daimi nümayəndəliyinin yaradılması üçün baza rolunu oynamaq niyyətində idi. O, BASES layihəsi çərçivəsində Beynəlxalq Ofis tərəfindən dəstəklənirdi."
 venue: "Ganja"
+venueAz: "Gəncə"
 startDate: 2021-11-26
 endDate: 2021-11-28
 status: "completed"

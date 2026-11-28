@@ -3,6 +3,7 @@ title: "Workshop Series of Human Resources Department - Application Writing Trai
 theme: "Workshop series of EYP Azerbaijan in Baku"
 summary: "The Human Resources Department of EYP Azerbaijan held an Application Writing workshop in Baku on 18 August 2026 for active members of the organisation."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2026-08-18
 endDate: 2026-08-18
 status: "completed"

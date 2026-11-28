@@ -105,6 +105,7 @@ export const COLLECTIONS: Record<CollectionId, Collection> = {
       { group: "Azerbaijani version", name: "themeAz", label: "Theme in Azerbaijani", type: "text", max: 200, hint: "If empty, the English theme is shown." },
       { group: "Azerbaijani version", name: "summaryAz", label: "Card summary in Azerbaijani", type: "textarea", max: 300, hint: "If empty, the English summary is shown." },
       { group: "Azerbaijani version", name: "bodyAz", label: "Description in Azerbaijani", type: "textarea", max: 20000, hint: "If empty, the English description is shown. Same formatting as the English description." },
+      { group: "Azerbaijani version", name: "venueAz", label: "Venue in Azerbaijani", type: "text", max: 120, hint: "If empty, the English venue is shown." },
       { group: "Publishing", name: "lang", label: "Show on", type: "select", required: true, options: opts(SESSION_LANGS, LANG_LABELS), omitWhen: "both" },
       { group: "Publishing", name: "draft", label: "Draft", type: "checkbox", hint: "Saved, but hidden from the website until you untick this." },
     ],

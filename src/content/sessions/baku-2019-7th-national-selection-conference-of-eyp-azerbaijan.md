@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən milli seçim konfransı"
 summaryAz: "EYP Azerbaijan-ın 7-ci Milli Seçim Konfransı 2019-cu ilin martında Bakıda, Enerji İdarəçiliyi mövzusunda, Innogy Foundation-ın dəstəyi ilə keçirildi."
 bodyAz: "EYP Azerbaijan-ın 7-ci Milli Seçim Konfransı 20–24 mart 2019 tarixlərində, milli bayram olan Novruz günlərində Bakıda keçirildi; 20 mart CJO günü idi. İştirakçılar Enerji İdarəçiliyi üzrə mövzuları müzakirə etdilər. Konfrans Innogy Foundation tərəfindən dəstəkləndi.\n\nProqrama rəsmi şəxslər üçün bir gün təlim, bir gün komanda quruculuğu, iki gün komitə işi və bir gün Baş Assambleyanın daxil edilməsi planlaşdırılmışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2019-03-21
 endDate: 2019-03-24
 status: "completed"

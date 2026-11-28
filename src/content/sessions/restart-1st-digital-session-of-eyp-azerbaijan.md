@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın onlayn keçirilən rəqəmsal sessiyası"
 summaryAz: "Restart, EYP Azerbaijan-ın 1-ci Rəqəmsal Sessiyası, Avropa üzrə karantin və sərhədlərin bağlanmasına cavab olaraq 9–12 iyul 2020 tarixində onlayn keçirildi."
 bodyAz: "Restart, EYP Azerbaijan-ın 1-ci Rəqəmsal Sessiyası, 9–12 iyul 2020 tarixlərində onlayn keçirildi. Bu, Avropa üzrə karantin və sərhədlərin bağlanmasına cavab olaraq təşkil edilmiş EYP Azerbaijan-ın ilk tam rəqəmsal sessiyası idi.\n\nSessiya bir zamanlar gündəlik həyat olanın rəqəmsal transformasiyasının araşdırılmasından ilham almışdı. O, rəqəmsal əlaqələrin necə “yeni normal” yaratdığını və dünyaya daha geniş qlobal baxış və rəqəmsal mövcudluq qazandırdığını göstərməyi hədəfləyirdi."
 venue: "Online"
+venueAz: "Onlayn"
 startDate: 2020-07-09
 endDate: 2020-07-12
 status: "completed"

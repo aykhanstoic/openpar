@@ -3,6 +3,7 @@ title: "Summer Training of EYP Azerbaijan Evaluation Event"
 theme: "Summer training evaluation event of EYP Azerbaijan in Baku"
 summary: "A two-day evaluation event held in Baku on 5-6 September 2026, used to evaluate participants of the Summer Training of EYP Azerbaijan."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2026-09-05
 endDate: 2026-09-06
 status: "completed"

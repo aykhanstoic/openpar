@@ -7,6 +7,7 @@ themeAz: "Rəqəmsal göylər, sonsuz üfüqlər"
 summaryAz: "EYP Azerbaijan-ın 11-ci Milli Seçim Konfransı 8–12 avqust 2025-ci ildə “Rəqəmsal göylər, sonsuz üfüqlər” şüarı ilə, aerokosmik sahəyə və rəqəmsal innovasiyaya həsr olunaraq keçirilib."
 bodyAz: "EYP Azerbaijan-ın 11-ci Milli Seçim Konfransı 8–12 avqust 2025-ci ildə “Rəqəmsal göylər, sonsuz üfüqlər” şüarı ilə keçirilib. Sessiya aerokosmik sahənin və rəqəmsal innovasiyanın gələcəyini araşdırıb, texnologiya, dayanıqlılıq və bağlantının kəsişməsinə diqqət yetirib.\n\nO, iştirakçıları Süni İntellektin, peyk sistemlərinin, ekoloji təmiz aviasiyanın və planetlərarası rabitənin dünyanı necə dəyişdiyi, həmçinin gənclərin rəqəmsal transformasiyada istiqamət tapmaqda və daha innovativ, təhlükəsiz və qarşılıqlı əlaqəli gələcək qurmaqda rolu barədə düşünməyə dəvət edib."
 venue: "Azerbaijan"
+venueAz: "Azərbaycan"
 startDate: 2025-08-08
 endDate: 2025-08-12
 status: "completed"

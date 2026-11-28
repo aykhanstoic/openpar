@@ -18,6 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
       themeAz: data.themeAz ?? null,
       summaryAz: data.summaryAz ?? null,
       venue: data.venue,
+      venueAz: data.venueAz ?? null,
       city: data.city ?? null,
       startDate: data.startDate.toISOString().slice(0, 10),
       endDate: data.endDate.toISOString().slice(0, 10),

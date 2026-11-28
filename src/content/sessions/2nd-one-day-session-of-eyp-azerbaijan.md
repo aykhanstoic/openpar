@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən birgünlük sessiyası"
 summaryAz: "EYP Azerbaijan-ın 2-ci Birgünlük Sessiyası 1 aprel 2017 tarixində Bakıda EYP debatlarına yeni başlayan şagirdlər üçün keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 2-ci Birgünlük Sessiyası 1 aprel 2017 tarixində Bakıda keçirilmişdir. Sessiyanın məqsədi şagirdlərə komitələrində müxtəlif mövzuları müzakirə etmək, onları siyasi debatların strukturu ilə tanış etmək, yeni insanlarla görüşmək və fikirlərini bölüşmək imkanı yaratmaq idi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2017-04-01
 endDate: 2017-04-01
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən Milli Seçim Konfransı"
 summaryAz: "EYP Azerbaijan-ın 4-cü Milli Seçim Konfransı BASES 3–6 dekabr 2015 tarixlərində Bakıda keçirilmişdir."
 bodyAz: "EYP Azerbaijan-ın 4-cü Milli Seçim Konfransı BASES 3–6 dekabr 2015 tarixlərində “Külək və Alov Şəhəri” Bakıda keçirilmişdir. Konfransda Azərbaycanın müxtəlif bölgələrindən 80-dən çox iştirakçının toplanması, onların 8 komitədə müzakirələrdə iştirak etməsi, 11 ölkədən olan rəsmi şəxslər və jurnalistlərdən ibarət beynəlxalq komandanın isə onlara dəstək olması planlaşdırılmışdı.\n\nSeçilmiş iştirakçılar Azərbaycanı EYP-nin Dublində keçirilən 81-ci Beynəlxalq Sessiyasında və Rennesdə keçirilən 82-ci Beynəlxalq Sessiyasında təmsil etməli idilər."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2015-12-03
 endDate: 2015-12-06
 status: "completed"

@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən regional sessiyası"
 summaryAz: "EYP Azerbaijan-ın 5-ci Regional Sessiyası 25–28 iyul 2018 tarixlərində Bakıda keçirildi; sessiyanın əsas mövzusu şəxsi inkişaf idi."
 bodyAz: "EYP Azerbaijan-ın 5-ci Regional Sessiyası 25–28 iyul 2018 tarixlərində Azərbaycanda keçirildi. Sessiya iştirakçılara həm şəxsi, həm də peşəkar baxımdan inkişaf etməyə kömək etməklə dünyaya anlayış gətirməyi və şəxsiyyətləri gücləndirməyi qarşıya məqsəd qoymuşdu. Əsas mövzusu şəxsi inkişaf idi."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2018-07-25
 endDate: 2018-07-28
 status: "completed"

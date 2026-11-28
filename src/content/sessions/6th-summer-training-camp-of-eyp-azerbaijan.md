@@ -6,6 +6,7 @@ titleAz: "EYP Azerbaijan-ın 6-cı Yay Təlim Düşərgəsi"
 themeAz: "Potensialı üzə çıxarmaq: təbiət vasitəsilə inkişafı və dinclik hissini təşviq etmək"
 summaryAz: "EYP Azerbaijan-ın 6-cı Yay Təlim Düşərgəsi 9–11 avqust 2024-cü ildə “Potensialı üzə çıxarmaq: təbiət vasitəsilə inkişafı və dinclik hissini təşviq etmək” şüarı ilə keçirilib."
 venue: "Azerbaijan"
+venueAz: "Azərbaycan"
 startDate: 2024-08-09
 endDate: 2024-08-11
 status: "completed"

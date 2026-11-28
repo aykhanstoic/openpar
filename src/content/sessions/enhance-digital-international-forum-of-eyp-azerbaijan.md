@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın onlayn keçirilən rəqəmsal beynəlxalq forumu"
 summaryAz: "EYP Azerbaijan-ın Rəqəmsal Beynəlxalq Forumu olan Enhance Vişeqrad Fondunun dəstəyi ilə 17–20 iyun 2021 tarixində onlayn keçirildi."
 bodyAz: "Enhance, EYP Azerbaijan-ın Rəqəmsal Beynəlxalq Forumu, 17–20 iyun 2021 tarixlərində keçirildi, rəsmi şəxslər üçün təlim isə 16 iyunda baş tutdu. Tədbir Vişeqrad Fondu tərəfindən dəstəklənirdi.\n\nSessiya iştirakçıları Avropa ölkələri və onların daxilindəki fərdlər arasındakı müxtəlifliyi və plüralizmi öyrənməyə və bu barədə düşünməyə dəvət edirdi, həmçinin bu gün Avropanın və dünyanın problemlərini və onların bir-biri ilə necə bağlı olduğunu anlamaq üçün məkan olmağı hədəfləyirdi. O, həmçinin iştirakçılara təsir göstərmək üçün bacarıq, vasitə və inam qazanmağa kömək etməyi, bilik mübadiləsinə, inklüzivliyə, əlçatanlığa və mübadiləyə xüsusi önəm verməyi hədəfləyirdi."
 venue: "Online"
+venueAz: "Onlayn"
 startDate: 2021-06-17
 endDate: 2021-06-20
 status: "completed"

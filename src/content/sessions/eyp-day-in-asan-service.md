@@ -7,6 +7,7 @@ themeAz: "EYP Azerbaijan-ın Bakıda keçirilən EYP günü"
 summaryAz: "“ASAN xidmət”də EYP Günü 8 dekabr 2013 tarixində Bakıda, EYP Azerbaijan tərəfindən ASAN Könüllüləri ilə birlikdə təşkil olunmuşdur."
 bodyAz: "“ASAN xidmət”də EYP Günü 8 dekabr 2013 tarixində Bakıda keçirilmişdir. O, Azərbaycanın hər yerindən olan EYP-çilərin bir-biri ilə təcrübə mübadiləsi aparması üçün toplantı kimi planlaşdırılmışdı.\n\nTədbir EYP Azerbaijan tərəfindən ASAN Könüllüləri Gənclər Birliyi ilə birlikdə təşkil olunmuşdur; EYP Azerbaijan bu birliklə əməkdaşlıq memorandumu imzalamışdı."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2013-12-08
 endDate: 2013-12-08
 status: "completed"

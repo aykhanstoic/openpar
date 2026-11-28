@@ -7,6 +7,7 @@ themeAz: "Keçmişi qucaqlayaraq daha yaxşı gələcək üçün"
 summaryAz: "EYP Azerbaijan-ın 8-ci Milli Seçim Konfransı olan Genesis 24–27 mart 2022 tarixində Bakıda “Keçmişi qucaqlayaraq daha yaxşı gələcək üçün” mövzusunda əyani formada keçirildi."
 bodyAz: "Genesis, EYP Azerbaijan-ın 8-ci Milli Seçim Konfransı, 24–27 mart 2022 tarixlərində Bakıda əyani formada keçirildi, 23 mart isə CJO günü idi. Sessiya Azərbaycandan və bütün Avropadan 100 deleqatı bir araya gətirməyi, mövzuları açıq şəkildə müzakirə etməyi və yaxın gələcəkdə həyata keçirilə bilən həllər tapmağı hədəfləyirdi.\n\n“Keçmişi qucaqlayaraq daha yaxşı gələcək üçün” mövzusu altında Genesis hər kəsin potensialını üzə çıxarması üçün sessiya kimi nəzərdə tutulmuşdu. Sessiyada münsiflər heyəti tərəfindən seçilən EYP Azerbaijan-ın deleqatları EYP-nin 96-cı və 97-ci Beynəlxalq Sessiyalarında iştirak etmək imkanı əldə edəcəkdilər."
 venue: "Baku"
+venueAz: "Bakı"
 startDate: 2022-03-24
 endDate: 2022-03-27
 status: "completed"
