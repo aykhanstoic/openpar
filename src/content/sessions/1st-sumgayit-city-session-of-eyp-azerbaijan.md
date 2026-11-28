@@ -5,7 +5,7 @@ summary: "The 1st Sumgayit City Session of EYP Azerbaijan, on Cloud Computing, w
 titleAz: "EYP Azerbaijan-ın 1-ci Sumqayıt Şəhər Sessiyası"
 themeAz: "EYP Azerbaijan-ın Sumqayıtda keçirilən şəhər sessiyası"
 summaryAz: "EYP Azerbaijan-ın Bulud Hesablamaları mövzusunda 1-ci Sumqayıt Şəhər Sessiyası 10–11 iyun 2017 tarixlərində Sumqayıtda keçirilmişdir."
-bodyAz: "EYP Azerbaijan-ın 1-ci Sumqayıt Şəhər Sessiyası 10–11 iyun 2017 tarixlərində Sumqayıtda Bulud Hesablamaları mövzusunda keçirilmişdir. Sessiyada təxminən 80 şagirdin toplanması, onların komitələrində mövzuları müzakirə etməsi və siyasi debatların strukturu ilə tanış olması planlaşdırılmışdı."
+bodyAz: "EYP Azerbaijan-ın 1-ci Sumqayıt Şəhər Sessiyası 10–11 iyun 2017 tarixlərində Sumqayıtda Bulud Hesablamaları mövzusunda keçirilmişdir. Sessiyada təxminən 80 gəncin toplanması, onların komitələrində mövzuları müzakirə etməsi və siyasi debatların strukturu ilə tanış olması planlaşdırılmışdı."
 venue: "Sumgayit"
 venueAz: "Sumqayıt"
 startDate: 2017-06-10
